@@ -1,0 +1,6 @@
+Drift? No!
+Threshold: 0.0125
+LGU -- Drift? No! -- Chi2 0.091 -- p-value 1.000
+price_conditions -- Drift? No! -- Chi2 2.929 -- p-value 0.711
+lgu_type -- Drift? No! -- Chi2 0.000 -- p-value 1.000
+income_class -- Drift? No! -- Chi2 0.000 -- p-value 1.000

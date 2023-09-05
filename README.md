@@ -1,8 +1,18 @@
+# Running in Local Machine using Conda Environment
+To easily create the environment for XRAI in your local machine, you can run the following in a command prompt or terminal.
+```
+conda env create -f environment.yml
+```
+The `environment.yml` is the latest environment with no dependency issues, while the `latest_env.yml` has some due to the addition of the Responsible AI library. Some components in the dashboard may not be available from `environment.yml`.
 
+After creating an environment, you can create a kernel to enable the notebooks to use the conda environment using the following lines.
+```
+python -m ipykernel install --user --name=XRAI
+```
 
 # Requirements
 ```
-python = 3.7
+python = 3.9.0
 ```
 Ensure that you have the correct libraries and dependencies installed by checking `requirements.txt`.
 

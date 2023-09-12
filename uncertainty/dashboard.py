@@ -1,5 +1,6 @@
 # Uncertainty
 from .calibration import *
+from .uct import *
 
 # Dashboard
 from explainerdashboard import *
@@ -189,16 +190,356 @@ class CalibrationComponent(ExplainerComponent):
                 df = calib_metrics(self.Y_test, calibs, n_bins=n_bins)
                 fig, _ = plot_reliability_diagram(self.Y_test, calibs[calib][0], calibs[calib][1], title = calib, error_bars = True, n_bins = n_bins)
                 return fig, dash_table.DataTable(df.to_dict('records'), [{"name": i, "id": i} for i in df.columns],style_data={'whiteSpace':'normal','height':'auto',},fill_width=False)
-            
-class UncertaintyTab(ExplainerComponent):
+
+class AdversarialCalibrationComponent(ExplainerComponent):
     """
-    A tab class for displaying all uncertainty components in a single tab within the dashboard.
+    A component class for displaying the adversarial group calibration plot to the dashboard.
     """
-    def __init__(self, explainer, model, X_test, Y_test, model_type, title="Uncertainty", name=None):
+    def __init__(self, explainer, model, X_train, Y_train, X_test, Y_test, title="Adversarial Calibration", name=None):
         """
         Args:
             explainer: explainer instance from the explainerdashboard
             model (dict): container for the model
+            X_train (pd.DataFrame): X_train
+            Y_train (pd.DataFrame): Y_train
+            X_test (pd.DataFrame): X_test
+            Y_test (pd.DataFrame): Y_test
+            title (str, optional): title of the component. Defaults to "Adversarial Calibration".
+            name (optional): name of the component. Defaults to None.
+        """
+        super().__init__(explainer, title=title)
+        self.model = list(model.values())[0]
+        self.X_train = X_train
+        self.Y_train = Y_train
+        self.X_test = X_test
+        self.Y_test = Y_test
+        
+    def layout(self):
+        return dbc.Container([
+            dbc.Card([
+                dbc.CardHeader([
+                    html.H4("Adversarial Group Calibration")
+                ]),
+                dbc.CardBody([
+                    dbc.Row([
+                        dbc.Col([
+                            html.Div(dcc.Markdown('''
+                                Plot the adversarial group calibration plots by varying group size from 0% to 100% of dataset size and recording the worst group calibration error for each group size
+                            '''), style={"padding":"30px"})
+                        ])
+                    ]),
+                    dbc.Row([
+                        dbc.Col([
+                            html.Div()
+                        ]),
+                        dbc.Col([
+                            html.Div(dbc.Button("Compute", id="button-adv-calib"), style={"margin":"auto"})
+                        ], width="auto"),
+                        dbc.Col([
+                            html.Div()
+                        ])
+                    ]),
+                    dbc.Row([
+                        dbc.Col([
+                            html.Div()
+                        ]),
+                        dbc.Col([
+                            html.Div(dcc.Loading(dcc.Graph(id="graph-adv-calib")), style={"margin":"auto"})
+                        ], width="auto"),
+                        dbc.Col([
+                            html.Div()
+                        ]),
+                    ]),
+                ])
+            ])
+        ])
+    
+    def component_callbacks(self,app,**kwargs):
+        @app.callback(
+            Output("graph-adv-calib","figure"),
+            Input("button-adv-calib","n_clicks"), prevent_initial_call=True
+        )
+        def update_graph(n_clicks):
+            uct_data_dict = uct_manipulate_data(self.X_train, self.X_test, self.Y_train, self.Y_test, self.model)
+            uct_metrics = uct_get_all_metrics(uct_data_dict)
+            fig = uct_plot_adversarial_group_calibration(uct_metrics)
+            return fig
+
+class AverageCalibrationComponent(ExplainerComponent):
+    """
+    A component class for displaying the average calibration plot to the dashboard.
+    """
+    def __init__(self, explainer, model, X_train, Y_train, X_test, Y_test, title="Average Calibration", name=None):
+        """
+        Args:
+            explainer: explainer instance from the explainerdashboard
+            model (dict): container for the model
+            X_train (pd.DataFrame): X_train
+            Y_train (pd.DataFrame): Y_train
+            X_test (pd.DataFrame): X_test
+            Y_test (pd.DataFrame): Y_test
+            title (str, optional): title of the component. Defaults to "Average Calibration".
+            name (optional): name of the component. Defaults to None.
+        """
+        super().__init__(explainer, title=title)
+        self.model = list(model.values())[0]
+        self.X_train = X_train
+        self.Y_train = Y_train
+        self.X_test = X_test
+        self.Y_test = Y_test
+        
+    def layout(self):
+        return dbc.Container([
+            dbc.Card([
+                dbc.CardHeader([
+                    html.H4("Average Calibration")
+                ]),
+                dbc.CardBody([
+                    dbc.Row([
+                        dbc.Col([
+                            html.Div(dcc.Markdown('''
+                                Plot the observed proportion vs prediction proportion of outputs falling into a range of intervals, and display miscalibration area.
+                            '''), style={"padding":"30px"})
+                        ])
+                    ]),
+                    dbc.Row([
+                        dbc.Col([
+                            html.Div()
+                        ]),
+                        dbc.Col([
+                            html.Div(dbc.Button("Compute", id="button-ave-calib"), style={"margin":"auto"})
+                        ], width="auto"),
+                        dbc.Col([
+                            html.Div()
+                        ])
+                    ]),
+                    dbc.Row([
+                        dbc.Col([
+                            html.Div()
+                        ]),
+                        dbc.Col([
+                            html.Div(dcc.Loading(dcc.Graph(id="graph-ave-calib")), style={"margin":"auto"})
+                        ], width="auto"),
+                        dbc.Col([
+                            html.Div()
+                        ]),
+                    ]),
+                ])
+            ])
+        ])
+    
+    def component_callbacks(self,app,**kwargs):
+        @app.callback(
+            Output("graph-ave-calib","figure"),
+            Input("button-ave-calib","n_clicks"), prevent_initial_call=True
+        )
+        def update_graph(n_clicks):
+            uct_data_dict = uct_manipulate_data(self.X_train, self.X_test, self.Y_train, self.Y_test, self.model)
+            uct_metrics = uct_get_all_metrics(uct_data_dict)
+            fig = uct_plot_average_calibration(uct_data_dict,uct_metrics)
+            return fig
+        
+class OrderedIntervalsComponent(ExplainerComponent):
+    """
+    A component class for displaying the plot of predicted ordered intervals against the ground truth to the dashboard.
+    """
+    def __init__(self, explainer, model, X_train, Y_train, X_test, Y_test, title="Ordered Intervals", name=None):
+        """
+        Args:
+            explainer: explainer instance from the explainerdashboard
+            model (dict): container for the model
+            X_train (pd.DataFrame): X_train
+            Y_train (pd.DataFrame): Y_train
+            X_test (pd.DataFrame): X_test
+            Y_test (pd.DataFrame): Y_test
+            title (str, optional): title of the component. Defaults to "Ordered Intervals".
+            name (optional): name of the component. Defaults to None.
+        """
+        super().__init__(explainer, title=title)
+        self.model = list(model.values())[0]
+        self.X_train = X_train
+        self.Y_train = Y_train
+        self.X_test = X_test
+        self.Y_test = Y_test
+        
+    def layout(self):
+        return dbc.Container([
+            dbc.Card([
+                dbc.CardHeader([
+                    html.H4("Ordered Intervals")
+                ]),
+                dbc.CardBody([
+                    dbc.Row([
+                        dbc.Col([
+                            html.Div(dcc.Markdown('''
+                                Plot predictions and predictive intervals versus true values, with points ordered by true value along x-axis.
+                            '''), style={"padding":"30px"})
+                        ])
+                    ]),
+                    dbc.Row([
+                        dbc.Col([
+                            html.P("Non-negative Target: ", style={"padding-left":"30px","padding-right":"30px", "padding-top":"5px"})
+                        ], width="auto"),
+                        dbc.Col([
+                            html.Div(dcc.Dropdown(
+                                id="drp-ord-int",
+                                options= ['True', 'False'],
+                                placeholder="Is the Target Non-negative?",
+                            ), style={"width":"100%", "padding-right":"30px"})
+                        ]),
+                    ]),
+                    html.Br(),
+                    dbc.Row([
+                        dbc.Col([
+                            html.Div()
+                        ]),
+                        dbc.Col([
+                            html.Div(dbc.Button("Compute", id="button-ord-int"), style={"margin":"auto"})
+                        ], width="auto"),
+                        dbc.Col([
+                            html.Div()
+                        ])
+                    ]),
+                    dbc.Row([
+                        dbc.Col([
+                            html.Div()
+                        ]),
+                        dbc.Col([
+                            html.Div(dcc.Loading(dcc.Graph(id="graph-ord-int")), style={"margin":"auto"})
+                        ], width="auto"),
+                        dbc.Col([
+                            html.Div()
+                        ]),
+                    ]),
+                ])
+            ])
+        ])
+    
+    def component_callbacks(self,app,**kwargs):
+        @app.callback(
+            Output("graph-ord-int","figure"),
+            Input("button-ord-int","n_clicks"),
+            State("drp-ord-int","value"), prevent_initial_call=True
+        )
+        def update_graph(n_clicks, non_neg):
+            non_neg = True if non_neg == 'True' else False
+            uct_data_dict = uct_manipulate_data(self.X_train, self.X_test, self.Y_train, self.Y_test, self.model)
+            uct_metrics = uct_get_all_metrics(uct_data_dict)
+            fig = uct_plot_ordered_intervals(self.X_train, self.X_test, self.Y_train, self.Y_test, uct_data_dict, uct_metrics, non_neg)
+            return fig
+
+class XYComponent(ExplainerComponent):
+    """
+    A component class for displaying the plot of 1D inputs with associated predicted values, predictive uncertainties, and true values to the dashboard.
+    """
+    def __init__(self, explainer, model, X_train, Y_train, X_test, Y_test, title="XY", name=None):
+        """
+        Args:
+            explainer: explainer instance from the explainerdashboard
+            model (dict): container for the model
+            X_train (pd.DataFrame): X_train
+            Y_train (pd.DataFrame): Y_train
+            X_test (pd.DataFrame): X_test
+            Y_test (pd.DataFrame): Y_test
+            title (str, optional): title of the component. Defaults to "XY".
+            name (optional): name of the component. Defaults to None.
+        """
+        super().__init__(explainer, title=title)
+        self.model = list(model.values())[0]
+        self.X_train = X_train
+        self.Y_train = Y_train
+        self.X_test = X_test
+        self.Y_test = Y_test
+        self.target_feature = Y_test.name
+        
+    def layout(self):
+        return dbc.Container([
+            dbc.Card([
+                dbc.CardHeader([
+                    html.H4("XY")
+                ]),
+                dbc.CardBody([
+                    dbc.Row([
+                        dbc.Col([
+                            html.Div(dcc.Markdown('''
+                                Plot one-dimensional inputs with associated predicted values, predictive uncertainties, and true values.
+                            '''), style={"padding":"30px"})
+                        ])
+                    ]),
+                    dbc.Row([
+                        dbc.Col([
+                            html.P("Non-negative Target: ", style={"padding-left":"30px","padding-right":"30px", "padding-top":"5px"})
+                        ], width="auto"),
+                        dbc.Col([
+                            html.Div(dcc.Dropdown(
+                                id="drp-xy-nonneg",
+                                options= ['True', 'False'],
+                                placeholder="Is the Target Non-negative?",
+                            ), style={"width":"100%", "padding-right":"30px"})
+                        ]),
+                        dbc.Col([
+                            html.P("Column: ", style={"padding-left":"30px","padding-right":"30px", "padding-top":"5px"})
+                        ], width="auto"),
+                        dbc.Col([
+                            html.Div(dcc.Dropdown(
+                                id="drp-xy-col",
+                                options= self.X_train.columns.tolist(),
+                                placeholder="Select a Columns",
+                            ), style={"width":"100%", "padding-right":"30px"})
+                        ]),
+                    ]),
+                    html.Br(),
+                    dbc.Row([
+                        dbc.Col([
+                            html.Div()
+                        ]),
+                        dbc.Col([
+                            html.Div(dbc.Button("Compute", id="button-xy"), style={"margin":"auto"})
+                        ], width="auto"),
+                        dbc.Col([
+                            html.Div()
+                        ])
+                    ]),
+                    dbc.Row([
+                        dbc.Col([
+                            html.Div()
+                        ]),
+                        dbc.Col([
+                            html.Div(dcc.Loading(dcc.Graph(id="graph-xy")), style={"margin":"auto"})
+                        ], width="auto"),
+                        dbc.Col([
+                            html.Div()
+                        ]),
+                    ]),
+                ])
+            ])
+        ])
+    
+    def component_callbacks(self,app,**kwargs):
+        @app.callback(
+            Output("graph-xy","figure"),
+            Input("button-xy","n_clicks"),
+            State("drp-xy-nonneg","value"),
+            State("drp-xy-col","value"), prevent_initial_call=True
+        )
+        def update_graph(n_clicks, non_neg, col):
+            non_neg = True if non_neg == 'True' else False
+            uct_data_dict = uct_manipulate_data(self.X_train, self.X_test, self.Y_train, self.Y_test, self.model)
+            uct_metrics = uct_get_all_metrics(uct_data_dict)
+            fig = uct_plot_XY(self.X_train, self.X_test, self.Y_train, self.Y_test, uct_data_dict, uct_metrics, col, self.target_feature, non_neg)
+            return fig
+
+class UncertaintyTab(ExplainerComponent):
+    """
+    A tab class for displaying all uncertainty components in a single tab within the dashboard.
+    """
+    def __init__(self, explainer, model, X_train, Y_train, X_test, Y_test, model_type, title="Uncertainty", name=None):
+        """
+        Args:
+            explainer: explainer instance from the explainerdashboard
+            model (dict): container for the model
+            X_train (pd.DataFrame): X_train
+            Y_train (pd.DataFrame): Y_train
             X_test (pd.DataFrame): X_test
             Y_test (pd.DataFrame): Y_test
             model_type (str): regressor or classifier
@@ -207,11 +548,31 @@ class UncertaintyTab(ExplainerComponent):
         """
         super().__init__(explainer, title=title)
         self.calib = CalibrationComponent(explainer, model, X_test, Y_test, model_type)
+        self.adv = AdversarialCalibrationComponent(explainer, model, X_train, Y_train, X_test, Y_test)
+        self.ave = AverageCalibrationComponent(explainer, model, X_train, Y_train, X_test, Y_test)
+        self.ord = OrderedIntervalsComponent(explainer, model, X_train, Y_train, X_test, Y_test)
+        self.xy = XYComponent(explainer, model, X_train, Y_train, X_test, Y_test)
         
     def layout(self):
         return dbc.Container([
             html.Br(),
             dbc.Row([
                 self.calib.layout()
+            ]),
+            html.Br(),
+            dbc.Row([
+                self.adv.layout()
+            ]),
+            html.Br(),
+            dbc.Row([
+                self.ave.layout()
+            ]),
+            html.Br(),
+            dbc.Row([
+                self.ord.layout()
+            ]),
+            html.Br(),
+            dbc.Row([
+                self.xy.layout()
             ]),
         ])

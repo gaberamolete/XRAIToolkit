@@ -37,7 +37,18 @@ We intend for the user to have inputs mostly on the XRAI-related functions. Howe
 - Robustness – Check if system can function despite unexpected inputs 
 - Uncertainty – Models may not always make perfect predictions, and there can be some level of doubt or variability associated with their result
 
-# Running in Local Machine using Conda Environment
+# Installation
+## Cloning the Project 
+Using Git Bash, type the following in your preferred location of the cloned directory:
+```
+git clone https://github.com/jbramos9/XRAIDashboard.git
+```
+You can also download the zip file of this repository, and extract it in your preferred location.
+
+## Big Files
+Sample regression and classification models used in the notebooks are available in this [link](https://drive.google.com/drive/u/0/folders/1cdxJ5sLbLrwayxVe914w9uWR_lF2bBzy). Download the zip files and extract them in the root directory of the cloned project.
+
+## Setting up the Environment 
 To easily create the environment for XRAI in your local machine, you can run the following in a command prompt or terminal.
 ```
 conda env create -f environment.yml
@@ -49,7 +60,7 @@ After creating an environment, you can create a kernel to enable the notebooks t
 python -m ipykernel install --user --name=XRAI
 ```
 
-# Requirements
+## Requirements
 ```
 python = 3.9.0
 ```

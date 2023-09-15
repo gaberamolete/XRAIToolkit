@@ -59,7 +59,7 @@ git clone https://github.com/jbramos9/XRAIDashboard.git
 You can also download the zip file of this repository, and extract it in your preferred location.
 
 ## Big Files
-Sample regression and classification models used in the notebooks are available in this [link](https://drive.google.com/drive/u/0/folders/1cdxJ5sLbLrwayxVe914w9uWR_lF2bBzy). Download the zip files and extract them in the root directory of the cloned project.
+Sample regression and classification models used in the notebooks are available in this [link](https://drive.google.com/drive/u/0/folders/1cdxJ5sLbLrwayxVe914w9uWR_lF2bBzy). Follow the instructions in the `README.txt`.
 
 ## Setting up the Environment 
 To easily create the environment for XRAI in your local machine, you can run the following in a command prompt or terminal.

@@ -408,10 +408,13 @@ def compare_algorithms(b, di, rw, egr, mc, ceo, ro, threshold, metric_name="Disp
     the fairness vs. performance trade-off
     
     Args:
+    b (OrderedDict): containts the fairness scores of the model before any algorithm
     di (OrderedDict): contains the fairness scores of the model after the disparate impact remover algorithm
     rw (OrderedDict): contains the fairness scores of the model after the reweighing algorithm
     egr (OrderedDict): contains the fairness scores of the model after the exponentiated gradient reduction algorithm
     mc (OrderedDict): contains the fairness scores of the model after the meta-classifier algorithm
+    ceo (OrderedDict): contains the fairness scores of the model after the calibratied equalized odds algorithm
+    ro (OrderedDict): contains the fairness scores of the model after the reject option algorithm
     metric_name (str): the fairness metric to analyze
     """
     upper_bound = max([b[metric_name],di[metric_name], rw[metric_name], egr[metric_name], mc[metric_name], ceo[metric_name], ro[metric_name]]) + 0.5
@@ -462,7 +465,7 @@ def compare_algorithms(b, di, rw, egr, mc, ceo, ro, threshold, metric_name="Disp
     fig = fig.add_shape(right_red)
     #fig.add_vline(x= 0 if metric_name != "Disparate impact" else 1, line_width=1, line_color="black")
     fig.update_traces(marker_size=10)
-    fig.update_layout(hovermode='closest',yaxis_range=[min([b['Balanced accuracy'], di['Balanced accuracy'], rw['Balanced accuracy'], egr['Balanced accuracy'], mc['Balanced accuracy'], ceo['Balanced accuracy'], ro['Balanced accuracy']])-0.001,max([b['Balanced accuracy'], di['Balanced accuracy'], rw['Balanced accuracy'], egr['Balanced accuracy'], mc['Balanced accuracy'], ceo['Balanced accuracy'], ro['Balanced accuracy']])+0.001])
+    fig.update_layout(hovermode='closest',yaxis_range=[min([b['Balanced accuracy'], di['Balanced accuracy'], rw['Balanced accuracy'], egr['Balanced accuracy'], mc['Balanced accuracy'], ceo['Balanced accuracy'], ro['Balanced accuracy']])-0.01,max([b['Balanced accuracy'], di['Balanced accuracy'], rw['Balanced accuracy'], egr['Balanced accuracy'], mc['Balanced accuracy'], ceo['Balanced accuracy'], ro['Balanced accuracy']])+0.01])
     return fig
 
 def algo_exp(method):

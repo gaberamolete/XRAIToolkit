@@ -230,9 +230,10 @@ class LocalDependenceComponent(ExplainerComponent):
                     dbc.Row([
                         dbc.Col([
                             html.Div(dcc.Markdown('''
-                                Creates a local-dependence plot and outputs the equivalent table. User may specify the variables to showcase.
-                                Note that this can only help explain variables that are of the same data type at the same time
-                                i.e. you may not analyze a numerical and categorical variable in the same run.
+                                                On a model, the LD is defined as an expected value of predictions (or CP profiles) over a conditional distribution (the distribution of a certain explanatory variable). This conditional, or marginal, distribution is essentially some smaller part of the entire distribution, as if we had a regression tree dividing our distribution into defined parts.
+                                                Creates a local-dependence plot and outputs the equivalent table. User may specify the variables to showcase.
+                                                Note that this can only help explain variables that are of the same data type at the same time
+                                                i.e. you may not analyze a numerical and categorical variable in the same run.
                             '''), style={"padding":"30px"})
                         ])
                     ]),
@@ -322,9 +323,11 @@ class AccumulatedLocalComponent(ExplainerComponent):
                     dbc.Row([
                         dbc.Col([
                             html.Div(dcc.Markdown('''
-                                Creates a accumulated-local plot and outputs the equivalent table. User may specify the variables to showcase.
-                                Note that this can only help explain variables that are of the same data type at the same time
-                                i.e. you may not analyze a numerical and categorical variable in the same run.
+                                                  This method averages the changes in the predictions, instead of the predictions themselves, and accumulates them over a grid. It does this by describing the local change of the model due to an explanatory variable, and averaging it over the explanatory variable's distribution. This ensures that the method is stable even with models containing highly correlated variables.
+                                                  
+                                                  Creates a accumulated-local plot and outputs the equivalent table. User may specify the variables to showcase.
+                                                  Note that this can only help explain variables that are of the same data type at the same time
+                                                  i.e. you may not analyze a numerical and categorical variable in the same run.
                             '''), style={"padding":"30px"})
                         ])
                     ]),

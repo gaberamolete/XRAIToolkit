@@ -925,12 +925,12 @@ def regression_performance_test(current_data, reference_data, test_report = 'jso
         ])
     else:
         regression_test = TestSuite(tests = [
-            TestValueMAE(eq = rel_val),
-            TestValueRMSE(eq = rel_val),
-            TestValueMeanError(eq = rel_val),
-            TestValueMAPE(eq = rel_val),
-            TestValueAbsMaxError(eq = rel_val),
-            TestValueR2Score(eq = rel_val)
+            TestValueMAE(),
+            TestValueRMSE(),
+            TestValueMeanError(),
+            TestValueMAPE(),
+            TestValueAbsMaxError(),
+            TestValueR2Score()
         ])
     
     regression_test.run(current_data = current_data, reference_data = reference_data, column_mapping = column_mapping)
@@ -1087,26 +1087,26 @@ def classification_performance_test(current_data, reference_data, is_prob = Fals
             argmax = [np.argmax(test_proba[n]) for n in range(0, len(test_proba))]
             labels = argmax.unique()
 
-            tests = [TestRocAuc(eq = rel_val), TestLogLoss(eq = rel_val)] # Tests applicable for probability classification outputs
+            tests = [TestRocAuc(), TestLogLoss()] # Tests applicable for probability classification outputs
         else:
             labels = current_data[pred_col].unique()
             tests = []
 
         for label in labels:
-            tp = TestPrecisionByClass(label = label, probas_threshold = probas_threshold, eq = rel_val)
-            tr = TestRecallByClass(label = label, probas_threshold = probas_threshold, eq = rel_val)
-            tf = TestF1ByClass(label = label, probas_threshold = probas_threshold, eq = rel_val)
+            tp = TestPrecisionByClass(label = label, probas_threshold = probas_threshold,)
+            tr = TestRecallByClass(label = label, probas_threshold = probas_threshold,)
+            tf = TestF1ByClass(label = label, probas_threshold = probas_threshold,)
             tests.extend([tp, tr, tf])
 
         tests = [
-            TestAccuracyScore(eq = rel_val),
-            TestPrecisionScore(eq = rel_val),
-            TestRecallScore(eq = rel_val),
-            TestF1Score(eq = rel_val),
-            TestTPR(eq = rel_val),
-            TestTNR(eq = rel_val),
-            TestFPR(eq = rel_val),
-            TestFNR(eq = rel_val),
+            TestAccuracyScore(),
+            TestPrecisionScore(),
+            TestRecallScore(),
+            TestF1Score(),
+            TestTPR(),
+            TestTNR(),
+            TestFPR(),
+            TestFNR(),
         ] + tests
 
     classification_test = TestSuite(tests = tests)
@@ -1154,7 +1154,10 @@ def cramer_von_mises(loss_ref, losses, p_val = 0.05, labels = ['No!', 'Yes!']):
     
     for name, loss_arr in losses.items():
         print('\n%s' % name)
-        preds = cd.predict(loss_arr)
+        try:
+            preds = cd.predict(loss_arr)
+        except:
+            preds = cd.predict(loss_arr.to_numpy())
         print('Drift? {}'.format(labels[preds['data']['is_drift']]))
         print('p-value: {}'.format(preds['data']['p_val'][0]))
         

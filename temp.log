@@ -1,9 +1,1 @@
--------------------Model : DT---- Protected group: LGU--------------------------
-Bias detected in 1 metrics: independence
-
-Conclusion: your model is not fair because 2 or more criteria exceeded acceptable limits set by epsilon.
-
-Ratios of metrics, based on 'else'. Parameter 'epsilon' was set to 0.8 and therefore metrics should be within (0.8, 1.25)
-            independence  separation  sufficiency
-subgroup                                         
-LGU_makati    1.958061     1.210219    1.079948  
+http://UBVPNN3059:40000/dtale/main/1

@@ -49,13 +49,13 @@ def outlier(train,test,methods=[KNN,IForest],contamination=0.05):
     
     # Clean train for the outlier detector model
     X=train.copy()
-    X.dropna(axis='columns',inplace=True)
+    # X.dropna(axis='columns',inplace=True)
     X=X._get_numeric_data()
     
     
     # Clean test for the outlier detector model
     XX=test.copy()
-    XX.dropna(axis='columns',inplace=True)
+    # XX.dropna(axis='columns',inplace=True)
     XX=XX._get_numeric_data()
     
     

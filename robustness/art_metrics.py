@@ -11,7 +11,8 @@ from art.estimators.classification.scikitlearn import ScikitlearnRandomForestCla
 from art.estimators.classification import SklearnClassifier, BlackBoxClassifier, XGBoostClassifier
 import plotly.graph_objects as go
 
-def pdtp_generate_samples(num_samples, x_train):
+def pdtp_generate_samples(num_samples, x_train, seed = 42):
+    np.random.seed(seed)
     sample_indexes = np.random.randint(0, x_train.shape[0], num_samples)
     return sample_indexes
 

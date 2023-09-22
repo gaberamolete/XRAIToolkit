@@ -222,11 +222,11 @@ def model_performance(model,test_x,test_y,train_x,train_y,all_test,all_train, ta
             result_sum_train=pd.concat([result_sum_train,Result_sum(DF_train,pg)], axis=0)
             
 
-        print("Overal performence for Train data is :")
+        print("Overall performance for Train data is:")
         result_sum_train=result_sum_train.drop_duplicates(subset=['Split','protected_groups'], keep='first')
         display(result_sum_train)             
 
-        print("Overal performence for Test data is :")
+        print("Overall performance for Test data is:")
         result_sum_test=result_sum_test.drop_duplicates(subset=['Split','protected_groups'], keep='first')
         display(result_sum_test)
 
@@ -234,17 +234,24 @@ def model_performance(model,test_x,test_y,train_x,train_y,all_test,all_train, ta
 
 
 
-def fairness(models,x,y,protected_groups={},metric="DI", threshold=0.8, xextra=False,reg=False,dashboard=True):
+def fairness(models, x, y, protected_groups={}, metric="DI", threshold=0.8, xextra=False,reg=False,dashboard=True):
     '''
     Parameters
     ----------
-    Model: list of models,model object, can be sklearn, tensorflow, or keras
-    test_x: DataFrame,
-    test_y: DataFrame or Series, contains target column and list of target variables
-    target_feature: str, name of target variable
+    models: list of models, model object, can be sklearn, tensorflow, or keras
+    x: DataFrame
+    y: DataFrame or Series, contains target column and list of target variables
     protected_groups: dictionary of protected groups and protected category in that group, example: {"LGU" : 'pasay','income_class':"1st" }
-    reg: Boolean for model type of Regression
-    dashboard: bool, if run thru the dashboard
+    metric: Main fairness metric to use. Defaults to 'DI'
+    threshold: Threshold for determining an alert for the fairness metric. Defaults to 0.8
+    xextra: If you want to include other features not in the dataset used for modeling, add a DataFrame or Series with corresponding index to x. Defaults to False.
+    reg: bool, to determine model type (whether classification or regression). Defaults to False.
+    dashboard: bool, to launch dashboard. Defaults to False.
+
+    Regarding metrics:
+    - 'EOP' - Equal opportunity difference: This measures the deviation from the equality of opportunity, which means that the same proportion of each population receives the favorable outcome. This  measure must be equal to 0 to be fair.
+    - 'EOD' - Average absolute odds difference: This measures bias by using the false positive rate and true positive rate. This measure must be equal to 0 to be fair.
+    - 'DI' - Disparity impact: This compares the proportion of individuals that receive a favorable outcome for two groups, a majority group and a minority group. This measure must be equal to 1 to be fair.
     '''
     if reg==False:
       # function for calculating fainess metrics
@@ -511,7 +518,7 @@ def fairness(models,x,y,protected_groups={},metric="DI", threshold=0.8, xextra=F
                 
                 #Define protected group
                 if (xx[pg].dtypes=="float64") or (xx[pg].dtypes=="int64"):
-                    protected = np.where((xx[pg] >= protected_groups[pg][0]) and (xx[pg] <= protected_groups[pg][1]), str(pg)+"_"+str(protected_groups[pg]), "else")
+                    protected = np.where(np.logical_and((xx[pg] >= protected_groups[pg][0]), (xx[pg] <= protected_groups[pg][1])), str(pg)+"_"+str(protected_groups[pg]), "else")
                 if xx[pg].dtypes=="object":
                     protected = np.where(xx[pg] == str(protected_groups[pg]), str(pg)+"_"+str(protected_groups[pg]), "else")
                 

@@ -42,52 +42,24 @@ class FairnessIntroComponent(ExplainerComponent):
                 ]),
                 dbc.CardBody([
                     html.Div(dcc.Markdown('''
-                        **For classification;**
-                        Metrics are Statistical parity difference, Disparity impact, Equal opportunity difference, Average absolute odds difference, Theil index, Smooth EDF, class 
-                        imbalance.
+                        ### Classification
+                        Some terms and metrics we will be using:
+                        - **Statistical parity difference:** Statistical parity difference measures the difference that the majority and protected classes receive a favorable outcome. This measure must be equal to 0  to be fair.
+                        - **Equal opportunity difference:** This measures the deviation from the equality of opportunity, which means that the same proportion of each population receives the favorable outcome. This  measure must be equal to 0 to be fair.
+                        - **Average absolute odds difference:** This measures bias by using the false positive rate and true positive rate. This measure must be equal to 0 to be fair.
+                        - **Disparity impact:** This compares the proportion of individuals that receive a favorable outcome for two groups, a majority group and a minority group. This measure must be equal to 1 to be fair.
+                        - **Theil Index:** This ranges between zero and ∞, with zero representing an equal distribution and higher values representing a higher level of inequality.
+                        - **Smoothed Emperical Differential Fairness:** This calculates the differential in the probability of favorable and unfavorable outcomes between intersecting groups divided by features. All intersecting groups are equal, so there are no unprivileged or privileged groups. The calculation produces a value between 0 and 1 that is the minimum ratio of Dirichlet  smoothed probability for favorable and unfavorable outcomes between intersecting groups in the dataset.
+                        - **Class Imbalance:** Bias occurs when a facet value has fewer training samples when compared with another facet in the dataset. CI values near either of the extremes values of -1 or 1 are very imbalanced and are at a substantial risk of making biased predictions.
+                        - **Threshold:** Threshold defines how far from the ideal value of the metric will be acceptable. The question is what threshold should we use? There is actually no good answer to that. It will depend on your industry and application. If your model has significant consequences, like for mortgage applications, you will need a stricter threshold. The threshold may even be defined by law. Either way, it is important to define the thresholds before you measure fairness. 0.2 seems to be a good default value for that. 
 
-                        #### Statistical parity difference
-                        Statistical parity difference measures the difference that the majority and protected classes receive a favorable outcome. This measure must be equal to 0 
-                        to be fair.
-                        
-                        #### Equal opportunity difference
-                        This measures the deviation from the equality of opportunity, which means that the same proportion of each population receives the favorable outcome. This 
-                        measure must be equal to 0 to be fair.
+                        ### Regression
+                        Given $R$ as the model's prediction, $Y$ as the model's target, and $A$ to be the protected group, we have three criteria:
+                        - **Independence:** $R$ ⊥ $A$
+                        - **Separation:** $R$ ⊥ $A$ ∣ $Y$
+                        - **Sufficiency:** $Y$ ⊥ $A$ ∣ $R$ 
 
-                        #### Average absolute odds difference 
-                        This measures bias by using the false positive rate and true positive rate. This measure must be equal to 0 to be fair.
-
-                        #### Disparity impact
-                        This compares the proportion of individuals that receive a favorable outcome for two groups, a majority group and a minority group. This measure must be equal 
-                        to 1 to be fair.
-                        
-                        #### Theil Index
-                        This ranges between zero and ∞, with zero representing an equal distribution and higher values representing a higher level of inequality.
-                        
-                        #### Class Imbalance
-                        Bias occurs when a facet value has fewer training samples when compared with another facet in the dataset. CI values near either of the extremes values of 
-                        -1 or 1 are very imbalanced and are at a substantial risk of making biased predictions.
-
-                        #### Threshold
-                        Threshold defines how far from the ideal value of the metric will be acceptable. The question is what threshold should we use? There is actually no good answer 
-                        to that. It will depend on your industry and application. If your model has significant consequences, like for mortgage applications, you will need a stricter 
-                        threshold. The threshold may even be defined by law. Either way, it is important to define the thresholds before you measure fairness. 0.2 seems to be a good 
-                        default value for that. 
-
-                         **Regression;**
-                         Having Explainers, we are able to assess models' fairness. To make sure that the models are fair, we will be checking three independence criteria. These are:
-
-                        independence: R⊥A
-                        separation: R⊥A ∣ Y
-                        sufficiency: Y⊥A ∣ R
-                        Where:
-
-                        A - protected group
-                        Y - target
-                        R - model's prediction
-                        In the approach described in Steinberg, D., et al. (2020), the authors propose a way of checking this independence.
-                        ***More info about metrics of regression***
-                        https://arxiv.org/pdf/2001.06089.pdf
+                        In the approach described in Steinberg, D., et al. (2020), the authors propose a way of checking this independence. ***More info about metrics of regression***: https://arxiv.org/pdf/2001.06089.pdf
                     '''))
                 ])
             ])
@@ -852,7 +824,18 @@ class OutlierComponent(ExplainerComponent):
                     dbc.Row([
                         dbc.Col([
                             html.Div(dcc.Markdown('''
-                                Detects outliers and remove them if user wants. Contamination pertains to the amount of detected outlier by the method, range is (0-1), the higher the value the stricter the method.
+                                Types of Outlier Detection methods:
+                                - **ABOD: Angle-based Outlier Detector** | ABOD performs well on multi-dimensional data. For an observation, the variance of its weighted cosine scores to all neighbors could be viewed as the outlying score.    
+                                - **IForest: Isolation Forest Outlier Detector** | Isolation Forest performs well on multi-dimensional data. The IsolationForest 'isolates' observations by randomly selecting a feature and then randomly selecting a split value between the maximum and minimum values of the selected feature. 
+                                - **KPCA: Kernel Principal Component Analysis (KPCA) Outlier Detector** | PCA is performed on the feature space uniquely determined by the kernel, and the reconstruction  error on the feature space is used as the anomaly score.
+                                - **PCA: Principal Component Analysis (PCA) Outlier Detector** | Principal component analysis (PCA) can be used in detecting outliers. PCA is a linear dimensionality reduction using Singular Value Decomposition of the data to project it to a lower dimensional space. In this procedure, covariance matrix of the data can be decomposed to orthogonal vectors, called eigenvectors, associated with eigenvalues. The eigenvectors with high eigenvalues capture most of the variance in the data. Therefore, a low dimensional hyperplane constructed by k eigenvectors can capture most of the variance in the data. However, outliers are different from normal data points, which is more obvious on the hyperplane constructed by the eigenvectors with small eigenvalues. Therefore, outlier scores can be obtained as the sum of the projected distance of a sample on all eigenvectors. 
+                                - **AnoGAN: Anomaly Detection with Generative Adversarial Networks** | A deep convolutional generative adversarial network to learn a manifold of normal anatomical variability, accompanying a novel anomaly scoring scheme based on the mapping from image space to a latent space.
+                                - **KNN: k-Nearest Neighbors Detector** | For an observation, its distance to its k-th nearest neighbor could be viewed as the outlying score. It could be viewed as a way to measure the density.kNN class for outlier detection. For an observation, its distance to its kth nearest neighbor could be viewed as the outlying score. It could be viewed as a way to measure the density.
+                                - **CBLOF: Clustering Based Local Outlier Factor** | CBLOF takes as an input the data set and the cluster model that was generated by a clustering algorithm. It classifies the clusters into small clusters and large clusters using the parameters alpha and beta. The anomaly score is then calculated based on the size of the cluster the point belongs to as well as the distance to the nearest large cluster.
+                                - **ALAD: Adversarially Learned Anomaly Detection** | Adversarially Learned Anomaly Detection (ALAD) based on bi-directional GANs, that derives adversarially learned features for the anomaly detection task.
+                                - **ECOD: Unsupervised Outlier Detection Using Empirical Cumulative Distribution Functions (ECOD)** | ECOD is a parameter-free, highly interpretable outlier detection algorithm based on empirical CDF functions.
+
+                                More information on the methods can be found here: https://pyod.readthedocs.io/en/latest/install.html
                             '''), style={"padding":"30px"})
                         ])
                     ]),
@@ -978,7 +961,7 @@ class ErrorAnalysisComponent(ExplainerComponent):
                     dbc.Row([
                         dbc.Col([
                             html.Div(dcc.Markdown('''
-                                    Error Analysis is one of the dashboard available in the Responsible AI library by Microsoft. Click the button to go to the aforementioned dashboard.
+                                    Click the button to go to the aforementioned dashboard. It will lead you to another page.
                             '''), style={"padding":"30px"})
                         ])
                     ]),

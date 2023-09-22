@@ -40,9 +40,9 @@ def calib_lc(y_pred, y_true, reg = False):
     lc_calibrated: Recalibrated values under Logistic Calibration, given via array.
     """
     
-    if isinstance(y_pred, pd.Series):
+    if isinstance(y_pred, pd.Series) or isinstance(y_pred, pd.DataFrame):
         y_pred = y_pred.to_numpy()
-    if isinstance(y_true, pd.Series):
+    if isinstance(y_true, pd.Series) or isinstance(y_true, pd.DataFrame):
         y_true = y_true.to_numpy()
     lc = LogisticCalibration()
     if reg:
@@ -72,9 +72,9 @@ def calib_bc(y_pred, y_true, reg = False):
     bc_calibrated: Recalibrated values under Beta Calibration, given via array.
     """
     
-    if isinstance(y_pred, pd.Series):
+    if isinstance(y_pred, pd.Series) or isinstance(y_pred, pd.DataFrame):
         y_pred = y_pred.to_numpy()
-    if isinstance(y_true, pd.Series):
+    if isinstance(y_true, pd.Series) or isinstance(y_true, pd.DataFrame):
         y_true = y_true.to_numpy()
     bc = BetaCalibration()
     if reg:
@@ -104,9 +104,9 @@ def calib_temp(y_pred, y_true, reg = False):
     temp_calibrated: Recalibrated values under Temperature Scaling, given via array.
     """
     
-    if isinstance(y_pred, pd.Series):
+    if isinstance(y_pred, pd.Series) or isinstance(y_pred, pd.DataFrame):
         y_pred = y_pred.to_numpy()
-    if isinstance(y_true, pd.Series):
+    if isinstance(y_true, pd.Series) or isinstance(y_true, pd.DataFrame):
         y_true = y_true.to_numpy()
     temperature = TemperatureScaling()
     if reg:
@@ -136,9 +136,9 @@ def calib_hb(y_pred, y_true, bins = 100, reg = False):
     hb_calibrated: Recalibrated values under Histogram Binning, given via array.
     """
     
-    if isinstance(y_pred, pd.Series):
+    if isinstance(y_pred, pd.Series) or isinstance(y_pred, pd.DataFrame):
         y_pred = y_pred.to_numpy()
-    if isinstance(y_true, pd.Series):
+    if isinstance(y_true, pd.Series) or isinstance(y_true, pd.DataFrame):
         y_true = y_true.to_numpy()
     hb = HistogramBinning(bins = bins)
     if reg:
@@ -168,9 +168,9 @@ def calib_ir(y_pred, y_true, reg = False):
     ir_calibrated: Recalibrated values under Isotonic Regression, given via array.
     """
     
-    if isinstance(y_pred, pd.Series):
+    if isinstance(y_pred, pd.Series) or isinstance(y_pred, pd.DataFrame):
         y_pred = y_pred.to_numpy()
-    if isinstance(y_true, pd.Series):
+    if isinstance(y_true, pd.Series) or isinstance(y_true, pd.DataFrame):
         y_true = y_true.to_numpy()
     ir = IR_Class()
     if reg:
@@ -200,9 +200,9 @@ def calib_bbq(y_pred, y_true, score = 'AIC', reg = False):
     bbq_calibrated: Recalibrated values under Bayesian Binning into Quantiles, given via array.
     """
     
-    if isinstance(y_pred, pd.Series):
+    if isinstance(y_pred, pd.Series) or isinstance(y_pred, pd.DataFrame):
         y_pred = y_pred.to_numpy()
-    if isinstance(y_true, pd.Series):
+    if isinstance(y_true, pd.Series) or isinstance(y_true, pd.DataFrame):
         y_true = y_true.to_numpy()
     bbq = BBQ(score_function = score)
     if reg:
@@ -232,9 +232,9 @@ def calib_enir(y_pred, y_true, score = 'AIC'):
     enir_calibrated: Recalibrated values under ENIR, given via array.
     """
     
-    if isinstance(y_pred, pd.Series):
+    if isinstance(y_pred, pd.Series) or isinstance(y_pred, pd.DataFrame):
         y_pred = y_pred.to_numpy()
-    if isinstance(y_true, pd.Series):
+    if isinstance(y_true, pd.Series) or isinstance(y_true, pd.DataFrame):
         y_true = y_true.to_numpy()
     enir = ENIR(score_function = score)
     enir.fit(y_pred, y_true)
@@ -261,9 +261,9 @@ def calib_ece(y_pred, y_true, n_bins = 10, equal_intervals: bool = True, sample_
     """
     
     ece = ECE(n_bins, equal_intervals, sample_threshold = sample_threshold)
-    if isinstance(y_pred, pd.Series):
+    if isinstance(y_pred, pd.Series) or isinstance(y_pred, pd.DataFrame):
         y_pred = y_pred.to_numpy()
-    if isinstance(y_true, pd.Series):
+    if isinstance(y_true, pd.Series) or isinstance(y_true, pd.DataFrame):
         y_true = y_true.to_numpy()
     if reg:
         scaler = MinMaxScaler()
@@ -297,9 +297,9 @@ def calib_mce(y_pred, y_true, n_bins = 10, equal_intervals: bool = True, sample_
     """
     
     mce = MCE(n_bins, equal_intervals, sample_threshold = sample_threshold)
-    if isinstance(y_pred, pd.Series):
+    if isinstance(y_pred, pd.Series) or isinstance(y_pred, pd.DataFrame):
         y_pred = y_pred.to_numpy()
-    if isinstance(y_true, pd.Series):
+    if isinstance(y_true, pd.Series) or isinstance(y_true, pd.DataFrame):
         y_true = y_true.to_numpy()
     if reg:
         scaler = MinMaxScaler()
@@ -332,9 +332,9 @@ def calib_ace(y_pred, y_true, n_bins = 10, equal_intervals: bool = True, sample_
     """
     
     ace = ACE(n_bins, equal_intervals, sample_threshold = sample_threshold)
-    if isinstance(y_pred, pd.Series):
+    if isinstance(y_pred, pd.Series) or isinstance(y_pred, pd.DataFrame):
         y_pred = y_pred.to_numpy()
-    if isinstance(y_true, pd.Series):
+    if isinstance(y_true, pd.Series) or isinstance(y_true, pd.DataFrame):
         y_true = y_true.to_numpy()
     if reg:
         scaler = MinMaxScaler()
@@ -371,11 +371,11 @@ def calib_nll(y_pred_means, y_pred_stds, y_true, reduction = 'mean'):
     nll_score: Negative Log Likelihood
     """
     
-    if isinstance(y_pred_means, pd.Series):
+    if isinstance(y_pred_means, pd.Series) or isinstance(y_pred_means, pd.DataFrame):
         y_pred_means = y_pred_means.to_numpy()
-    if isinstance(y_pred_stds, pd.Series):
+    if isinstance(y_pred_stds, pd.Series) or isinstance(y_pred_stds, pd.DataFrame):
         y_pred_stds = y_pred_stds.to_numpy()
-    if isinstance(y_true, pd.Series):
+    if isinstance(y_true, pd.Series) or isinstance(y_true, pd.DataFrame):
         y_true = y_true.to_numpy()
     nll = NLL()
     nll_score = nll.measure((y_pred_means, y_pred_stds), y_true, reduction = reduction)
@@ -403,11 +403,11 @@ def calib_pl(y_pred_means, y_pred_stds, y_true, quantiles = np.linspace(0.1, 0.9
     pl_score: Pinball Loss
     """
     
-    if isinstance(y_pred_means, pd.Series):
+    if isinstance(y_pred_means, pd.Series) or isinstance(y_pred_means, pd.DataFrame):
         y_pred_means = y_pred_means.to_numpy()
-    if isinstance(y_pred_stds, pd.Series):
+    if isinstance(y_pred_stds, pd.Series) or isinstance(y_pred_stds, pd.DataFrame):
         y_pred_stds = y_pred_stds.to_numpy()
-    if isinstance(y_true, pd.Series):
+    if isinstance(y_true, pd.Series) or isinstance(y_true, pd.DataFrame):
         y_true = y_true.to_numpy()
     pl = PinballLoss()
     pl_score = pl.measure((y_pred_means, y_pred_stds), y_true, q = quantiles, reduction = reduction)
@@ -437,11 +437,11 @@ def calib_picp(y_pred_means, y_pred_stds, y_true, quantiles = np.linspace(0.1, 0
     mpiw_score: Mean Prediction Interval Width
     """
     
-    if isinstance(y_pred_means, pd.Series):
+    if isinstance(y_pred_means, pd.Series) or isinstance(y_pred_means, pd.DataFrame):
         y_pred_means = y_pred_means.to_numpy()
-    if isinstance(y_pred_stds, pd.Series):
+    if isinstance(y_pred_stds, pd.Series) or isinstance(y_pred_stds, pd.DataFrame):
         y_pred_stds = y_pred_stds.to_numpy()
-    if isinstance(y_true, pd.Series):
+    if isinstance(y_true, pd.Series) or isinstance(y_true, pd.DataFrame):
         y_true = y_true.to_numpy()
     picp = PICP()
     picp_score, mpiw_score = picp.measure((y_pred_means, y_pred_stds), y_true, q = quantiles, reduction = reduction)
@@ -470,11 +470,11 @@ def calib_qce(y_pred_means, y_pred_stds, y_true, bins = 10, quantiles = np.linsp
     qce_score: Marginal Quantile Calibration Error
     """
     
-    if isinstance(y_pred_means, pd.Series):
+    if isinstance(y_pred_means, pd.Series) or isinstance(y_pred_means, pd.DataFrame):
         y_pred_means = y_pred_means.to_numpy()
-    if isinstance(y_pred_stds, pd.Series):
+    if isinstance(y_pred_stds, pd.Series) or isinstance(y_pred_stds, pd.DataFrame):
         y_pred_stds = y_pred_stds.to_numpy()
-    if isinstance(y_true, pd.Series):
+    if isinstance(y_true, pd.Series) or isinstance(y_true, pd.DataFrame):
         y_true = y_true.to_numpy()
     qce = QCE(bins)
     qce_score = qce.measure((y_pred_means, y_pred_stds), y_true, q = quantiles, reduction = reduction)
@@ -498,11 +498,11 @@ def calib_ence(y_pred_means, y_pred_stds, y_true, bins = 10):
     ence_score: Expected Normalized Calibration Error
     """
     
-    if isinstance(y_pred_means, pd.Series):
+    if isinstance(y_pred_means, pd.Series) or isinstance(y_pred_means, pd.DataFrame):
         y_pred_means = y_pred_means.to_numpy()
-    if isinstance(y_pred_stds, pd.Series):
+    if isinstance(y_pred_stds, pd.Series) or isinstance(y_pred_stds, pd.DataFrame):
         y_pred_stds = y_pred_stds.to_numpy()
-    if isinstance(y_true, pd.Series):
+    if isinstance(y_true, pd.Series) or isinstance(y_true, pd.DataFrame):
         y_true = y_true.to_numpy()
     ence = ENCE(bins = bins)
     ence_score = ence.measure((y_pred_means, y_pred_stds), y_true)
@@ -526,11 +526,11 @@ def calib_uce(y_pred_means, y_pred_stds, y_true, bins = 10):
     uce_score: Uncertainty Calibration Error
     """
     
-    if isinstance(y_pred_means, pd.Series):
+    if isinstance(y_pred_means, pd.Series) or isinstance(y_pred_means, pd.DataFrame):
         y_pred_means = y_pred_means.to_numpy()
-    if isinstance(y_pred_stds, pd.Series):
+    if isinstance(y_pred_stds, pd.Series) or isinstance(y_pred_stds, pd.DataFrame):
         y_pred_stds = y_pred_stds.to_numpy()
-    if isinstance(y_true, pd.Series):
+    if isinstance(y_true, pd.Series) or isinstance(y_true, pd.DataFrame):
         y_true = y_true.to_numpy()
     uce = UCE(bins = bins)
     uce_score = uce.measure((y_pred_means, y_pred_stds), y_true)
@@ -567,34 +567,34 @@ def calib_metrics(y_true, calibs: Dict, n_bins = 100, reg = False):
     uces = []
 
     for calib in calibs.values():
-        if isinstance(calib[0], pd.Series):
-            calib[0] = calib[0].to_numpy()
+        if isinstance(calib, pd.Series):
+            calib = calib.to_numpy()
         
-        calib_mean = calib[0].mean()
-        calib_std = calib[0].std()
-        calib_means = calib[0] - calib_mean
-        calib_stds = abs(calib[0] - calib_std)
+        calib_mean = calib.mean()
+        calib_std = calib.std()
+        calib_means = calib - calib_mean
+        calib_stds = abs(calib - calib_std)
         
         # ECE
         if reg:
-            ece = calib_ece(calib[0], y_true, n_bins, reg = True)
+            ece = calib_ece(calib, y_true, n_bins, reg = True)
         if not reg:
-            ece = calib_ece(calib[0], y_true, n_bins)
+            ece = calib_ece(calib, y_true, n_bins)
         eces.append(ece)
         
         # MCE
         if reg:
-            cmce = calib_mce(calib[0], y_true, n_bins, reg = True)
+            cmce = calib_mce(calib, y_true, n_bins, reg = True)
         if not reg:
-            cmce = calib_mce(calib[0], y_true, n_bins)
+            cmce = calib_mce(calib, y_true, n_bins)
         mce = MCE(n_bins)
         mces.append(cmce)
 
         # ACE
         if reg:
-            cace = calib_ace(calib[0], y_true, n_bins, reg = True)
+            cace = calib_ace(calib, y_true, n_bins, reg = True)
         if not reg:
-            cace = calib_ace(calib[0], y_true, n_bins)
+            cace = calib_ace(calib, y_true, n_bins)
         aces.append(cace)
         
         # NLL
@@ -663,9 +663,9 @@ def plot_reliability_diagram(y, x, calib, n_bins = 50, reg = False, title = None
     
     bins = np.linspace(0, 1, n_bins)
     
-    if isinstance(y, pd.Series):
+    if isinstance(y, pd.Series) or isinstance(y, pd.DataFrame):
         y = y.to_numpy()
-    if isinstance(x, pd.Series):
+    if isinstance(x, pd.Series) or isinstance(x, pd.DataFrame):
         x = x.to_numpy()
     
     if reg:

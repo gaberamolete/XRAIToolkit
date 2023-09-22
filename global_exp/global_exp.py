@@ -9,12 +9,19 @@ import matplotlib.pyplot as plt
 
 def dalex_exp(model, X_train, y_train, X_test, idx):
     '''
-    Explanation object.
+    Dalex-related explanation object.
     
+    Parameters
+    ------------
     model: model object, full model, can be with preprocessing steps
     X_train: DataFrame
     y_train: DataFrame
     X_test: DataFrame
+    
+    Returns
+    ------------
+    exp: explanation object
+    obs: single Dalex-enabled observation
     '''
     
     exp = dx.Explainer(model, X_train, y_train)
@@ -30,19 +37,24 @@ def pd_profile(exp, variables = None, var_type = 'numerical', groups = None, ran
     Note that this can only help explain variables that are of the same data type at the same time
     i.e. you may not analyze a numerical and categorical variable in the same run.
     
+    Parameters
+    ------------
     exp: explanation object
-    variables: list, list of variables to be explained utilizing the methods. The default is 'None', which will make it run through all variables
-    var_type: can either be 'numerical' or 'categorical'
-    groups: specify a single categorical variable not in the 'variables' list that will be used as a group. Defaults to 'None'
+    variables: list, list of variables to be explained utilizing the methods. The default is 'None', which will make it run through all variables.
+    var_type: can either be 'numerical' or 'categorical'.
+    groups: specify a single categorical variable not in the 'variables' list that will be used as a group. Defaults to 'None'.
     random_state: defines the random state in which the number of observations to be sampled. Defaults to 42 for reproducibility.
     N: Number of observations to be sampled with. Defaults to 300. Writing 'None' will have the function use all data, which may be computationally expensive.
-    labels: boolean. If True, will change label to 'PD profiles'
+    labels: boolean. If True, will change label to 'PD profiles'.
+    
+    Returns
+    ------------
+    result: DataFrame of results from the partial-dependence profiles.
     '''
     
     if groups:
         if groups not in exp.data.select_dtypes(exclude = np.number).columns.tolist():
-            print('Please specify a categorical variable in `groups`.')
-            return 'Please specify a categorical variable in `groups`.'
+            return print('Please specify a categorical variable in `groups`.')
         
     pd = exp.model_profile(type = 'partial', variable_type = var_type, groups = groups,
                               variables = variables, random_state = random_state,
@@ -50,18 +62,24 @@ def pd_profile(exp, variables = None, var_type = 'numerical', groups = None, ran
     if labels:
         pd.result['_label_'] = 'PD profiles'
     pd.plot()
-    return pd.result, pd.plot(show=False)
+    return pd.result
 
 def var_imp(exp, loss_function = 'rmse', groups = None, N = 1000, B = 10, random_state = 42):
     '''
     A permutation-based approach in explaining variable importance to the model.
     
-    ---
+    Parameters
+    ------------
     exp: explanation object
     loss_function: manner in which the function will calculate loss. Can choose from 'rmse', 'mae', 'mse', 'mad', '1-auc'. Defaults to 'rmse'.
-    groups: specify a single categorical variable not in the 'variables' list that will be used as a group. Defaults to 'None'
+    groups: specify a single categorical variable not in the 'variables' list that will be used as a group. Defaults to 'None'.
+    N: Number of observations to be sampled with. Defaults to 1900. Writing 'None' will have the function use all data, which may be computationally expensive.
+    B: Number of permutation rounds to be perform on each variable. Defaults to 10.
     random_state: defines the random state in which the number of observations to be sampled. Defaults to 42 for reproducibility.
-    N: Number of observations to be sampled with. Defaults to 300. Writing 'None' will have the function use all data, which may be computationally expensive.
+    
+    Returns
+    ------------
+    result: DataFrame of results from the variable importance measure function, sorted by dropout loss.
     '''
     
     if groups:
@@ -86,7 +104,7 @@ def var_imp(exp, loss_function = 'rmse', groups = None, N = 1000, B = 10, random
     vi = exp.model_parts(variable_groups = groups, loss_function = loss_function,
                          N = N, B = B, random_state = random_state)
     vi.plot()
-    return vi.result.sort_values(by = 'dropout_loss', ascending = False), vi.plot(show=False)
+    return vi.result.sort_values(by = 'dropout_loss', ascending = False)
 
 def ld_profile(exp, variables = None, var_type = 'numerical', groups = None, random_state = 42, N = 300, labels = False):
     '''
@@ -94,13 +112,19 @@ def ld_profile(exp, variables = None, var_type = 'numerical', groups = None, ran
     Note that this can only help explain variables that are of the same data type at the same time
     i.e. you may not analyze a numerical and categorical variable in the same run.
     
-    exp: explanation object
-    variables: list, list of variables to be explained utilizing the methods. The default is 'None', which will make it run through all variables
-    var_type: can either be 'numerical' or 'categorical'
-    groups: specify a single categorical variable not in the 'variables' list that will be used as a group. Defaults to 'None'
-    random_state: defines the random state in which the number of observations to be sampled. Defaults to 42 for reproducibility.
+    Parameters
+    ------------
+    exp: explanation object.
+    variables: list, list of variables to be explained utilizing the methods. The default is 'None', which will make it run through all variables.
+    var_type: can either be 'numerical' or 'categorical'.
+    groups: specify a single categorical variable not in the 'variables' list that will be used as a group. Defaults to 'None'.
     N: Number of observations to be sampled with. Defaults to 300. Writing 'None' will have the function use all data, which may be computationally expensive.
-    labels: boolean. If True, will change label to 'LD profiles'
+    random_state: defines the random state in which the number of observations to be sampled. Defaults to 42 for reproducibility.
+    labels: boolean. If True, will change label to 'LD profiles'.
+    
+    Returns
+    ------------
+    result: DataFrame of results from the local-dependence profiles.
     '''
     
     if groups:
@@ -113,7 +137,7 @@ def ld_profile(exp, variables = None, var_type = 'numerical', groups = None, ran
     if labels:
         ld.result['_label_'] = 'LD profiles'
     ld.plot()
-    return ld.result, ld.plot(show=False)
+    return ld.result
 
 def al_profile(exp, variables = None, var_type = 'numerical', groups = None, random_state = 42, N = 300, labels = False):
     '''
@@ -121,13 +145,19 @@ def al_profile(exp, variables = None, var_type = 'numerical', groups = None, ran
     Note that this can only help explain variables that are of the same data type at the same time
     i.e. you may not analyze a numerical and categorical variable in the same run.
     
+    Parameters
+    ------------
     exp: explanation object
-    variables: list, list of variables to be explained utilizing the methods. The default is 'None', which will make it run through all variables
-    var_type: can either be 'numerical' or 'categorical'
-    groups: specify a single categorical variable not in the 'variables' list that will be used as a group. Defaults to 'None'
+    variables: list, list of variables to be explained utilizing the methods. The default is 'None', which will make it run through all variables.
+    var_type: can either be 'numerical' or 'categorical'.
+    groups: specify a single categorical variable not in the 'variables' list that will be used as a group. Defaults to 'None'.
     random_state: defines the random state in which the number of observations to be sampled. Defaults to 42 for reproducibility.
     N: Number of observations to be sampled with. Defaults to 300. Writing 'None' will have the function use all data, which may be computationally expensive.
-    labels: boolean. If True, will change label to 'LD profiles'
+    labels: boolean. If True, will change label to 'LD profiles'.
+    
+    Returns
+    ------------
+    result: DataFrame of results from the accumulated-local profiles.
     '''
     
     if groups:
@@ -140,7 +170,7 @@ def al_profile(exp, variables = None, var_type = 'numerical', groups = None, ran
     if labels:
         al.result['_label_'] = 'AL profiles'
     al.plot()
-    return al.result, al.plot(show=False)
+    return al.result
 
 def compare_profiles(exp, variables = None, var_type = 'numerical', groups = None, random_state = 42, N = 300):
     '''
@@ -148,13 +178,18 @@ def compare_profiles(exp, variables = None, var_type = 'numerical', groups = Non
     Note that this can only help explain variables that are of the same data type at the same time
     i.e. you may not analyze a numerical and categorical variable in the same run.
     
+    Parameters
+    ------------
     exp: explanation object
-    variables: list, list of variables to be explained utilizing the methods. The default is 'None', which will make it run through all variables
-    var_type: can either be 'numerical' or 'categorical'
-    groups: specify a single categorical variable not in the 'variables' list that will be used as a group. Defaults to 'None'
+    variables: list, list of variables to be explained utilizing the methods. The default is 'None', which will make it run through all variables.
+    var_type: can either be 'numerical' or 'categorical'.
+    groups: specify a single categorical variable not in the 'variables' list that will be used as a group. Defaults to 'None'.
     random_state: defines the random state in which the number of observations to be sampled. Defaults to 42 for reproducibility.
     N: Number of observations to be sampled with. Defaults to 300. Writing 'None' will have the function use all data, which may be computationally expensive.
-    labels: boolean. If True, will change label to 'LD profiles'
+    
+    Returns
+    ------------
+    plot: Plot(s) of comparisons between the partial-dependence, local-dependence, and accumulated-local profiles.
     '''
     
     if groups:
@@ -174,8 +209,7 @@ def compare_profiles(exp, variables = None, var_type = 'numerical', groups = Non
                               N = N)
     al.result['_label_'] = al.result['_label_'] + '_AL profiles'
     
-    pd.plot([ld, al])
-    return pd.plot([ld, al], show=False)
+    return pd.plot([ld, al])
 
 def get_feature_names(column_transformer, cat_cols):
     """Get feature names from all transformers.
@@ -287,48 +321,84 @@ def initiate_shap_glob(X, model_global, preprocessor = None, samples = 100):
         
     return explainer, shap_values, feature_names
 
-def shap_bar_glob(shap_values, class_ind, X_proc, feature_names = None, class_names = None, reg = False):
+def shap_bar_glob(shap_values, X_proc, feature_names = None, class_ind = None, class_names = None, reg = False):
     '''
-    Returns a bar plot of a shap value.
+    Returns a bar plot of the average shap values for the model object.
+    
+    Parameters
+    ------------
+    shap_values: Array of shap values used for the bar graph. Generated from the initial global shap instance.
+    X_proc: Processed X DataFrame used in line with the shap values.
+    feature_names: List of features that correspond to the column indices in X_proc. Defaults to None, but is highly recommended for explainability purposes.
+    class_ind: int, represents index used for classification objects in determining which shap values to show. Regression models do not need this variable. Defaults to None.
+    class_names: List of all class names of target feature under a classification model. This will be used with the `class_ind` to indicate what class is being shown. Defaults to None.
+    reg: Indicates whether model with which `shap_values` and `X_proc` was trained on is a regression or classification model. Defaults to False.
+    
+    Returns
+    ------------
+    s: Shap bar plot figure.
     '''
     if reg == False:
         if not class_names:
             return print('Please specify class names in a list.')
-        s = plt.figure()
-        shap.summary_plot(shap_values[class_ind], X_proc, feature_names = feature_names,
-                    class_names = class_names, show = False, plot_type = 'bar')
+        s = shap.summary_plot(shap_values[class_ind], X_proc, feature_names = feature_names,
+                      class_names = class_names, show = False, plot_type = 'bar')
         plt.title(f'Global SHAP Values for {class_names[class_ind]} class', fontsize = 18)
     else:
-        s = plt.figure()
-        shap.summary_plot(shap_values, X_proc, feature_names = feature_names,
-                    show = False, plot_type = 'bar')
+        s = shap.summary_plot(shap_values, X_proc, feature_names = feature_names,
+                      show = False, plot_type = 'bar')
         plt.title('Global SHAP Values', fontsize = 18)
-    #plt.show()
+    plt.show()
     return s
 
-def shap_summary(shap_values, class_ind, X_proc, class_names, feature_names = None, reg = False):
+def shap_summary(shap_values, X_proc, feature_names = None, class_ind = None, class_names = None, reg = False):
     '''
-    Returns a summary plot.
+    Returns a Shap density summary plot.
+    
+    Parameters
+    ------------
+    shap_values: Array of shap values used for the summary plot graph. Generated from the initial global shap instance.
+    X_proc: Processed X DataFrame used in line with the shap values.
+    feature_names: List of features that correspond to the column indices in X_proc. Defaults to None, but is highly recommended for explainability purposes.
+    class_ind: int, represents index used for classification objects in determining which shap values to show. Regression models do not need this variable. Defaults to None.
+    class_names: List of all class names of target feature under a classification model. This will be used with the `class_ind` to indicate what class is being shown. Defaults to None.
+    reg: Indicates whether model with which `shap_values` and `X_proc` was trained on is a regression or classification model. Defaults to False.
+    
+    Returns
+    ------------
+    s: Shap density summary plot figure.
     '''
     
     if reg == False:
-        s = plt.figure()
-        shap.summary_plot(shap_values[class_ind], X_proc, feature_names = feature_names,
-                    class_names = class_names, show = False)
+        s = shap.summary_plot(shap_values[class_ind], X_proc, feature_names = feature_names,
+                      class_names = class_names, show = False)
         plt.title(f'Global SHAP Values for {class_names[class_ind]} class', fontsize = 18)
     else:
-        s = plt.figure()
-        shap.summary_plot(shap_values, X_proc, feature_names = feature_names,
-                    show = False)
+        s = shap.summary_plot(shap_values, X_proc, feature_names = feature_names,
+                      show = False)
         plt.title('Global SHAP Values', fontsize = 18)
-    #plt.show()
+    plt.show()
     return s
 
-def shap_dependence(shap_values, class_ind, X_proc, feature_names, class_names,
-                   shap_ind, int_ind = None, reg = False):
+def shap_dependence(shap_values, X_proc, shap_ind, feature_names = None, class_ind = None, class_names = None, int_ind = None, reg = False):
     '''
     Returns a dependence plot comparing a value and its equivalent shap values.
     The user may also compare these with another variable as an interaction index.
+    
+    Parameters
+    ------------
+    shap_values: Array of shap values used for the dependence plot graph. Generated from the initial global shap instance.
+    X_proc: Processed X DataFrame used in line with the shap values.
+    shap_ind: Feature to compare with. Ideally should be a column name from the `feature_names` list, but can also just be an integer corresponding to said index.
+    feature_names: List of features that correspond to the column indices in X_proc. Defaults to None, but is highly recommended for explainability purposes.
+    class_ind: int, represents index used for classification objects in determining which shap values to show. Regression models do not need this variable. Defaults to None.
+    class_names: List of all class names of target feature under a classification model. This will be used with the `class_ind` to indicate what class is being shown. Defaults to None.
+    int_ind: The index of the feature used to color the plot. The name of a feature can also be passed as a string. If "auto" then shap.common.approximate_interactions is used to pick what seems to be the strongest interaction. Defaults to None.
+    reg: Indicates whether model with which `shap_values` and `X_proc` was trained on is a regression or classification model. Defaults to False.
+    
+    Returns
+    ------------
+    s: Shap dependence plot figure.
     '''
     
     for col in [shap_ind, int_ind]:
@@ -338,36 +408,41 @@ def shap_dependence(shap_values, class_ind, X_proc, feature_names, class_names,
             return print(f'{col} is not in the feature names list. Please specify accordingly.')
         
     if reg == False:
-        s, ax = plt.subplots()
         s = shap.dependence_plot(shap_ind, shap_values[class_ind], X_proc,
-                            interaction_index = int_ind, feature_names = feature_names, show = False, ax=ax)
+                                interaction_index = int_ind, feature_names = feature_names, show = False)
         plt.title(f'Global SHAP dependence plot for {class_names[class_ind]} class', fontsize = 16)
-        return s
     else:
-        s, ax = plt.subplots()
-        shap.dependence_plot(shap_ind, shap_values, X_proc,
-                            interaction_index = int_ind, feature_names = feature_names, show = False, ax=ax)
+        s = shap.dependence_plot(shap_ind, shap_values, X_proc,
+                                interaction_index = int_ind, feature_names = feature_names, show = False)
         plt.title(f'Global SHAP dependence plot', fontsize = 16)
-    #plt.show()
+    plt.show()
     return s
 
-def shap_force_glob(explainer, shap_values, X_proc, class_ind, class_names,
-                    feature_names = None, reg = False, samples = 100):
+def shap_force_glob(explainer, shap_values, X_proc, feature_names = None, class_ind = None, class_names = None, samples = 100, reg = False):
     '''
+    Returns an interactive global force plot.
     
+    Parameters
+    ------------
+    explainer: Shap explainer object generated in the initial instance.
+    shap_values: Array of shap values used for the force plot graph. Generated from the initial global shap instance.
+    X_proc: Processed X DataFrame used in line with the shap values.
+    feature_names: List of features that correspond to the column indices in X_proc. Defaults to None, but is highly recommended for explainability purposes.
+    class_ind: int, represents index used for classification objects in determining which shap values to show. Regression models do not need this variable. Defaults to None.
+    class_names: List of all class names of target feature under a classification model. This will be used with the `class_ind` to indicate what class is being shown. Defaults to None.
+    samples: int, number of samples to be included in the global force plot explanation. Defaults to 100.
+    reg: Indicates whether model with which `shap_values` and `X_proc` was trained on is a regression or classification model. Defaults to False.
+    
+    Returns
+    ------------
+    s: Shap density summary plot figure.
     '''
     if reg == False:
         idx = np.random.randint(shap_values[class_ind].shape[0], size = samples)
         s = shap.force_plot(explainer.expected_value[class_ind], shap_values[class_ind][idx, :],
-                        X_proc[idx, :], feature_names = feature_names, show=False)
-        shap_html = f"<head>{shap.getjs()}</head><body>{s.html()}</body>"
-        shap.force_plot(explainer.expected_value[class_ind], shap_values[class_ind][idx, :],
-                        X_proc[idx, :], feature_names = feature_names, show=True)
-    else:
+                            X_proc[idx, :], feature_names = feature_names)
+    elif reg == True:
         idx = np.random.randint(shap_values.shape[0], size = samples)
         s = shap.force_plot(explainer.expected_value, shap_values[idx, :],
-                        X_proc[idx, :], feature_names = feature_names, show=False)
-        shap_html = f"<head>{shap.getjs()}</head><body>{s.html()}</body>"
-        shap.force_plot(explainer.expected_value, shap_values[idx, :],
-                        X_proc[idx, :], feature_names = feature_names, show=True)
-    return shap_html
+                            X_proc[idx, :], feature_names = feature_names, show = False)
+    return s

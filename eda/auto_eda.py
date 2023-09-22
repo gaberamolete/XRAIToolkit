@@ -2,7 +2,7 @@ import pandas as pd
 import seaborn as sns
 import dtale
 import autoviz
-# from ydata_profiling import ProfileReport ## COMMENTED OUT
+from ydata_profiling import ProfileReport ## COMMENTED OUT
 from autoviz.AutoViz_Class import AutoViz_Class
 
 #output in notebook
@@ -20,10 +20,10 @@ def dtale_eda(dataframe):
 #     profile = ProfileReport(dataframe, title='Pandas Profiling Report')
 #     return profile.to_widgets()
 
-#output as html
-# def ydata_profiling_eda2(dataframe): ## COMMENTED OUT
-#     profile = ProfileReport(dataframe, title='Pandas Profiling Report')
-#     return profile.to_file("assets/your_report.html")
+# output as html
+def ydata_profiling_eda2(dataframe): ## COMMENTED OUT
+    profile = ProfileReport(dataframe, title='Pandas Profiling Report')
+    return profile.to_file("assets/your_report.html")
 
 # #output in notebook
 # def autoviz_eda(dataframe):

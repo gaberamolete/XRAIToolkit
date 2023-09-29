@@ -341,14 +341,16 @@ def shap_bar_glob(shap_values, X_proc, feature_names = None, class_ind = None, c
     if reg == False:
         if not class_names:
             return print('Please specify class names in a list.')
-        s = shap.summary_plot(shap_values[class_ind], X_proc, feature_names = feature_names,
-                      class_names = class_names, show = False, plot_type = 'bar')
+        s = plt.figure()
+        shap.summary_plot(shap_values[class_ind], X_proc, feature_names = feature_names,
+                    class_names = class_names, show = False, plot_type = 'bar')
         plt.title(f'Global SHAP Values for {class_names[class_ind]} class', fontsize = 18)
     else:
-        s = shap.summary_plot(shap_values, X_proc, feature_names = feature_names,
-                      show = False, plot_type = 'bar')
+        s = plt.figure()
+        shap.summary_plot(shap_values, X_proc, feature_names = feature_names,
+                    show = False, plot_type = 'bar')
         plt.title('Global SHAP Values', fontsize = 18)
-    plt.show()
+    #plt.show()
     return s
 
 def shap_summary(shap_values, X_proc, feature_names = None, class_ind = None, class_names = None, reg = False):
@@ -370,14 +372,16 @@ def shap_summary(shap_values, X_proc, feature_names = None, class_ind = None, cl
     '''
     
     if reg == False:
-        s = shap.summary_plot(shap_values[class_ind], X_proc, feature_names = feature_names,
-                      class_names = class_names, show = False)
+        s = plt.figure()
+        shap.summary_plot(shap_values[class_ind], X_proc, feature_names = feature_names,
+                    class_names = class_names, show = False)
         plt.title(f'Global SHAP Values for {class_names[class_ind]} class', fontsize = 18)
     else:
-        s = shap.summary_plot(shap_values, X_proc, feature_names = feature_names,
-                      show = False)
+        s = plt.figure()
+        shap.summary_plot(shap_values, X_proc, feature_names = feature_names,
+                    show = False)
         plt.title('Global SHAP Values', fontsize = 18)
-    plt.show()
+    #plt.show()
     return s
 
 def shap_dependence(shap_values, X_proc, shap_ind, feature_names = None, class_ind = None, class_names = None, int_ind = None, reg = False):
@@ -408,14 +412,17 @@ def shap_dependence(shap_values, X_proc, shap_ind, feature_names = None, class_i
             return print(f'{col} is not in the feature names list. Please specify accordingly.')
         
     if reg == False:
-        s = shap.dependence_plot(shap_ind, shap_values[class_ind], X_proc,
-                                interaction_index = int_ind, feature_names = feature_names, show = False)
+        s, ax = plt.subplots()
+        shap.dependence_plot(shap_ind, shap_values[class_ind], X_proc,
+                            interaction_index = int_ind, feature_names = feature_names, show = False, ax=ax)
         plt.title(f'Global SHAP dependence plot for {class_names[class_ind]} class', fontsize = 16)
+        return s
     else:
-        s = shap.dependence_plot(shap_ind, shap_values, X_proc,
-                                interaction_index = int_ind, feature_names = feature_names, show = False)
+        s, ax = plt.subplots()
+        shap.dependence_plot(shap_ind, shap_values, X_proc,
+                            interaction_index = int_ind, feature_names = feature_names, show = False, ax=ax)
         plt.title(f'Global SHAP dependence plot', fontsize = 16)
-    plt.show()
+    #plt.show()
     return s
 
 def shap_force_glob(explainer, shap_values, X_proc, feature_names = None, class_ind = None, class_names = None, samples = 100, reg = False):
@@ -440,9 +447,15 @@ def shap_force_glob(explainer, shap_values, X_proc, feature_names = None, class_
     if reg == False:
         idx = np.random.randint(shap_values[class_ind].shape[0], size = samples)
         s = shap.force_plot(explainer.expected_value[class_ind], shap_values[class_ind][idx, :],
-                            X_proc[idx, :], feature_names = feature_names)
-    elif reg == True:
+                        X_proc[idx, :], feature_names = feature_names, show=False)
+        shap_html = f"<head>{shap.getjs()}</head><body>{s.html()}</body>"
+        shap.force_plot(explainer.expected_value[class_ind], shap_values[class_ind][idx, :],
+                        X_proc[idx, :], feature_names = feature_names, show=True)
+    else:
         idx = np.random.randint(shap_values.shape[0], size = samples)
         s = shap.force_plot(explainer.expected_value, shap_values[idx, :],
-                            X_proc[idx, :], feature_names = feature_names, show = False)
-    return s
+                        X_proc[idx, :], feature_names = feature_names, show=False)
+        shap_html = f"<head>{shap.getjs()}</head><body>{s.html()}</body>"
+        shap.force_plot(explainer.expected_value, shap_values[idx, :],
+                        X_proc[idx, :], feature_names = feature_names, show=True)
+    return shap_html

@@ -424,7 +424,7 @@ def shap_waterfall(shap_value_loc, idx, feature_names = None, class_ind = None, 
                                     data = shap_value_loc.data,
                                    feature_names = feature_names)
         s = shap.plots.waterfall(exp_shap[idx],
-                                 show = show
+                                 show = True
                                 )
         plt.title(f'SHAP Local Waterfall plot on Index {idx}\nfor {class_names[class_ind]} class', fontsize = 16)
     else:
@@ -433,7 +433,7 @@ def shap_waterfall(shap_value_loc, idx, feature_names = None, class_ind = None, 
                                     data = shap_value_loc.data,
                                    feature_names = feature_names)
         s = shap.plots.waterfall(exp_shap[idx]
-                                 , show = show
+                                 , show = True
                                 )
         plt.title(f'SHAP Local Waterfall plot on Index {idx}', fontsize = 16)
     
@@ -462,14 +462,14 @@ def shap_force_loc(shap_value_loc, idx, feature_names = None, class_ind = None, 
                                     base_values = shap_value_loc.base_values[:, class_ind],
                                     data = shap_value_loc.data,
                                    feature_names = feature_names)
-        s = shap.plots.force(exp_shap[idx], show = show, matplotlib = True)
+        s = shap.plots.force(exp_shap[idx], show = True, matplotlib = True)
         plt.title(f'SHAP Local Waterfall plot on Index {idx}\nfor {class_names[class_ind]} class', fontsize = 16)
     else:
         exp_shap = shap.Explanation(values = shap_value_loc.values,
                                     base_values = shap_value_loc.base_values,
                                     data = shap_value_loc.data,
                                    feature_names = feature_names)
-        s = shap.plots.force(exp_shap[idx], show = show, matplotlib = True)
+        s = shap.plots.force(exp_shap[idx], show = True, matplotlib = True)
         plt.title(f'SHAP Local Waterfall plot on Index {idx}', fontsize = 16)    
     return s
 
@@ -497,7 +497,7 @@ def shap_bar_loc(shap_value_loc, idx, feature_names = None, class_ind = None, cl
                                     data = shap_value_loc.data,
                                    feature_names = feature_names)
         s = plt.figure()
-        shap.plots.bar(exp_shap[idx], show = show)
+        shap.plots.bar(exp_shap[idx], show = True)
         plt.title(f'SHAP Local Bar plot on Index {idx}\nfor {class_names[class_ind]} class', fontsize = 16)
     else:
         exp_shap = shap.Explanation(values = shap_value_loc.values,
@@ -505,6 +505,6 @@ def shap_bar_loc(shap_value_loc, idx, feature_names = None, class_ind = None, cl
                                     data = shap_value_loc.data,
                                    feature_names = feature_names)
         s = plt.figure()
-        shap.plots.bar(exp_shap[idx], show = show)
+        shap.plots.bar(exp_shap[idx], show = True)
         plt.title(f'SHAP Local Bar plot on Index {idx}', fontsize = 16)    
     return s

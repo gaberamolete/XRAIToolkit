@@ -1,7 +1,7 @@
 # Explainable and Responsible AI Toolkit (v3.0 - 2023-09)
 ***Developed by AI&I COE***
 
-The **DSAI Explainable and Responsible AI (XRAI) Toolkit** is a complementary tool to the [XRAI Guidelines document](https://unionbankphilippines.sharepoint.com/:b:/s/DataScienceInsightsTeam/EbGWZEJkn7REt1zzHspu-xABsLDpD1eD6mgHMjPJypnzdA?e=wm55U7) <change this link to the GitHub link. The Toolkit provides a one-stop tool for technical tests were identified by packaging widely used open-source libraries into a single platform, according to ADI/DSAI user needs. These tools include Python libraries such as `shap`, `dalex`, `dice-ml`, `alibi`, `netcal`, `aif360`, `scikit-learn`, and UI visualization libraries such as `raiwidgets` and `plotly`. This toolkit aims to: 
+The **DSAI Explainable and Responsible AI (XRAI) Toolkit** is a complementary tool to the [XRAI Guidelines document](https://unionbankphilippines.sharepoint.com/:b:/s/DataScienceInsightsTeam/EbGWZEJkn7REt1zzHspu-xABsLDpD1eD6mgHMjPJypnzdA?e=wm55U7). The Toolkit provides a one-stop tool for technical tests were identified by packaging widely used open-source libraries into a single platform, according to ADI/DSAI user needs. These tools include Python libraries such as `shap`, `dalex`, `dice-ml`, `alibi`, `netcal`, `aif360`, `scikit-learn`, and UI visualization libraries such as `raiwidgets` and `plotly`. This toolkit aims to: 
 - Provide a user interface to guide users step-by-step in the testing process; 
 - Support certain binary classification and regression models that use tabular data 
 - Produce a basic summary report to help DSAI System Developers and Owners interpret test results 
@@ -79,3 +79,10 @@ python = 3.9.0
 ```
 Ensure that you have the correct libraries and dependencies installed by checking `requirements.txt`.
 
+Due to some file dependencies, you will need to download these packages separately after installing those in `requirements.txt`:
+- Missing `suod` (`PyOD`) - `pip install suod`
+- Missing `dtreeviz` - `pip install dtreeviz`
+- Missing dependencies of `explainerdashboard` - `pip install explainerdashboard>=0.4.3`
+- Missing dash mantine components - `pip install dash_mantine_components`
+- Missing Adversarial Robustness Toolbox - `pip install adversarial-robustness-toolbox`
+- Missing `raiwidgets` - `pip install raiwidgets>=0.30.0` -- also installs `interpret-community`

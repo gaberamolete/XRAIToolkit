@@ -62,7 +62,7 @@ def pd_profile(exp, variables = None, var_type = 'numerical', groups = None, ran
     if labels:
         pd.result['_label_'] = 'PD profiles'
     pd.plot()
-    return pd.result
+    return pd.result, pd.plot(show=False)
 
 def var_imp(exp, loss_function = 'rmse', groups = None, N = 1000, B = 10, random_state = 42):
     '''
@@ -104,7 +104,7 @@ def var_imp(exp, loss_function = 'rmse', groups = None, N = 1000, B = 10, random
     vi = exp.model_parts(variable_groups = groups, loss_function = loss_function,
                          N = N, B = B, random_state = random_state)
     vi.plot()
-    return vi.result.sort_values(by = 'dropout_loss', ascending = False)
+    return vi.result.sort_values(by = 'dropout_loss', ascending = False), vi.plot(show=False)
 
 def ld_profile(exp, variables = None, var_type = 'numerical', groups = None, random_state = 42, N = 300, labels = False):
     '''
@@ -137,7 +137,7 @@ def ld_profile(exp, variables = None, var_type = 'numerical', groups = None, ran
     if labels:
         ld.result['_label_'] = 'LD profiles'
     ld.plot()
-    return ld.result
+    return ld.result, ld.plot(show=False)
 
 def al_profile(exp, variables = None, var_type = 'numerical', groups = None, random_state = 42, N = 300, labels = False):
     '''
@@ -170,7 +170,7 @@ def al_profile(exp, variables = None, var_type = 'numerical', groups = None, ran
     if labels:
         al.result['_label_'] = 'AL profiles'
     al.plot()
-    return al.result
+    return al.result, al.plot(show=False)
 
 def compare_profiles(exp, variables = None, var_type = 'numerical', groups = None, random_state = 42, N = 300):
     '''
@@ -209,7 +209,7 @@ def compare_profiles(exp, variables = None, var_type = 'numerical', groups = Non
                               N = N)
     al.result['_label_'] = al.result['_label_'] + '_AL profiles'
     
-    return pd.plot([ld, al])
+    return pd.plot([ld, al], show=False)
 
 def get_feature_names(column_transformer, cat_cols):
     """Get feature names from all transformers.

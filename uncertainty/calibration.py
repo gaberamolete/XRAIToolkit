@@ -567,34 +567,34 @@ def calib_metrics(y_true, calibs: Dict, n_bins = 100, reg = False):
     uces = []
 
     for calib in calibs.values():
-        if isinstance(calib, pd.Series):
-            calib = calib.to_numpy()
+        if isinstance(calib[0], pd.Series):
+            calib[0] = calib[0].to_numpy()
         
-        calib_mean = calib.mean()
-        calib_std = calib.std()
-        calib_means = calib - calib_mean
-        calib_stds = abs(calib - calib_std)
+        calib_mean = calib[0].mean()
+        calib_std = calib[0].std()
+        calib_means = calib[0] - calib_mean
+        calib_stds = abs(calib[0] - calib_std)
         
         # ECE
         if reg:
-            ece = calib_ece(calib, y_true, n_bins, reg = True)
+            ece = calib_ece(calib[0], y_true, n_bins, reg = True)
         if not reg:
-            ece = calib_ece(calib, y_true, n_bins)
+            ece = calib_ece(calib[0], y_true, n_bins)
         eces.append(ece)
         
         # MCE
         if reg:
-            cmce = calib_mce(calib, y_true, n_bins, reg = True)
+            cmce = calib_mce(calib[0], y_true, n_bins, reg = True)
         if not reg:
-            cmce = calib_mce(calib, y_true, n_bins)
+            cmce = calib_mce(calib[0], y_true, n_bins)
         mce = MCE(n_bins)
         mces.append(cmce)
 
         # ACE
         if reg:
-            cace = calib_ace(calib, y_true, n_bins, reg = True)
+            cace = calib_ace(calib[0], y_true, n_bins, reg = True)
         if not reg:
-            cace = calib_ace(calib, y_true, n_bins)
+            cace = calib_ace(calib[0], y_true, n_bins)
         aces.append(cace)
         
         # NLL

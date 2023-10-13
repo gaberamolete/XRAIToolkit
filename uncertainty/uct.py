@@ -16,7 +16,7 @@ from sklearn.metrics import accuracy_score
 from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_error, median_absolute_error, mean_absolute_percentage_error
 import uncertainty_toolbox as uct
 
-def uct_manipulate_data(X_train, X_test, Y_train, Y_test, model):
+def uct_manipulate_data(X_train, X_test, Y_train, Y_test, model, reg):
     """
     Generates the appropriate arrays for the Uncertainty Toolbox
 
@@ -27,6 +27,7 @@ def uct_manipulate_data(X_train, X_test, Y_train, Y_test, model):
     Y_train: training dataset for Y values
     Y_test: test dataset for Y values
     model: model that was trained
+    reg: if model is a regression omodel
     
     Returns
     --------
@@ -39,17 +40,31 @@ def uct_manipulate_data(X_train, X_test, Y_train, Y_test, model):
     y2_std: 1D array of the predicted standard deviations for the held out dataset.
 
     """
-    uct_data_dict = {}
-    uct_data_dict['y_pred'] = model.predict(X_train)
-    uct_data_dict['y_std'] = model.predict(X_train).std()
-    uct_data_dict['y_mean'] = model.predict(X_train).mean()
-    uct_data_dict['y_true'] = Y_train.to_numpy()
-    uct_data_dict['y2_mean'] = np.subtract(uct_data_dict['y_pred'], uct_data_dict['y_mean'])
+    if reg:
+        uct_data_dict = {}
+        uct_data_dict['y_pred'] = model.predict(X_train)
+        uct_data_dict['y_std'] = model.predict(X_train).std()
+        uct_data_dict['y_mean'] = model.predict(X_train).mean()
+        uct_data_dict['y_true'] = Y_train.to_numpy()
+        uct_data_dict['y2_mean'] = np.subtract(uct_data_dict['y_pred'], uct_data_dict['y_mean'])
+        
+        y2_std = np.subtract(uct_data_dict['y_pred'], uct_data_dict['y_std'])
+        uct_data_dict['y2_std'] = np.abs(y2_std)
+        uct_data_dict['X_train'] = X_train
+        uct_data_dict['X_test'] = X_test
     
-    y2_std = np.subtract(uct_data_dict['y_pred'], uct_data_dict['y_std'])
-    uct_data_dict['y2_std'] = np.abs(y2_std)
-    uct_data_dict['X_train'] = X_train
-    uct_data_dict['X_test'] = X_test
+    else:
+        uct_data_dict = {}
+        uct_data_dict['y_pred'] = model.predict_proba(X_train)
+        uct_data_dict['y_std'] = model.predict_proba(X_train).std()
+        uct_data_dict['y_mean'] = model.predict_proba(X_train).mean()
+        uct_data_dict['y_true'] = Y_train.to_numpy()
+        uct_data_dict['y2_mean'] = np.subtract(uct_data_dict['y_pred'], uct_data_dict['y_mean'])
+        
+        y2_std = np.subtract(uct_data_dict['y_pred'], uct_data_dict['y_std'])
+        uct_data_dict['y2_std'] = np.abs(y2_std)
+        uct_data_dict['X_train'] = X_train
+        uct_data_dict['X_test'] = X_test
     
     return uct_data_dict
 
@@ -292,6 +307,6 @@ def uct_plot_XY(X_train, X_test, Y_train, Y_test, uct_data_dict, uct_metrics, co
 
     if show:
         fig.show()
-    
+        
     else:
         return fig

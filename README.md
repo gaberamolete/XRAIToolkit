@@ -1,4 +1,67 @@
-# Running in Local Machine using Conda Environment
+# Explainable and Responsible AI Toolkit (v3.0 - 2023-09)
+***Developed by AI&I COE***
+
+The **DSAI Explainable and Responsible AI (XRAI) Toolkit** is a complementary tool to the [XRAI Guidelines document](https://unionbankphilippines.sharepoint.com/:b:/s/DataScienceInsightsTeam/EbGWZEJkn7REt1zzHspu-xABsLDpD1eD6mgHMjPJypnzdA?e=wm55U7). The Toolkit provides a one-stop tool for technical tests were identified by packaging widely used open-source libraries into a single platform, according to ADI/DSAI user needs. These tools include Python libraries such as `shap`, `dalex`, `dice-ml`, `alibi`, `netcal`, `aif360`, `scikit-learn`, and UI visualization libraries such as `raiwidgets` and `plotly`. This toolkit aims to: 
+- Provide a user interface to guide users step-by-step in the testing process; 
+- Support certain binary classification and regression models that use tabular data 
+- Produce a basic summary report to help DSAI System Developers and Owners interpret test results 
+- Intended to be deployable in the user’s environment
+
+Subsequent versions and updates will be found in the XRAI [GitHub repo](https://github.com/aboitiz-data-innovation/XRAI), accompanied by XRAI Brownbag sessions.
+
+# Introduction
+## Assumptions / Limitations
+The toolkit is in its second iterations of development. As such, there are limitations which hinders the Toolkit from being able to handle certain models and display other XRAI-related features. These include:
+- Only Python users for V3. An R-based Toolkit may be released according to demand and necessity for later versions 
+- This is mostly intended for classification and regression models; unsupervised models may run on some functions but are not guaranteed to work or provided correct insight.
+- Certain features may be discussed in Guidelines V3 but are not yet in Toolkit V3
+- This toolkit does not define ethical standards. It provides a way for DSAI System Developers and Owners to demonstrate their claims about the performance of their DSAI systems according to the XRAI principles
+
+## Inputs
+Our interactive toolkit only needs two main inputs before any major analysis:
+- Model (.pkl or .sav)
+- Data (train, test) (.csv) 
+
+We intend for the user to have inputs mostly on the XRAI-related functions. However, we need the user to manually input **the names of train and test file**, in addition to target variable name. Prompts will be shown later in the notebook where you will need to load. In the shared folder we have provided sample model and data (test_data.csv, train_data.csv, finalized_model.pkl). For testing for different models and data you may just replace files.
+
+## Features found in the Toolkit
+- EDA – User-friendly, no-code custom visualizations to help you analyze your data's quality and distribution
+- Fairness Preprocessing – Ready-made functions to clean and catch potential bias in data prior to model development
+- Fairness Metrics – Find out which factors are disadvantaged by the model, and receive recommendations on how to mitigate unfairness
+- Model Performance – Statistics of predicted outcome, dataset features, and error groups
+- Local Explanations – Understand how a model affects individual explanations with a variety of techniques
+- Global Explanations – Understand how a model is shaped
+- Stability Analysis – OOT validation, data and model quality, how data and concepts decays over time
+- Outlier Analysis – resampling, pre-model and post-model views
+- What-if Analysis – counterfactual measures; showing how result for individual data point may change if one of its feature values was changed
+- Robustness – Check if system can function despite unexpected inputs 
+- Uncertainty – Models may not always make perfect predictions, and there can be some level of doubt or variability associated with their result
+
+# Explainer Dashboard
+A custom dashboard was developed to showcase the capabilities of the functions of the XRAI toolkit in an interactive and easy to understand environment, even for non-DS people. In order to run the dashboard, there are necessary steps to accomplish:
+1. Dataset and Model Ingestion: Ensure that the model (.sav or .pkl) and dataset (.csv) is properly loaded. The `load_data_model` function from the `data_model` module provides a convenient way to do this.
+2. Create an `explainerdashboard` explainer instance using the loaded model and test data. If this shows an error, this means that the model or data was not compatible with the `explainerdashboard` library. However, as the explainer instance won't really be used to extract data from, a dummy explainer can be built using sklearn's `LinearRegression` and an empty pandas' dataframes.
+3. Extract the preprocessing pipeline in your model. Improper extraction of the preprocessing pipeline may lead to QII and SHAP components not working properly. Set to `None` if no preprocessing steps was present in the model pipeline.
+4. Configure the groupings for the Grouped Variable Importance, if you want to analyze the variable importances on your dataset divided in a specific groupings.
+5. Separate the continuous and categorical variables.
+6. The model should be in a dictionary form, so set a name for the model as key, and the model itself as the value.
+7. Select the `model_type` properly, either regression or classification. Incorrect assignment of this variable may lead to wrong components being displayed, which will not work since the `model_type` is not consitent with the model.
+8. If the pipeline used was made thru sklearn, set `is_sklearn_pipe` to True, otherwise False.
+9. Create a Dalex explainer object, which will be used by the Dalex-related components. This may take a while for larger datasets, so running this once in the notebook will save time, instead of running it every time in the dashboard for each Dalex-related components.
+10. After the assignments of the necessary inputs, the dashboard can now be run by feeding the necessay inputs per tab. Click the `http://192.168.100.24:8050` to view the custom dashboard in another tab.
+
+# Installation
+## Cloning the Project 
+Using Git Bash, type the following in your preferred location of the cloned directory:
+```
+git clone https://github.com/gaberamolete/XRAIDashboard.git
+```
+You can also download the zip file of this repository, and extract it in your preferred location.
+
+## Big Files
+Sample regression and classification models used in the notebooks are available in this [link](https://drive.google.com/drive/u/0/folders/1cdxJ5sLbLrwayxVe914w9uWR_lF2bBzy). Follow the instructions in the `README.txt`.
+
+## Setting up the Environment 
 To easily create the environment for XRAI in your local machine, you can run the following in a command prompt or terminal.
 ```
 conda env create -f environment.yml
@@ -10,58 +73,16 @@ After creating an environment, you can create a kernel to enable the notebooks t
 python -m ipykernel install --user --name=XRAI
 ```
 
-# Requirements
+## Requirements
 ```
 python = 3.9.0
 ```
 Ensure that you have the correct libraries and dependencies installed by checking `requirements.txt`.
 
-
-# Play with XRAI tool using Given Data
-Assuming the base directories are set correctly, run this in your terminal.
-
-`python download_pima_data_model.py`
-
-Once downloaded, you may run this code block in your Jupyter Notebook.
-
-```py
-import build_data_model from download_pima_data_model
-build_data_model()
-```
-
-
-# Play with XRAI tool using Custom Data
-Run this code block in your Jupyter Notebook. `load_data_model` allows you to load data and models so that our other XRAI functions can intake these files properly.
-
-```py
-from data_model import load_data_model
-
-# provide train_data, test_data, model_path and target_feature
-train_data = 'train_data.csv'
-test_data = 'test_data.csv'
-model_path = 'finalized_model.pkl'
-target_feature = 'class'
-
-X_train, Y_train, X_test, Y_test, train_data, test_data , model = load_data_model(train_data, test_data, model_path, target_feature)
-```
-Consider the following points:
-- In this version; we require `train_data` and `test_data` in csv format. 
-- `train_data` and `test_data` should be in same format. For example, if you have applied label encoding on your categorical variable you should have done the same processing on your same variable in test data.
-- The current version works for both categorical and numerical variables, although in future versions we are planning to add more existing features for categorical variables.
-
-# XRAI Tool Features
-For Version 1 of the XRAI Toolkit, we have following features incorporated in XRAI Dashboard and Jupyter Notebook:
-1. Error Analysis: Identify model errors and discover cohorts of data for which the model underperforms.
-2. Model overview: Understands model predictions using various matrices such as accuracy, recall etc. 
-3. Data exploration: Find out error segments where model underperforms and then see data exploration/statistics for these segments and many more
-4. Feature importance: We have capability to understand global feature importance, individual variable feature importance(group wise for ex. age more than 40 contributes more towards model predictions) or can visualize row wise (customer wise) importance.
-5. Fairness analysis.
-
-All the above features can be analyze on entire train or test data. Similarly, you may also define custom segments/groups/cohorts to undergo the same analysis. This may be helpful for analyzing underrepresented or protected groups. 
-
-
-# Future releases
-This is an initial release intended to collect feedback from DSAI/ADI users. We plan to release a 2nd version of the Toolkit (and Guidelines) on March 2023. Stay tuned for the following features and capabilties:
-- We aim to give functions that enable better understanding of categorical features, such as __. 
-- Regression analysis and Multi-label classification will be compatible for Version 2.
-- Additional exciting features like data drift, segment analytics, outlier analysis, stability analysis, and many more! 
+Due to some file dependencies, you will need to download these packages separately after installing those in `requirements.txt`:
+- Missing `suod` (`PyOD`) - `pip install suod`
+- Missing `dtreeviz` - `pip install dtreeviz`
+- Missing dependencies of `explainerdashboard` - `pip install explainerdashboard>=0.4.3`
+- Missing dash mantine components - `pip install dash_mantine_components`
+- Missing Adversarial Robustness Toolbox - `pip install adversarial-robustness-toolbox`
+- Missing `raiwidgets` - `pip install raiwidgets>=0.30.0` -- also installs `interpret-community`

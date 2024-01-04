@@ -20,7 +20,7 @@ def outlier(train,test,methods=[KNN,IForest],contamination=0.05):
     
     '''
     Detects outliers and remove them if user wants.
-    
+    !!We recomend first to do missing value treatment then feed your datasets into this model
     Parameters
     ----------
     train: dataframe, the data set that outlier analysis is going to be done on it. we train detectors on this data set,
@@ -49,14 +49,18 @@ def outlier(train,test,methods=[KNN,IForest],contamination=0.05):
     
     # Clean train for the outlier detector model
     X=train.copy()
-    X.dropna(axis='columns',inplace=True)
+    X=X.fillna(X.mean())
+    X=X.fillna(X.mode())
     X=X._get_numeric_data()
+    X.dropna(inplace=True)
     
     
     # Clean test for the outlier detector model
     XX=test.copy()
-    XX.dropna(axis='columns',inplace=True)
+    XX=XX.fillna(XX.mean())
+    XX=XX.fillna(XX.mode())
     XX=XX._get_numeric_data()
+    XX.dropna(inplace=True)
     
     
     #Placeholder for lables

@@ -222,17 +222,357 @@ def model_performance(model,test_x,test_y,train_x,train_y,all_test,all_train, ta
             result_sum_train=pd.concat([result_sum_train,Result_sum(DF_train,pg)], axis=0)
             
 
-        print("Overal performence for Train data is :")
+        print("Overall performance for Train data is:")
         result_sum_train=result_sum_train.drop_duplicates(subset=['Split','protected_groups'], keep='first')
         display(result_sum_train)             
 
-        print("Overal performence for Test data is :")
+        print("Overall performance for Test data is:")
         result_sum_test=result_sum_test.drop_duplicates(subset=['Split','protected_groups'], keep='first')
         display(result_sum_test)
 
         return result_sum_test, result_sum_train
 
 
+
+# def fairness(models, x, y, protected_groups={}, metric="DI", threshold=0.8, xextra=False,reg=False,dashboard=True):
+#     '''
+#     Parameters
+#     ----------
+#     models: list of models, model object, can be sklearn, tensorflow, or keras
+#     x: DataFrame
+#     y: DataFrame or Series, contains target column and list of target variables
+#     protected_groups: dictionary of protected groups and protected category in that group, example: {"LGU" : 'pasay','income_class':"1st" }
+#     metric: Main fairness metric to use. Defaults to 'DI'
+#     threshold: Threshold for determining an alert for the fairness metric. Defaults to 0.8
+#     xextra: If you want to include other features not in the dataset used for modeling, add a DataFrame or Series with corresponding index to x. Defaults to False.
+#     reg: bool, to determine model type (whether classification or regression). Defaults to False.
+#     dashboard: bool, to launch dashboard. Defaults to False.
+
+#     Regarding metrics:
+#     - 'EOP' - Equal opportunity difference: This measures the deviation from the equality of opportunity, which means that the same proportion of each population receives the favorable outcome. This  measure must be equal to 0 to be fair.
+#     - 'EOD' - Average absolute odds difference: This measures bias by using the false positive rate and true positive rate. This measure must be equal to 0 to be fair.
+#     - 'DI' - Disparity impact: This compares the proportion of individuals that receive a favorable outcome for two groups, a majority group and a minority group. This measure must be equal to 1 to be fair.
+#     '''
+#     if reg==False:
+#       # function for calculating fainess metrics
+#         def fairness_metrics(y,y_prime):
+#             """Calculate fairness for subgroup of population"""
+
+#             #Confusion Matrix
+#             cm=confusion_matrix(list(y),list(y_prime))
+
+
+#             TN, FP, FN, TP = cm.ravel()[0], cm.ravel()[1], cm.ravel()[2], cm.ravel()[3]
+
+#             N = TP+FP+FN+TN #Total population
+#             ACC = (TP+TN)/N #Accuracy
+#             TPR = TP/(TP+FN) # True positive rate
+#             FPR = FP/(FP+TN) # False positive rate
+#             FNR = FN/(TP+FN) # False negative rate
+#             PPP = (TP + FP)/N # % predicted as positive
+
+#             #Recall = TruePositives / (TruePositives + FalseNegatives)
+#             recall=TP/(TP+FN)
+
+#             #Precision = TruePositives / (TruePositives + FalsePositives)
+#             precision=TP/(TP+FP)
+
+#             #F-Measure = (2 * Precision * Recall) / (Precision + Recall)
+#             F1=(2*recall*precision)/(precision+recall)
+
+#             #
+#             fpr, tpr, thresholds = metrics.roc_curve(y, y_prime)
+#             AUC=metrics.auc(fpr, tpr)
+
+
+#             #Gini score
+#             gini=gini_coefficient(np.array(y))
+
+
+#             return np.array([ACC, TPR, FPR, FNR, PPP, recall, precision, F1, AUC, gini ])
+
+
+#         xx=x.copy()
+#         yy=y.copy()
+#         for model_name in models.keys():
+
+
+#             print('**************************************Fairness analysis for model {} **************************************'.format(model_name))
+#             print("\n")
+#             model=models[model_name]
+
+#             x=xx.copy()
+#             y=yy.copy()
+#             x["y_prime"]=list(model.predict(x))
+#             x["y"]=list(y)
+
+#             if xextra is not False:
+#                 x=pd.concat([xextra, x], axis=1)
+
+
+
+#             # Calculating overall Disparity  
+#             i=1
+#             fairness_report=pd.DataFrame(columns=["Variable","protected_group","Accuracy","True_positive_rate","False_positive_rate","False_negative_rate","predicted_as_positive","Recall", "Precision", "F1 score", "AUC","Gini"])    
+#             #Calculate fairness metrics 
+#             fm = fairness_metrics(x['y'],x["y_prime"])
+#             a=["Overall",""]
+#             b=list(fm)
+#             b=[round(item, 3) for item in b]
+#             a.extend(b)
+#             row=a
+#             fairness_report.loc[0,:]=row
+
+
+#             if metric=="DI":
+#                 #print('''In the US there is a legal precedent to set the cutoff to 0.8. That is the predicted as positive for the normal group must not be less than 80% of that of the protected group.''')
+
+#                 print('---------------------------------------------------------------------------------------------------------------------')
+
+
+
+#             for i in protected_groups.keys():
+
+#                 i=str(i)
+#                 if (x[i].dtypes=="float64") or (x[i].dtypes=="int64"):
+#                     # Find and mark protected and unprotected
+#                     x["Prev_"+i]=[1 if (r>=protected_groups[i][0]) and (r<=protected_groups[i][1]) else 0 for r in x[i]]
+#                 if x[i].dtypes=="object":
+#                     x["Prev_"+i]=[1 if r==protected_groups[i] else 0 for r in x[i]]
+                    
+#                 #  make a list of protected features and fairness metrics for each
+#                 a=[i,protected_groups[i]]
+#                 b=list(fairness_metrics(x.loc[x["Prev_"+i]==1,'y'],x.loc[x["Prev_"+i]==1,"y_prime"]))
+#                 b=[round(item, 3) for item in b]
+#                 a.extend(b)
+#                 row=a
+
+
+#                 # Add metric lists to the fairness_report data frame to use it later in model artifacts
+#                 fairness_report.loc[i,:]=row
+
+#                 #Calculate fairness metrics for protected group
+#                 fm_Prev_1 = fairness_metrics(x.loc[x["Prev_"+i]==1,'y'],x.loc[x["Prev_"+i]==1,"y_prime"])[4]
+#                 fm_Prev_0 = fairness_metrics(x.loc[x["Prev_"+i]==0,'y'],x.loc[x["Prev_"+i]==0,"y_prime"])[4]
+
+#                 #Get ratio of fairness metrics
+#                 fm_ratio = fm_Prev_0/fm_Prev_1
+
+#                 # Equal opportunity
+
+#                 """Under equal opportunity we consider a model to be fair if the TPRs of the privileged and unprivileged groups are equal. 
+#                 In practice, we will give some leeway for statistic uncertainty. We can require the differences to be more than a certain cutoff (here 0.8).
+#                 This ensures that the TPR for the unprivileged group is not significantly smaller than for the privileged group."""
+
+#                 fm_Prev_1 = fairness_metrics(x.loc[x["Prev_"+i]==1,'y'],x.loc[x["Prev_"+i]==1,"y_prime"])[1]
+#                 fm_Prev_0 = fairness_metrics(x.loc[x["Prev_"+i]==0,'y'],x.loc[x["Prev_"+i]==0,"y_prime"])[1]
+#                 EOP=fm_Prev_0/fm_Prev_1
+
+
+#                 #Equalized odds
+
+#                 fm_Prev_1 = fairness_metrics(x.loc[x["Prev_"+i]==1,'y'],x.loc[x["Prev_"+i]==1,"y_prime"])[1]
+#                 fm_Prev_0 = fairness_metrics(x.loc[x["Prev_"+i]==0,'y'],x.loc[x["Prev_"+i]==0,"y_prime"])[1]
+#                 EOD=fm_Prev_0-fm_Prev_1
+
+
+
+#                 if metric=="DI":
+#                     print("----------------------------------------------------{}---------------------------------------------------------".format(i))
+#                     print("For the protected feature {} of {} the disparity index is {}".format(i,protected_groups[i],round(fm_ratio,3)))
+#                     print("\n")
+#                     d=1-threshold
+#                     fairness_index=fm_ratio
+
+#                     if ((fairness_index<=1+d) and (fairness_index>=1-d)):
+
+#                         print('\x1b[6;30;42m'+"The model is fair towards the {} in {}".format(protected_groups[i],i)+ '\x1b[0m')
+
+#                     elif ((fairness_index>1+d) and (fairness_index<=1+2*d)):
+
+#                         print('\x1b[6;30;42m'+"The model is Partially Advantages towards the {} in {}".format(protected_groups[i],i)+ '\x1b[0m')
+
+#                     elif ((fairness_index>1+2*d)):
+#                          print('\x1b[6;30;42m'+"The model is Totally Advantages towards the {} in {}".format(protected_groups[i],i)+ '\x1b[0m')
+
+#                     elif ((fairness_index>=1-2*d) and (fairness_index<1-d)):
+#                          print('\x1b[6;30;41m'+"The model is Partially Disdvantages towards the {} in {}".format(protected_groups[i],i)+ '\x1b[0m')
+
+#                     elif ((fairness_index<1-2*d)):
+#                          print('\x1b[6;30;41m'+"The model is Totally Disadvantages towards the {} in {}".format(protected_groups[i],i)+ '\x1b[0m')     
+
+
+
+#                 elif metric=="EOP":
+#                     print("----------------------------------------------------{}---------------------------------------------------------".format(i))
+#                     print("For the protected feature {} of {} the Equal opportunity is {}".format(i,protected_groups[i],round(EOP,3)))
+#                     print("\n")
+#                     fairness_index=EOP
+
+#                     d=1-threshold
+
+#                     if ((fairness_index<=1+d) and (fairness_index>=1-d)):
+
+#                         print('\x1b[6;30;42m'+"The model is fair towards the {} in {}".format(protected_groups[i],i)+ '\x1b[0m')
+
+#                     elif ((fairness_index>1+d) and (fairness_index<=1+2*d)):
+
+#                         print('\x1b[6;30;42m'+"The model is Partially Advantages towards the {} in {}".format(protected_groups[i],i)+ '\x1b[0m')
+
+#                     elif ((fairness_index>1+2*d)):
+#                          print('\x1b[6;30;42m'+"The model is Totally Advantages towards the {} in {}".format(protected_groups[i],i)+ '\x1b[0m')
+
+#                     elif ((fairness_index>=1-2*d) and (fairness_index<1-d)):
+#                          print('\x1b[6;30;41m'+"The model is Partially Disdvantages towards the {} in {}".format(protected_groups[i],i)+ '\x1b[0m')
+
+#                     elif ((fairness_index<1-2*d)):
+#                          print('\x1b[6;30;41m'+"The model is Totally Disadvantages towards the {} in {}".format(protected_groups[i],i)+ '\x1b[0m')     
+
+#                 elif metric=="EOD":
+#                     print("----------------------------------------------------{}---------------------------------------------------------".format(i))
+#                     print("For the protected feature {} of {} the Equalized odds is {}".format(i,protected_groups[i],round(EOD,3)))
+#                     print("\n")
+#                     fairness_index=EOD
+
+#                     d=1-threshold
+
+#                     if ((fairness_index<=1+d) and (fairness_index>=1-d)):
+
+#                         print('\x1b[6;30;42m'+"The model is fair towards the {} in {}".format(protected_groups[i],i)+ '\x1b[0m')
+
+#                     elif ((fairness_index>1+d) and (fairness_index<=1+2*d)):
+
+#                         print('\x1b[6;30;42m'+"The model is Partially Advantages towards the {} in {}".format(protected_groups[i],i)+ '\x1b[0m')
+
+#                     elif ((fairness_index>1+2*d)):
+#                          print('\x1b[6;30;42m'+"The model is Totally Advantages towards the {} in {}".format(protected_groups[i],i)+ '\x1b[0m')
+
+#                     elif ((fairness_index>=1-2*d) and (fairness_index<1-d)):
+#                          print('\x1b[6;30;41m'+"The model is Partially Disdvantages towards the {} in {}".format(protected_groups[i],i)+ '\x1b[0m')
+
+#                     elif ((fairness_index<1-2*d)):
+#                          print('\x1b[6;30;41m'+"The model is Totally Disadvantages towards the {} in {}".format(protected_groups[i],i)+ '\x1b[0m')     
+
+
+
+#                 plt.scatter(a[2], fairness_index, label=model_name+'_'+str(i))
+#             display(fairness_report)
+
+
+#         print("\n\n")    
+#         plt.title('Fairness VS accuracy trade off')
+#         plt.xlabel('Accuracy')
+#         plt.ylabel('Fairness {}'.format(metric))
+#         plt.legend()
+#         plt.show()
+        
+#         return fairness_index, fairness_report, a
+        
+#     if reg!=False:
+#         #Data 
+#         xx=x.copy()
+#         yy=y.copy()
+        
+#         if xextra is not False:
+#             x=pd.concat([xextra, x], axis=1)
+#         '''
+#         explainers={}
+#         Expname=[]
+#         for model_name in models.keys():
+#             #
+#             expname='exp_'+model_name
+#             Expname.append(expname)
+#             explainers[expname]=dx.Explainer(models[model_name], x, y, verbose=False)
+#             #print(explainers[expname])
+            
+#             Fobjects={}
+#             Fnames=[]
+#             for pg in protected_groups.keys():
+                
+#                 protected = np.where(xx[pg] == protected_groups[pg], pg+"_"+protected_groups[pg], "else")
+#                 privileged = 'else'
+#                 fnames='fobject'+'_'+pg
+#                 Fnames.append(fnames)
+                
+#                 Fobjects[fnames]=explainers[expname].model_fairness(protected, privileged)
+                
+#                 #Fobjects[fnames].fairness_check()
+#                 #Fobjects[fnames].plot(type='density')
+#          '''
+        
+#         Fobjects={}
+#         Fnames=[]
+#         fig1_list = []
+#         fig2_list = []
+#         contents_list = []  
+#         for pg in protected_groups.keys():  
+                
+#             explainers={}
+#             Expname=[]
+#             for model_name in models.keys():
+                
+#                 expname='exp_'+str(model_name)
+#                 Expname.append(expname)
+#                 explainers[expname]=dx.Explainer(models[model_name], x, y, verbose=False)
+                
+                
+#                 #Define protected group
+#                 if (xx[pg].dtypes=="float64") or (xx[pg].dtypes=="int64"):
+#                     protected = np.where(np.logical_and((xx[pg] >= protected_groups[pg][0]), (xx[pg] <= protected_groups[pg][1])), str(pg)+"_"+str(protected_groups[pg]), "else")
+#                 if xx[pg].dtypes=="object":
+#                     protected = np.where(xx[pg] == str(protected_groups[pg]), str(pg)+"_"+str(protected_groups[pg]), "else")
+                
+#                 privileged = 'else'
+#                 fnames='fobject'+'_'+str(pg)
+#                 Fnames.append(fnames)
+                
+#                 Fobjects[expname]=explainers[expname].model_fairness(protected, privileged)
+            
+#             if len(Expname)==2:
+#                 if dashboard == False:
+#                     print("-------------------"+"Model : "+Expname[0].split("_")[1]+"---- Protected group: "+pg+"--------------------------")
+#                     Fobjects[Expname[0]].fairness_check()
+#                     print("-------------------"+"Model : "+Expname[1].split("_")[1]+"---- Protected group: "+pg+"--------------------------")
+#                     Fobjects[Expname[1]].fairness_check()
+
+#                     Fobjects[Expname[0]].plot(Fobjects[Expname[1]],type='density')
+#                     Fobjects[Expname[0]].plot(Fobjects[Expname[1]])
+#                 else: 
+#                     fig1 = Fobjects[Expname[0]].plot(Fobjects[Expname[1]],type='density', show=False)
+#                     fig2 = Fobjects[Expname[0]].plot(Fobjects[Expname[1]], show=False)
+#                     fig1_list.append(fig1)
+#                     fig2_list.append(fig2)
+#                     with open("temp.log", "w") as f:
+#                         with redirect_stdout(f):
+#                             print("-------------------"+"Model : "+Expname[0].split("_")[1]+"---- Protected group: "+pg+"--------------------------")
+#                             Fobjects[Expname[0]].fairness_check()
+#                             print("-------------------"+"Model : "+Expname[1].split("_")[1]+"---- Protected group: "+pg+"--------------------------")
+#                             Fobjects[Expname[1]].fairness_check()
+#                     with open("temp.log") as f:
+#                         contents = f.readlines()
+#                     contents_list.append(contents)
+
+                
+#             elif len(Expname)==1:
+#                 if dashboard == False:
+#                     print("-------------------"+"Model : "+Expname[0].split("_")[1]+"---- Protected group: "+pg+"--------------------------")
+#                     Fobjects[Expname[0]].fairness_check()
+#                     Fobjects[Expname[0]].plot(type='density')
+#                     Fobjects[Expname[0]].plot()
+#                 else:
+#                     fig1 = Fobjects[Expname[0]].plot(type='density', show=False)
+#                     fig2 = Fobjects[Expname[0]].plot(show=False)
+#                     with open("temp.log", "w") as f:
+#                         with redirect_stdout(f):
+#                             print("-------------------"+"Model : "+Expname[0].split("_")[1]+"---- Protected group: "+pg+"--------------------------")
+#                             Fobjects[Expname[0]].fairness_check()
+#                     with open("temp.log") as f:
+#                         contents = f.readlines()
+#                     contents_list.append(contents)
+#                     fig1_list.append(fig1)
+#                     fig2_list.append(fig2)
+                
+#         return contents_list, fig1_list, fig2_list,
 
 def fairness(models,x,y,protected_groups={},metric="DI", threshold=0.8, xextra=False,reg=False,dashboard=True):
     '''
@@ -511,7 +851,7 @@ def fairness(models,x,y,protected_groups={},metric="DI", threshold=0.8, xextra=F
                 
                 #Define protected group
                 if (xx[pg].dtypes=="float64") or (xx[pg].dtypes=="int64"):
-                    protected = np.where((xx[pg] >= protected_groups[pg][0]) and (xx[pg] <= protected_groups[pg][1]), str(pg)+"_"+str(protected_groups[pg]), "else")
+                    protected = np.where(np.logical_and((xx[pg] >= protected_groups[pg][0]), (xx[pg] <= protected_groups[pg][1])), str(pg)+"_"+str(protected_groups[pg]), "else")
                 if xx[pg].dtypes=="object":
                     protected = np.where(xx[pg] == str(protected_groups[pg]), str(pg)+"_"+str(protected_groups[pg]), "else")
                 
@@ -566,8 +906,6 @@ def fairness(models,x,y,protected_groups={},metric="DI", threshold=0.8, xextra=F
                     fig2_list.append(fig2)
                 
         return contents_list, fig1_list, fig2_list,
-
-            
 
             
 

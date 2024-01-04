@@ -163,7 +163,7 @@ def get_feature_names(column_transformer, cat_cols):
     return feature_names
 
 def exp_qii(model, X, idx, preprocessor = None, method = 'banzhaf',
-            plot = True, pool_size = 100, n_samplings = 50):
+            plot = True, pool_size = 100, n_samplings = 50, cat_cols = None):
     '''
     An alternate variable-importance measure using Quantity of Interest Method.
     
@@ -191,10 +191,20 @@ def exp_qii(model, X, idx, preprocessor = None, method = 'banzhaf',
             feature_names = preprocessor.get_feature_names_out()
             print('Preprocessing - Normal')
         except:
-            p_ind = preprocessor[-1].get_support(indices = True)
-            fn = preprocessor.get_feature_names_out()
-            feature_names = [fn[x] for x in p_ind]
-            print('Preprocessing - Steps')
+            try:
+                p_ind = preprocessor[-1].get_support(indices = True)
+                fn = preprocessor[0].get_feature_names_out()
+                feature_names = [fn[x] for x in p_ind]
+                print('Preprocessing - Steps')
+            except:
+                try:
+                    feature_names = get_feature_names(preprocessor, cat_cols)
+                    print('Preprocessing (old) - Normal')
+                except:
+                    p_ind = preprocessor[-1].get_support(indices = True)
+                    fn = get_feature_names(preprocessor[0], cat_cols)
+                    feature_names = [fn[x] for x in p_ind]
+                    print('Preprocessing (old) - Steps')
     else:
         X_proc = X.copy()
         feature_names = X_proc.columns.tolist()
@@ -276,7 +286,6 @@ def break_down(exp, obs, order = None, random_state = 42, N = None, labels = Non
     Returns
     ------------
     result: DataFrame of the results from the break down plot.
-    plot: plotly fig for the dashboard
     '''
     
     if order:
@@ -287,10 +296,10 @@ def break_down(exp, obs, order = None, random_state = 42, N = None, labels = Non
     bd = exp.predict_parts(obs, type = 'break_down', order = order,
                           random_state = random_state, N = N)
     if labels:
-        bd.result['label'] = bd.result['label'] + f'_{labels}'
+        bd.result['label'] = bd.result['label'] + f'_{label}'
     
-    bd.plot()
-    return bd.result, bd.plot(show=False)
+    plot = bd.plot()
+    return bd.result, plot
 
 def interactive(exp, obs, count = 10, random_state = 42, N = None, labels = None):
     '''
@@ -308,15 +317,14 @@ def interactive(exp, obs, count = 10, random_state = 42, N = None, labels = None
     Returns
     ------------
     result: DataFrame of results from the interactive break down plot.
-    plot: plotly fig for the dashboard
     '''
     
     inter = exp.predict_parts(obs, type = 'break_down_interactions', interaction_preference = count,
                              random_state = random_state, N = N)
     if labels:
-        inter.result['label'] = inter.result['label'] + f'_{labels}'
-    inter.plot()
-    return inter.result, inter.plot(show=False)
+        inter.result['label'] = inter.result['label'] + f'_{label}'
+    plot = inter.plot()
+    return inter.result, plot
 
 def cp_profile(exp, obs, variables = None, var_type = 'numerical', labels = False):
     '''
@@ -336,7 +344,6 @@ def cp_profile(exp, obs, variables = None, var_type = 'numerical', labels = Fals
     Returns
     ------------
     result: DataFrame of results from the local ceteris-paribus profile.
-    plot: plotly fig for the dashboard
     '''
     
     if variables:
@@ -352,10 +359,10 @@ def cp_profile(exp, obs, variables = None, var_type = 'numerical', labels = Fals
                     return print(f'The variable `{col}` is not a categorical column found in the explanation object.')
 
     cp = exp.predict_profile(obs)
-    cp.plot(variables = variables, variable_type = var_type)
-    return cp.result, cp.plot(variables = variables, variable_type = var_type, show=False)
+    plot = cp.plot(variables = variables, variable_type = var_type)
+    return cp.result, plot
 
-def initiate_shap_loc(X, model, preprocessor = None, samples = 100, seed = 42):
+def initiate_shap_loc(X, model, preprocessor = None, samples = 100, seed = 42, cat_cols = None):
     '''
     Initiate the shap explainer used for local explanations. Defaults to an Independent masker, but will redirect to a TabularPartitions if exceptions/errors are encountered.
     
@@ -379,10 +386,20 @@ def initiate_shap_loc(X, model, preprocessor = None, samples = 100, seed = 42):
             feature_names = preprocessor.get_feature_names_out()
             print('Preprocessing - Normal')
         except:
-            p_ind = preprocessor[-1].get_support(indices = True)
-            fn = preprocessor.get_feature_names_out()
-            feature_names = [fn[x] for x in p_ind]
-            print('Preprocessing - Steps')
+            try:
+                p_ind = preprocessor[-1].get_support(indices = True)
+                fn = preprocessor[0].get_feature_names_out()
+                feature_names = [fn[x] for x in p_ind]
+                print('Preprocessing - Steps')
+            except:
+                try:
+                    feature_names = get_feature_names(preprocessor, cat_cols)
+                    print('Preprocessing (old) - Normal')
+                except:
+                    p_ind = preprocessor[-1].get_support(indices = True)
+                    fn = get_feature_names(preprocessor[0], cat_cols)
+                    feature_names = [fn[x] for x in p_ind]
+                    print('Preprocessing (old) - Steps')
     else:
         X_proc = X.copy()
         feature_names = X_proc.columns.tolist()
@@ -403,9 +420,23 @@ def initiate_shap_loc(X, model, preprocessor = None, samples = 100, seed = 42):
     
     return explainer, shap_value_loc, feature_names
 
-def shap_waterfall(shap_value_loc, idx, class_ind, class_names, feature_names = None, reg = False, show = True):
+def shap_waterfall(shap_value_loc, idx, feature_names = None, class_ind = None, class_names = None, reg = False, show=True):
     '''
-    Returns a waterfall plot for a specified observation.
+    Returns a shap waterfall plot for a specified observation.
+    
+    Parameters
+    ------------
+    shap_value_loc: Array of shap values used for the waterfall plot. Generated from the initial local shap instance.
+    idx: Index to be used for local observation.
+    feature_names: List of features that correspond to the column indices in `shap_value_loc`. Defaults to None, but is highly recommended for explainability purposes.
+    class_ind: int, represents index used for classification objects in determining which shap values to show. Regression models do not need this variable. Defaults to None.
+    class_names: List of all class names of target feature under a classification model. This will be used with the `class_ind` to indicate what class is being shown. Defaults to None.
+    reg: Indicates whether model with which `shap_values_loc` was trained on is a regression or classification model. Defaults to False.
+    show: Show the plot or not. Defaults to True.
+    
+    Returns
+    ------------
+    s: Shap local waterfall plot figure.
     '''
     
     if reg == False:
@@ -429,9 +460,23 @@ def shap_waterfall(shap_value_loc, idx, class_ind, class_names, feature_names = 
     
     return s
 
-def shap_force_loc(shap_value_loc, idx, class_ind, class_names, feature_names = None, reg = False, show = True):
+def shap_force_loc(shap_value_loc, idx, feature_names = None, class_ind = None, class_names = None, reg = False, show=True):
     '''
-    Returns a force plot for a specified observation.
+    Returns a shap force plot for a specified observation.
+    
+    Parameters
+    ------------
+    shap_value_loc: Array of shap values used for the force plot. Generated from the initial local shap instance.
+    idx: Index to be used for local observation.
+    feature_names: List of features that correspond to the column indices in `shap_value_loc`. Defaults to None, but is highly recommended for explainability purposes.
+    class_ind: int, represents index used for classification objects in determining which shap values to show. Regression models do not need this variable. Defaults to None.
+    class_names: List of all class names of target feature under a classification model. This will be used with the `class_ind` to indicate what class is being shown. Defaults to None.
+    reg: Indicates whether model with which `shap_values_loc` was trained on is a regression or classification model. Defaults to False.
+    show: Show the plot or not. Defaults to True.
+    
+    Returns
+    ------------
+    s: Shap local force plot figure.
     '''
     
     if reg == False:
@@ -450,9 +495,23 @@ def shap_force_loc(shap_value_loc, idx, class_ind, class_names, feature_names = 
         plt.title(f'SHAP Local Waterfall plot on Index {idx}', fontsize = 16)    
     return s
 
-def shap_bar_loc(shap_value_loc, idx, class_ind, class_names, feature_names = None, reg = False, show=True):
+def shap_bar_loc(shap_value_loc, idx, feature_names = None, class_ind = None, class_names = None, reg = False, show = True):
     '''
-    Returns a force plot for a specified observation.
+    Returns a bar plot for a specified observation.
+    
+    Parameters
+    ------------
+    shap_value_loc: Array of shap values used for the bar plot. Generated from the initial local shap instance.
+    idx: Index to be used for local observation.
+    feature_names: List of features that correspond to the column indices in `shap_value_loc`. Defaults to None, but is highly recommended for explainability purposes.
+    class_ind: int, represents index used for classification objects in determining which shap values to show. Regression models do not need this variable. Defaults to None.
+    class_names: List of all class names of target feature under a classification model. This will be used with the `class_ind` to indicate what class is being shown. Defaults to None.
+    reg: Indicates whether model with which `shap_values_loc` was trained on is a regression or classification model. Defaults to False.
+    show: Show the plot or not. Defaults to True.
+    
+    Returns
+    ------------
+    s: Shap local bar plot figure.
     '''
     
     if reg == False:

@@ -131,10 +131,28 @@ class KSTestComponent(ExplainerComponent):
             name (optional): name of the component. Defaults to None.
         """
         super().__init__(explainer, title=title)
-        features = pipe.get_feature_names_out()
-        self.X_train = pd.DataFrame(pipe.transform(X_train), columns=features)
-        self.X_test = pd.DataFrame(pipe.transform(X_test), columns=features)
+        try:
+            features = pipe.get_feature_names_out()
+            print('Preprocessing - Normal')
+        except:
+            try:
+                p_ind = pipe[-1].get_support(indices = True)
+                fn = pipe[0].get_feature_names_out()
+                features = [fn[x] for x in p_ind]
+                print('Preprocessing - Steps')
+            except:
+                cat_cols = X_train.select_dtypes(exclude = np.number).columns.tolist()
+                try:
+                    features = get_feature_names(pipe, cat_cols)
+                    print('Preprocessing (old) - Normal')
+                except:
+                    p_ind = pipe[-1].get_support(indices = True)
+                    fn = get_feature_names(pipe[0], cat_cols)
+                    features = [fn[x] for x in p_ind]
+                    print('Preprocessing (old) - Steps')
         
+        self.X_train = pd.DataFrame(pipe.transform(X_train), columns=features)
+        self.X_test = pd.DataFrame(pipe.transform(X_test), columns=features)     
         
     def layout(self):
         return dbc.Container([
@@ -1588,163 +1606,168 @@ class AlibiFETComponent(ExplainerComponent):
             with open("temp.log") as f:
                 contents = f.readlines()
             return contents
-        
-class TabularDriftComponent(ExplainerComponent):
-    """
-    A component class for displaying the tabular drift table using AlibiDetect to the dashboard
-    """
-    def __init__(self, explainer, pipe, train_data, test_data, title="Tabular Drift", name=None):
-        """
-        Args:
-            explainer: explainer instance generated through explainerdashboard
-            pipe (sklearn.Pipeline): the preprocessing pipeline of the model
-            train_data (pd.DataFrame): training data
-            test_data (pd.DataFrame): test data
-            title (str, optional): title of the component. Defaults to "Tabular Drift".
-            name (optional): name of the component. Defaults to None.
-        """
-        super().__init__(explainer, title=title)
-        self.train_data = train_data
-        self.test_data = test_data
-        self.pipe = pipe
-        
-    def layout(self):
-        return dbc.Container([
-            dbc.Card([
-                dbc.CardHeader([
-                    html.H4("AlibiDetect: Tabular Drift")
-                ]),
-                dbc.CardBody([
-                    dbc.Row([
-                        dbc.Col([
-                            html.Div(dcc.Markdown('''
-                                Mixed-type tabular data drift detector with Bonferroni or False Discovery Rate (FDR) correction for multivariate data.
-                                Kolmogorov-Smirnov (K-S) univariate tests are applied to continuous numerical data and Chi-Squared (Chi2) univariate tests to categorical data.
-                            '''), style={"padding":"30px"})
-                        ])
-                    ]),
-                    dbc.Row([
-                        dbc.Col([
-                            html.P("Drift Type: ", style={"padding-left":"30px","padding-right":"30px", "padding-top":"5px"})
-                        ], width="auto"),
-                        dbc.Col([
-                            html.Div(dcc.Dropdown(
-                                id="td-drop",
-                                options=['batch','feature'],
-                                placeholder="Drift Type",
-                            ), style={"width":"100%", "padding-right":"30px"})
-                        ]),
-                        dbc.Col([
-                            html.Div("P-Value: ", style={"padding-left":"20px"})
-                        ], width="auto"),
-                        dbc.Col([
-                            html.Div(dcc.Slider(0, 1, value=0.05, id='td-slider', marks=None, tooltip={"placement": "bottom", "always_visible": True}))
-                        ]),
-                    ]),
-                    html.Br(),
-                    dbc.Row([
-                        dbc.Col([
-                            html.Div()
-                        ]),
-                        dbc.Col([
-                            html.Div(dbc.Button("Compute", id="button-td", n_clicks=0), style={"margin":"auto"})
-                        ], width="auto"),
-                        dbc.Col([
-                            html.Div()
-                        ])
-                    ]),
-                    html.Br(),
-                    dbc.Row([
-                        html.Div(dcc.Loading(html.Div(id="table-td")), style={"margin":"auto", 'overflow':'scroll', 'padding':'20px', 'height':'500px', 'width':'auto'})
-                    ]),
-                ])
-            ])
-        ])
-    
-    def component_callbacks(self,app,**kwargs):
-        @app.callback(
-            Output("table-td","children"),
-            Input("button-td","n_clicks"),
-            State("td-drop","value"),
-            State("td-slider","value"), prevent_initial_call=True
-        )
-        def update_graph(n_clicks, drift, p_val):
-            df = tabular_drift(self.train_data, self.test_data, self.pipe, p_val=p_val, drift_type=drift)
-            print(df)
-            return dash_table.DataTable(df.to_dict('records'), [{"name": i, "id": i} for i in df.columns],style_data={'whiteSpace':'normal','height':'auto',},fill_width=False)
 
-class AlibiCSComponent(ExplainerComponent):
-    """
-    A component class for displaying the chi-square test using AlibiDetect to the dashboard 
-    """
-    def __init__(self, explainer, X_train, X_test, title="Chi Square", name=None):
-        """
-        Args:
-            explainer: explainer instance generated through explainerdashboard
-            X_train (pd.DataFrame): X_train
-            X_test (pd.DataFrame): X_test
-            title (str, optional): title of the component. Defaults to "Chi Square".
-            name (optional): name of the component. Defaults to None.
-        """
-        super().__init__(explainer, title=title)
-        self.X_train = X_train
-        self.X_test = X_test
-            
-    def layout(self):
-        return dbc.Container([
-            dbc.Card([
-                dbc.CardHeader([
-                    html.H4("AlibiDetect: Chi-Square")
-                ]),
-                dbc.CardBody([
-                    dbc.Row([
-                        dbc.Col([
-                            html.Div(dcc.Markdown('''
-                                For categorical variables, Chi-Squared data drift detector with Bonferroni or False Discovery Rate (FDR) correction for multivariate data.
-                            '''), style={"padding":"30px"})
-                        ])
-                    ]),
-                    dbc.Row([
-                        dbc.Col([
-                            html.Div("P-Value: ", style={"padding-left":"20px"})
-                        ], width="auto"),
-                        dbc.Col([
-                            html.Div(dcc.Slider(0, 1, value=0.05, id='cs-slider', marks=None, tooltip={"placement": "bottom", "always_visible": True}))
-                        ]),
-                    ]),
-                    html.Br(),
-                    dbc.Row([
-                        dbc.Col([
-                            html.Div()
-                        ]),
-                        dbc.Col([
-                            html.Div(dbc.Button("Compute", id="button-cs"), style={"margin":"auto"})
-                        ], width="auto"),
-                        dbc.Col([
-                            html.Div()
-                        ])
-                    ]),
-                    html.Br(),
-                    dbc.Row([
-                        html.Div(dcc.Loading(html.Pre(id="text-cs")))
-                    ]),
-                ])
-            ])
-        ])
+        
+### DEPRECATED
+
+# class TabularDriftComponent(ExplainerComponent):
+#     """
+#     A component class for displaying the tabular drift table using AlibiDetect to the dashboard
+#     """
+#     def __init__(self, explainer, pipe, train_data, test_data, title="Tabular Drift", name=None):
+#         """
+#         Args:
+#             explainer: explainer instance generated through explainerdashboard
+#             pipe (sklearn.Pipeline): the preprocessing pipeline of the model
+#             train_data (pd.DataFrame): training data
+#             test_data (pd.DataFrame): test data
+#             title (str, optional): title of the component. Defaults to "Tabular Drift".
+#             name (optional): name of the component. Defaults to None.
+#         """
+#         super().__init__(explainer, title=title)
+#         self.train_data = train_data
+#         self.test_data = test_data
+#         self.pipe = pipe
+        
+#     def layout(self):
+#         return dbc.Container([
+#             dbc.Card([
+#                 dbc.CardHeader([
+#                     html.H4("AlibiDetect: Tabular Drift")
+#                 ]),
+#                 dbc.CardBody([
+#                     dbc.Row([
+#                         dbc.Col([
+#                             html.Div(dcc.Markdown('''
+#                                 Mixed-type tabular data drift detector with Bonferroni or False Discovery Rate (FDR) correction for multivariate data.
+#                                 Kolmogorov-Smirnov (K-S) univariate tests are applied to continuous numerical data and Chi-Squared (Chi2) univariate tests to categorical data.
+#                             '''), style={"padding":"30px"})
+#                         ])
+#                     ]),
+#                     dbc.Row([
+#                         dbc.Col([
+#                             html.P("Drift Type: ", style={"padding-left":"30px","padding-right":"30px", "padding-top":"5px"})
+#                         ], width="auto"),
+#                         dbc.Col([
+#                             html.Div(dcc.Dropdown(
+#                                 id="td-drop",
+#                                 options=['batch','feature'],
+#                                 placeholder="Drift Type",
+#                             ), style={"width":"100%", "padding-right":"30px"})
+#                         ]),
+#                         dbc.Col([
+#                             html.Div("P-Value: ", style={"padding-left":"20px"})
+#                         ], width="auto"),
+#                         dbc.Col([
+#                             html.Div(dcc.Slider(0, 1, value=0.05, id='td-slider', marks=None, tooltip={"placement": "bottom", "always_visible": True}))
+#                         ]),
+#                     ]),
+#                     html.Br(),
+#                     dbc.Row([
+#                         dbc.Col([
+#                             html.Div()
+#                         ]),
+#                         dbc.Col([
+#                             html.Div(dbc.Button("Compute", id="button-td", n_clicks=0), style={"margin":"auto"})
+#                         ], width="auto"),
+#                         dbc.Col([
+#                             html.Div()
+#                         ])
+#                     ]),
+#                     html.Br(),
+#                     dbc.Row([
+#                         html.Div(dcc.Loading(html.Div(id="table-td")), style={"margin":"auto", 'overflow':'scroll', 'padding':'20px', 'height':'500px', 'width':'auto'})
+#                     ]),
+#                 ])
+#             ])
+#         ])
     
-    def component_callbacks(self,app,**kwargs):    
-        @app.callback(
-            Output("text-cs","children"),
-            Input("button-cs","n_clicks"),
-            State("cs-slider",'value'), prevent_initial_call=True
-        )
-        def update_graph(n_clicks,p_val):
-            with open("temp.log", "w") as f:
-                with redirect_stdout(f):
-                    cs = chi_sq(self.X_train, self.X_test, p_val=p_val)
-            with open("temp.log") as f:
-                contents = f.readlines()
-            return contents
+#     def component_callbacks(self,app,**kwargs):
+#         @app.callback(
+#             Output("table-td","children"),
+#             Input("button-td","n_clicks"),
+#             State("td-drop","value"),
+#             State("td-slider","value"), prevent_initial_call=True
+#         )
+#         def update_graph(n_clicks, drift, p_val):
+#             df = tabular_drift(self.train_data, self.test_data, self.pipe, p_val=p_val, drift_type=drift)
+#             print(df)
+#             return dash_table.DataTable(df.to_dict('records'), [{"name": i, "id": i} for i in df.columns],style_data={'whiteSpace':'normal','height':'auto',},fill_width=False)
+
+### DEPRECATED
+
+# class AlibiCSComponent(ExplainerComponent):
+#     """
+#     A component class for displaying the chi-square test using AlibiDetect to the dashboard 
+#     """
+#     def __init__(self, explainer, X_train, X_test, title="Chi Square", name=None):
+#         """
+#         Args:
+#             explainer: explainer instance generated through explainerdashboard
+#             X_train (pd.DataFrame): X_train
+#             X_test (pd.DataFrame): X_test
+#             title (str, optional): title of the component. Defaults to "Chi Square".
+#             name (optional): name of the component. Defaults to None.
+#         """
+#         super().__init__(explainer, title=title)
+#         self.X_train = X_train
+#         self.X_test = X_test
+            
+#     def layout(self):
+#         return dbc.Container([
+#             dbc.Card([
+#                 dbc.CardHeader([
+#                     html.H4("AlibiDetect: Chi-Square")
+#                 ]),
+#                 dbc.CardBody([
+#                     dbc.Row([
+#                         dbc.Col([
+#                             html.Div(dcc.Markdown('''
+#                                 For categorical variables, Chi-Squared data drift detector with Bonferroni or False Discovery Rate (FDR) correction for multivariate data.
+#                             '''), style={"padding":"30px"})
+#                         ])
+#                     ]),
+#                     dbc.Row([
+#                         dbc.Col([
+#                             html.Div("P-Value: ", style={"padding-left":"20px"})
+#                         ], width="auto"),
+#                         dbc.Col([
+#                             html.Div(dcc.Slider(0, 1, value=0.05, id='cs-slider', marks=None, tooltip={"placement": "bottom", "always_visible": True}))
+#                         ]),
+#                     ]),
+#                     html.Br(),
+#                     dbc.Row([
+#                         dbc.Col([
+#                             html.Div()
+#                         ]),
+#                         dbc.Col([
+#                             html.Div(dbc.Button("Compute", id="button-cs"), style={"margin":"auto"})
+#                         ], width="auto"),
+#                         dbc.Col([
+#                             html.Div()
+#                         ])
+#                     ]),
+#                     html.Br(),
+#                     dbc.Row([
+#                         html.Div(dcc.Loading(html.Pre(id="text-cs")))
+#                     ]),
+#                 ])
+#             ])
+#         ])
+    
+#     def component_callbacks(self,app,**kwargs):    
+#         @app.callback(
+#             Output("text-cs","children"),
+#             Input("button-cs","n_clicks"),
+#             State("cs-slider",'value'), prevent_initial_call=True
+#         )
+#         def update_graph(n_clicks,p_val):
+#             with open("temp.log", "w") as f:
+#                 with redirect_stdout(f):
+#                     cs = chi_sq(self.X_train, self.X_test, p_val=p_val)
+#             with open("temp.log") as f:
+#                 contents = f.readlines()
+#             return contents
 
 class DecileComponent(ExplainerComponent):
     """
@@ -1912,8 +1935,8 @@ class StabilityTab(ExplainerComponent):
         self.pr = RegressionPerformanceComponent(explainer,model,train_data,test_data,target_feature) if model_type=='regressor' else ClassificationPerformanceComponent(explainer,model,train_data,test_data,target_feature)
         self.cvm = AlibiCVMComponent(explainer,model,pipe,X_test,Y_test,X_train,Y_train,model_type)
         self.fet = AlibiFETComponent(explainer,model,pipe,X_test,Y_test,X_train,Y_train) if model_type == 'classifier' else BlankComponent(explainer)
-        self.atd = TabularDriftComponent(explainer,pipe,train_data,test_data)
-        self.cs = AlibiCSComponent(explainer,X_train,X_test)
+        # self.atd = TabularDriftComponent(explainer,pipe,train_data,test_data) ### DEPRECATED
+        # self.cs = AlibiCSComponent(explainer,X_train,X_test) ### DEPRECATED
         self.dec = DecileComponent(explainer, model, X_train, X_test, train_data, test_data, target_feature) if model_type == 'classifier' else BlankComponent(explainer) 
         
     def layout(self):
@@ -1959,13 +1982,13 @@ class StabilityTab(ExplainerComponent):
                 self.fet.layout()
             ]),
             html.Br(),
-            dbc.Row([
-                self.atd.layout()
-            ]),
-            html.Br(),
-            dbc.Row([
-                self.cs.layout()
-            ]),
+            # dbc.Row([
+            #     self.atd.layout()
+            # ]),
+            # html.Br(),
+            # dbc.Row([
+            #     self.cs.layout()
+            # ]),
         ])
     
 class StabilityTestTab(ExplainerComponent):

@@ -1,4 +1,5 @@
 import pandas as pd
+# import tkinter
 import numpy as np
 from collections import OrderedDict
 from copy import deepcopy
@@ -12,7 +13,7 @@ from aif360.algorithms.inprocessing import MetaFairClassifier
 from aif360.algorithms.preprocessing import DisparateImpactRemover
 from aif360.algorithms.postprocessing.calibrated_eq_odds_postprocessing import CalibratedEqOddsPostprocessing
 from aif360.algorithms.postprocessing.reject_option_classification import RejectOptionClassification
-from aif360.sklearn.metrics.metrics import class_imbalance
+# from aif360.sklearn.metrics.metrics import class_imbalance ## COMMENTED OUT AS NOT YET IN 0.4.0
 
 def compute_metrics(dataset_true, dataset_pred, unprivileged_groups, privileged_groups, disp = True):
     """ Compute the key metrics """
@@ -29,7 +30,7 @@ def compute_metrics(dataset_true, dataset_pred, unprivileged_groups, privileged_
     metrics["Equal opportunity difference"] = classified_metric_pred.equal_opportunity_difference()
     metrics["Theil index"] = classified_metric_pred.theil_index()
     #metrics["Smoothed EDF"] = classified_metric_pred.smoothed_empirical_differential_fairness()
-    metrics["Class Imbalance"] = class_imbalance(pd.DataFrame(dataset_true.labels, index=dataset_true.protected_attributes.ravel()), pd.DataFrame(dataset_pred.labels, index=dataset_pred.protected_attributes.ravel()))
+    # metrics["Class Imbalance"] = class_imbalance(pd.DataFrame(dataset_true.labels, index=dataset_true.protected_attributes.ravel()), pd.DataFrame(dataset_pred.labels, index=dataset_pred.protected_attributes.ravel())) ## COMMENTED OUT AS NOT YET IN 0.4.0
     
     if disp:
         with pd.option_context('display.max_rows', None,
@@ -408,10 +409,13 @@ def compare_algorithms(b, di, rw, egr, mc, ceo, ro, threshold, metric_name="Disp
     the fairness vs. performance trade-off
     
     Args:
+    b (OrderedDict): containts the fairness scores of the model before any algorithm
     di (OrderedDict): contains the fairness scores of the model after the disparate impact remover algorithm
     rw (OrderedDict): contains the fairness scores of the model after the reweighing algorithm
     egr (OrderedDict): contains the fairness scores of the model after the exponentiated gradient reduction algorithm
     mc (OrderedDict): contains the fairness scores of the model after the meta-classifier algorithm
+    ceo (OrderedDict): contains the fairness scores of the model after the calibratied equalized odds algorithm
+    ro (OrderedDict): contains the fairness scores of the model after the reject option algorithm
     metric_name (str): the fairness metric to analyze
     """
     upper_bound = max([b[metric_name],di[metric_name], rw[metric_name], egr[metric_name], mc[metric_name], ceo[metric_name], ro[metric_name]]) + 0.5
@@ -462,7 +466,7 @@ def compare_algorithms(b, di, rw, egr, mc, ceo, ro, threshold, metric_name="Disp
     fig = fig.add_shape(right_red)
     #fig.add_vline(x= 0 if metric_name != "Disparate impact" else 1, line_width=1, line_color="black")
     fig.update_traces(marker_size=10)
-    fig.update_layout(hovermode='closest',yaxis_range=[min([b['Balanced accuracy'], di['Balanced accuracy'], rw['Balanced accuracy'], egr['Balanced accuracy'], mc['Balanced accuracy'], ceo['Balanced accuracy'], ro['Balanced accuracy']])-0.001,max([b['Balanced accuracy'], di['Balanced accuracy'], rw['Balanced accuracy'], egr['Balanced accuracy'], mc['Balanced accuracy'], ceo['Balanced accuracy'], ro['Balanced accuracy']])+0.001])
+    fig.update_layout(hovermode='closest',yaxis_range=[min([b['Balanced accuracy'], di['Balanced accuracy'], rw['Balanced accuracy'], egr['Balanced accuracy'], mc['Balanced accuracy'], ceo['Balanced accuracy'], ro['Balanced accuracy']])-0.01,max([b['Balanced accuracy'], di['Balanced accuracy'], rw['Balanced accuracy'], egr['Balanced accuracy'], mc['Balanced accuracy'], ceo['Balanced accuracy'], ro['Balanced accuracy']])+0.01])
     return fig
 
 def algo_exp(method):

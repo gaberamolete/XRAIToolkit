@@ -23,8 +23,8 @@ def art_mia(x_train, y_train, x_test, y_test, art_extra_dict, key, attack_train_
     bb_attack = MembershipInferenceBlackBox(art_regressor, input_type='loss')
  
     #set the attack train ratio
-    attack_train_size = int(len(x_train) * attack_train_ratio)
-    attack_test_size = int(len(x_test) * attack_train_ratio)
+    attack_train_size = int(x_train.shape[0] * attack_train_ratio)
+    attack_test_size = int(x_test.shape[0] * attack_train_ratio)
     bb_attack.fit(x_train[:attack_train_size], y_train[:attack_train_size], x_test[:attack_test_size], y_test[:attack_test_size])
 
     #generate inferences from model output 

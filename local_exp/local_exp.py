@@ -163,7 +163,7 @@ def get_feature_names(column_transformer, cat_cols):
     return feature_names
 
 def exp_qii(model, X, idx, preprocessor = None, method = 'banzhaf',
-            plot = True, pool_size = 100, n_samplings = 50):
+            plot = True, pool_size = 100, n_samplings = 50, cat_cols = None):
     '''
     An alternate variable-importance measure using Quantity of Interest Method.
     
@@ -191,10 +191,20 @@ def exp_qii(model, X, idx, preprocessor = None, method = 'banzhaf',
             feature_names = preprocessor.get_feature_names_out()
             print('Preprocessing - Normal')
         except:
-            p_ind = preprocessor[-1].get_support(indices = True)
-            fn = preprocessor.get_feature_names_out()
-            feature_names = [fn[x] for x in p_ind]
-            print('Preprocessing - Steps')
+            try:
+                p_ind = preprocessor[-1].get_support(indices = True)
+                fn = preprocessor[0].get_feature_names_out()
+                feature_names = [fn[x] for x in p_ind]
+                print('Preprocessing - Steps')
+            except:
+                try:
+                    feature_names = get_feature_names(preprocessor, cat_cols)
+                    print('Preprocessing (old) - Normal')
+                except:
+                    p_ind = preprocessor[-1].get_support(indices = True)
+                    fn = get_feature_names(preprocessor[0], cat_cols)
+                    feature_names = [fn[x] for x in p_ind]
+                    print('Preprocessing (old) - Steps')
     else:
         X_proc = X.copy()
         feature_names = X_proc.columns.tolist()
@@ -288,8 +298,8 @@ def break_down(exp, obs, order = None, random_state = 42, N = None, labels = Non
     if labels:
         bd.result['label'] = bd.result['label'] + f'_{label}'
     
-    bd.plot()
-    return bd.result, bd.plot(show=False)
+    plot = bd.plot()
+    return bd.result, plot
 
 def interactive(exp, obs, count = 10, random_state = 42, N = None, labels = None):
     '''
@@ -313,8 +323,8 @@ def interactive(exp, obs, count = 10, random_state = 42, N = None, labels = None
                              random_state = random_state, N = N)
     if labels:
         inter.result['label'] = inter.result['label'] + f'_{label}'
-    inter.plot()
-    return inter.result, inter.plot(show=False)
+    plot = inter.plot()
+    return inter.result, plot
 
 def cp_profile(exp, obs, variables = None, var_type = 'numerical', labels = False):
     '''
@@ -349,10 +359,10 @@ def cp_profile(exp, obs, variables = None, var_type = 'numerical', labels = Fals
                     return print(f'The variable `{col}` is not a categorical column found in the explanation object.')
 
     cp = exp.predict_profile(obs)
-    cp.plot(variables = variables, variable_type = var_type)
-    return cp.result, cp.plot(variables = variables, variable_type = var_type, show=False)
+    plot = cp.plot(variables = variables, variable_type = var_type)
+    return cp.result, plot
 
-def initiate_shap_loc(X, model, preprocessor = None, samples = 100, seed = 42):
+def initiate_shap_loc(X, model, preprocessor = None, samples = 100, seed = 42, cat_cols = None):
     '''
     Initiate the shap explainer used for local explanations. Defaults to an Independent masker, but will redirect to a TabularPartitions if exceptions/errors are encountered.
     
@@ -376,10 +386,20 @@ def initiate_shap_loc(X, model, preprocessor = None, samples = 100, seed = 42):
             feature_names = preprocessor.get_feature_names_out()
             print('Preprocessing - Normal')
         except:
-            p_ind = preprocessor[-1].get_support(indices = True)
-            fn = preprocessor.get_feature_names_out()
-            feature_names = [fn[x] for x in p_ind]
-            print('Preprocessing - Steps')
+            try:
+                p_ind = preprocessor[-1].get_support(indices = True)
+                fn = preprocessor[0].get_feature_names_out()
+                feature_names = [fn[x] for x in p_ind]
+                print('Preprocessing - Steps')
+            except:
+                try:
+                    feature_names = get_feature_names(preprocessor, cat_cols)
+                    print('Preprocessing (old) - Normal')
+                except:
+                    p_ind = preprocessor[-1].get_support(indices = True)
+                    fn = get_feature_names(preprocessor[0], cat_cols)
+                    feature_names = [fn[x] for x in p_ind]
+                    print('Preprocessing (old) - Steps')
     else:
         X_proc = X.copy()
         feature_names = X_proc.columns.tolist()

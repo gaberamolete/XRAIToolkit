@@ -55,9 +55,9 @@ def uct_manipulate_data(X_train, X_test, Y_train, Y_test, model, reg):
     
     else:
         uct_data_dict = {}
-        uct_data_dict['y_pred'] = model.predict_proba(X_train)
-        uct_data_dict['y_std'] = model.predict_proba(X_train).std()
-        uct_data_dict['y_mean'] = model.predict_proba(X_train).mean()
+        uct_data_dict['y_pred'] = np.array([x[1] for x in model.predict_proba(X_train)])
+        uct_data_dict['y_std'] = uct_data_dict['y_pred'].std()
+        uct_data_dict['y_mean'] = uct_data_dict['y_pred'].mean()
         uct_data_dict['y_true'] = Y_train.to_numpy()
         uct_data_dict['y2_mean'] = np.subtract(uct_data_dict['y_pred'], uct_data_dict['y_mean'])
         

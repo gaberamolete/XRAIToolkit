@@ -20,6 +20,81 @@ from alibi_detect.cd import MMDDrift, FETDrift, CVMDrift, ChiSquareDrift, Tabula
 from alibi_detect.cd import ClassifierUncertaintyDrift, RegressorUncertaintyDrift
 from alibi_detect.saving import save_detector, load_detector
 
+import sklearn
+import warnings
+
+def get_feature_names(column_transformer, cat_cols):
+    """Get feature names from all transformers.
+    Returns
+    -------
+    feature_names : list of strings
+        Names of the features produced by transform.
+    """
+    # Remove the internal helper function
+    #check_is_fitted(column_transformer)
+    
+    # Turn loopkup into function for better handling with pipeline later
+    def get_names(trans, cat_cols):
+        # >> Original get_feature_names() method
+        if trans == 'drop' or (
+                hasattr(column, '__len__') and not len(column)):
+            return []
+        if trans == 'passthrough':
+            if hasattr(column_transformer, '_df_columns'):
+                if ((not isinstance(column, slice))
+                        and all(isinstance(col, str) for col in column)):
+                    return column
+                else:
+                    return column_transformer._df_columns[column]
+            else:
+                indices = np.arange(column_transformer._n_features)
+                return ['y%d' % i for i in indices[column]]
+        if not hasattr(trans, 'get_feature_names'):
+        # >>> Change: Return input column names if no method avaiable
+            # Turn error into a warning
+            warnings.warn("Transformer %s (type %s) does not "
+                                 "provide get_feature_names. "
+                                 "Will return input column names if available"
+                                 % (str(name), type(trans).__name__))
+            # For transformers without a get_features_names method, use the input
+            # names to the column transformer
+            if column is None:
+                return []
+            else:
+                
+                return [name + "__" + f for f in column]
+        # print(trans)
+        f = [name + "__" + f for f in trans.get_feature_names(cat_cols)]
+        # print(f)
+        return f 
+    
+    ### Start of processing
+    feature_names = []
+    
+    # Allow transformers to be pipelines. Pipeline steps are named differently, so preprocessing is needed
+    if type(column_transformer) == sklearn.pipeline.Pipeline:
+        l_transformers = [(name, trans, None, None) for step, name, trans in column_transformer._iter()]
+        # print(l_transformers)
+    else:
+        # For column transformers, follow the original method
+        l_transformers = list(column_transformer._iter(fitted=True))
+        #print(l_transformers)
+    
+    
+    for name, trans, column, _ in l_transformers: 
+        if type(trans) == sklearn.pipeline.Pipeline:
+            # Recursive call on pipeline
+            _names = get_feature_names(trans, cat_cols)
+            #print(_names)
+            # if pipeline has no transformer that returns names
+            if len(_names)==0:
+                _names = [name + "__" + f for f in column]
+            feature_names.extend(_names)
+        else:
+            feature_names.extend(get_names(trans, cat_cols))
+    
+    return feature_names
+
 def calculate_psi(expected, actual, buckettype='bins', buckets=10, axis=0):
     
     def psi(expected_array, actual_array, buckets):
@@ -859,7 +934,7 @@ def regression_performance_report(current_data, reference_data, report_format = 
         RegressionAbsPercentageErrorPlot(),
         RegressionErrorDistribution(),
         RegressionErrorNormality(),
-        RegressionTopErrorMetric(top_error = top_error),
+        # RegressionTopErrorMetric(top_error = top_error), ## COMMENTED OUT
         RegressionErrorBiasTable(columns = columns, top_error = top_error),
         ConflictTargetMetric(),
         ConflictPredictionMetric()
@@ -1253,166 +1328,206 @@ def categs(X, infer = False):
     
     return df_cat_map
 
-def tabular_drift(X_reference, X_current, preprocessor = None, p_val = 0.05, categories_per_feature = None,
-                  drift_type = 'batch', labels = ['No!', 'Yes!'], feature_names = None):
-    """
-    Mixed-type tabular data drift detector with Bonferroni or False Discovery Rate (FDR) correction for multivariate data.
-    Kolmogorov-Smirnov (K-S) univariate tests are applied to continuous numerical data and Chi-Squared (Chi2) univariate tests to categorical data.
-    
-    Parameters
-    ------------
-    X_reference: DataFrame, reference data used in initial model training.
-    X_current: DataFrame, current data being for comparison.
-    reprocessor: preprocessor object, if used to preprocessed data before model training. Defaults to None.
-    p_val: Threshold to determine whether data has drifted. Defaults to 0.05.
-    categories_per_feature: Dictionary, categories per categorical feature. Defaults to None.
-    drift_type: String, either `batch` or `feature`. Defaults to `batch`.
-    labels: List, labels to detect drift. Defaults to ['No', 'Yes'].
-    feature_names: List of feature names of X_reference. Defaults to None.
-    
-    Returns
-    ------------
-    mtt: DataFrame, summarizes Chi-square or K-S statistics and drift detections for each variable. 
-    """
-    
-    print("Mixed-Type Tabular Drift")
-    print('--------------------')
-    
-    if preprocessor:
-        X_reference = preprocessor.transform(X_reference)
-        X_current = preprocessor.transform(X_current)
-        features = preprocessor.get_feature_names_out()
-        X_reference = pd.DataFrame(X_reference, columns=features)
-        X_current = pd.DataFrame(X_current, columns=features)
-        
-    if not categories_per_feature:
-        categories_per_feature = categs(X_reference, infer = True)
-    
-    # Initialize detector    
-    cd = TabularDrift(X_reference.to_numpy(), p_val = p_val, categories_per_feature = categories_per_feature)
+### DEPRECATED
 
-    preds = cd.predict(X_current.to_numpy(), drift_type = drift_type)
-    labels = ['No!', 'Yes!']
-    print('Drift? {}'.format(labels[preds['data']['is_drift']]))
-    print('p-value: {}'.format(preds['data']['p_val'][0]))
+# def tabular_drift(X_reference, X_current, preprocessor = None, p_val = 0.05, categories_per_feature = None,
+#                   drift_type = 'batch', labels = ['No!', 'Yes!'], feature_names = None, cat_cols = None):
+#     """
+#     Mixed-type tabular data drift detector with Bonferroni or False Discovery Rate (FDR) correction for multivariate data.
+#     Kolmogorov-Smirnov (K-S) univariate tests are applied to continuous numerical data and Chi-Squared (Chi2) univariate tests to categorical data.
     
-    # Extract feature names if needed
-    if not feature_names:
-        if preprocessor:
-            feature_names = preprocessor.get_feature_names_out()
-        else:
-            feature_names = X_reference.columns.tolist()
-            
-    fnames = []
-    stats = []
-    stat_vals = []
-    p_vals = []
+#     Parameters
+#     ------------
+#     X_reference: DataFrame, reference data used in initial model training.
+#     X_current: DataFrame, current data being for comparison.
+#     reprocessor: preprocessor object, if used to preprocessed data before model training. Defaults to None.
+#     p_val: Threshold to determine whether data has drifted. Defaults to 0.05.
+#     categories_per_feature: Dictionary, categories per categorical feature. Defaults to None.
+#     drift_type: String, either `batch` or `feature`. Defaults to `batch`.
+#     labels: List, labels to detect drift. Defaults to ['No', 'Yes'].
+#     feature_names: List of feature names of X_reference. Defaults to None.
     
-    if drift_type == 'batch':
-        print('For Batch drift type:\n')
+#     Returns
+#     ------------
+#     mtt: DataFrame, summarizes Chi-square or K-S statistics and drift detections for each variable. 
+#     """
+    
+#     print("Mixed-Type Tabular Drift")
+#     print('--------------------')
+    
+#     # if preprocessor:
+#     #     X_reference = preprocessor.transform(X_reference)
+#     #     X_current = preprocessor.transform(X_current)
+#     #     try:
+#     #         feature_names = preprocessor.get_feature_names_out()
+#     #         print('Preprocessing - Normal')
+#     #     except:
+#     #         try:
+#     #             p_ind = preprocessor[-1].get_support(indices = True)
+#     #             fn = preprocessor[0].get_feature_names_out()
+#     #             feature_names = [fn[x] for x in p_ind]
+#     #             print('Preprocessing - Steps')
+#     #         except:
+#     #             try:
+#     #                 feature_names = get_feature_names(preprocessor, cat_cols)
+#     #                 print('Preprocessing (old) - Normal')
+#     #             except:
+#     #                 p_ind = preprocessor[-1].get_support(indices = True)
+#     #                 fn = get_feature_names(preprocessor[0], cat_cols)
+#     #                 feature_names = [fn[x] for x in p_ind]
+#     #                 print('Preprocessing (old) - Steps')
+#     #     X_reference = pd.DataFrame(X_reference, columns = feature_names)
+#     #     X_current = pd.DataFrame(X_current, columns = feature_names)
         
-        # Check which of the feature-level p-values are below threshold
-        print('Threshold: ', preds['data']['threshold'])
-        # The preds dictionary also returns the K-S test statistics and p-value for each feature:
-        for f in range(cd.n_features):
-            stat = 'Chi2' if f in list(categories_per_feature.keys()) else 'K-S'
-            fname = feature_names[f]
-            stat_val, p_val = preds['data']['distance'][f], preds['data']['p_val'][f]
-            print(f'{fname} -- {stat} {stat_val:.3f} -- p-value {p_val:.3f}')
-            
-            fnames.append(fname)
-            stats.append(stat)
-            stat_vals.append(stat_val)
-            p_vals.append(p_val)
-        
-        mtt = pd.DataFrame({
-            'feature_name': fnames,
-            'statistics': stats,
-            'stat_value': stat_vals,
-            'p_value': p_vals
-        })
-            
-    elif drift_type == 'feature':
-        print('For Feature drift type:\n')
-        
-        drifts = []
-        
-        fpreds = cd.predict(preprocessor.transform(X_reference), drift_type='feature')
+#     if not categories_per_feature:
+#         categories_per_feature = categs(X_reference, infer = True)
+#         print(categories_per_feature)
+    
+#     # Initialize detector    
+#     cd = TabularDrift(X_reference.to_numpy(), p_val = p_val, categories_per_feature = categories_per_feature)
 
-        for f in range(cd.n_features):
-            stat = 'Chi2' if f in list(categories_per_feature.keys()) else 'K-S'
-            fname = feature_names[f]
-            is_drift = fpreds['data']['is_drift'][f]
-            stat_val, p_val = fpreds['data']['distance'][f], fpreds['data']['p_val'][f]
-            print(f'{fname} -- Drift? {labels[is_drift]} -- {stat} {stat_val:.3f} -- p-value {p_val:.3f}')
+#     preds = cd.predict(X_current.to_numpy(), drift_type = drift_type)
+#     labels = ['No!', 'Yes!']
+#     print('Drift? {}'.format(labels[preds['data']['is_drift']]))
+#     print('p-value: {}'.format(preds['data']['p_val'][0]))
+    
+#     # Extract feature names if needed
+#     if not feature_names:
+#         if preprocessor:
+#             try:
+#                 feature_names = preprocessor.get_feature_names_out()
+#                 print('Preprocessing - Normal')
+#             except:
+#                 try:
+#                     p_ind = preprocessor[-1].get_support(indices = True)
+#                     fn = preprocessor[0].get_feature_names_out()
+#                     feature_names = [fn[x] for x in p_ind]
+#                     print('Preprocessing - Steps')
+#                 except:
+#                     try:
+#                         feature_names = get_feature_names(preprocessor, cat_cols)
+#                         print('Preprocessing (old) - Normal')
+#                     except:
+#                         p_ind = preprocessor[-1].get_support(indices = True)
+#                         fn = get_feature_names(preprocessor[0], cat_cols)
+#                         feature_names = [fn[x] for x in p_ind]
+#                         print('Preprocessing (old) - Steps')
+#         else:
+#             feature_names = X_reference.columns.tolist()
             
-            fnames.append(fname)
-            stats.append(stat)
-            drifts.append(labels[is_drift])
-            stat_vals.append(stat_val)
-            p_vals.append(p_val)
+#     fnames = []
+#     stats = []
+#     stat_vals = []
+#     p_vals = []
+    
+#     if drift_type == 'batch':
+#         print('For Batch drift type:\n')
         
-        mtt = pd.DataFrame({
-            'feature_name': fnames,
-            'drift_detected': drifts,
-            'statistics': stats,
-            'stat_value': stat_vals,
-            'p_value': p_vals
-        })
+#         # Check which of the feature-level p-values are below threshold
+#         print('Threshold: ', preds['data']['threshold'])
+#         # The preds dictionary also returns the K-S test statistics and p-value for each feature:
+#         for f in range(cd.n_features):
+#             stat = 'Chi2' if f in list(categories_per_feature.keys()) else 'K-S'
+#             fname = feature_names[f]
+#             stat_val, p_val = preds['data']['distance'][f], preds['data']['p_val'][f]
+#             print(f'{fname} -- {stat} {stat_val:.3f} -- p-value {p_val:.3f}')
             
-    else:
-        print('Please specify a valid drift type: either `batch` or `feature`. ')
-        return None
+#             fnames.append(fname)
+#             stats.append(stat)
+#             stat_vals.append(stat_val)
+#             p_vals.append(p_val)
         
-    return mtt
-
-def chi_sq(X_reference, X_current, p_val = 0.05, labels = ['No!', 'Yes!']):
-    """
-    For categorical variables, Chi-Squared data drift detector with Bonferroni or False Discovery Rate (FDR) correction for multivariate data.
-    
-    Parameters
-    ------------
-    X_reference: DataFrame, reference data used in initial model training.
-    X_current: DataFrame, current data being for comparison.
-    p_val: Threshold to determine whether data has drifted. Defaults to 0.05.
-    
-    Returns
-    ------------
-    cs: DataFrame, summarizes Chi-square statistics and drift detections for each categorical variable.
-    """
-    
-    cd = ChiSquareDrift(X_reference.select_dtypes(exclude = np.number).to_numpy(), p_val = p_val)
-    preds = cd.predict(X_current.select_dtypes(exclude = np.number).to_numpy())
-    print('Drift? {}'.format(labels[preds['data']['is_drift']]))
-    
-    cat_names = X_reference.select_dtypes(exclude = np.number).columns.tolist()
-    
-    print(f"Threshold: {preds['data']['threshold']}")
-    
-    fnames = []
-    drifts = []
-    stats = []
-    stat_vals = []
-    p_vals = []
-    
-    for f in range(cd.n_features):
-        fname = cat_names[f]
-        is_drift = (preds['data']['p_val'][f] < preds['data']['threshold']).astype(int)
-        stat_val, p_val = preds['data']['distance'][f], preds['data']['p_val'][f]
-        print(f'{fname} -- Drift? {labels[is_drift]} -- Chi2 {stat_val:.3f} -- p-value {p_val:.3f}')
+#         mtt = pd.DataFrame({
+#             'feature_name': fnames,
+#             'statistics': stats,
+#             'stat_value': stat_vals,
+#             'p_value': p_vals
+#         })
+            
+#     elif drift_type == 'feature':
+#         print('For Feature drift type:\n')
         
-        fnames.append(fname)
-        drifts.append(labels[is_drift])
-        stats.append('Chi2')
-        stat_vals.append(stat_val)
-        p_vals.append(p_val)
+#         drifts = []
+        
+#         fpreds = cd.predict(preprocessor.transform(X_reference), drift_type='feature')
 
-    cs = pd.DataFrame({
-        'feature_name': fnames,
-        'drift_detected': drifts,
-        'statistics': stats,
-        'stat_value': stat_vals,
-        'p_value': p_vals
-    })
+#         for f in range(cd.n_features):
+#             stat = 'Chi2' if f in list(categories_per_feature.keys()) else 'K-S'
+#             fname = feature_names[f]
+#             is_drift = fpreds['data']['is_drift'][f]
+#             stat_val, p_val = fpreds['data']['distance'][f], fpreds['data']['p_val'][f]
+#             print(f'{fname} -- Drift? {labels[is_drift]} -- {stat} {stat_val:.3f} -- p-value {p_val:.3f}')
+            
+#             fnames.append(fname)
+#             stats.append(stat)
+#             drifts.append(labels[is_drift])
+#             stat_vals.append(stat_val)
+#             p_vals.append(p_val)
+        
+#         mtt = pd.DataFrame({
+#             'feature_name': fnames,
+#             'drift_detected': drifts,
+#             'statistics': stats,
+#             'stat_value': stat_vals,
+#             'p_value': p_vals
+#         })
+            
+#     else:
+#         print('Please specify a valid drift type: either `batch` or `feature`. ')
+#         return None
+        
+#     return mtt
+
+### DEPRECATED
+
+# def chi_sq(X_reference, X_current, p_val = 0.05, labels = ['No!', 'Yes!']):
+#     """
+#     For categorical variables, Chi-Squared data drift detector with Bonferroni or False Discovery Rate (FDR) correction for multivariate data.
     
-    return cs
+#     Parameters
+#     ------------
+#     X_reference: DataFrame, reference data used in initial model training.
+#     X_current: DataFrame, current data being for comparison.
+#     p_val: Threshold to determine whether data has drifted. Defaults to 0.05.
+    
+#     Returns
+#     ------------
+#     cs: DataFrame, summarizes Chi-square statistics and drift detections for each categorical variable.
+#     """
+    
+#     cd = ChiSquareDrift(X_reference.select_dtypes(exclude = np.number), p_val = p_val)
+#     preds = cd.predict(X_current.select_dtypes(exclude = np.number) # to_numpy()
+#                       )
+#     print('Drift? {}'.format(labels[preds['data']['is_drift']]))
+    
+#     cat_names = X_reference.select_dtypes(exclude = np.number).columns.tolist()
+    
+#     print(f"Threshold: {preds['data']['threshold']}")
+    
+#     fnames = []
+#     drifts = []
+#     stats = []
+#     stat_vals = []
+#     p_vals = []
+    
+#     for f in range(cd.n_features):
+#         fname = cat_names[f]
+#         is_drift = (preds['data']['p_val'][f] < preds['data']['threshold']).astype(int)
+#         stat_val, p_val = preds['data']['distance'][f], preds['data']['p_val'][f]
+#         print(f'{fname} -- Drift? {labels[is_drift]} -- Chi2 {stat_val:.3f} -- p-value {p_val:.3f}')
+        
+#         fnames.append(fname)
+#         drifts.append(labels[is_drift])
+#         stats.append('Chi2')
+#         stat_vals.append(stat_val)
+#         p_vals.append(p_val)
+
+#     cs = pd.DataFrame({
+#         'feature_name': fnames,
+#         'drift_detected': drifts,
+#         'statistics': stats,
+#         'stat_value': stat_vals,
+#         'p_value': p_vals
+#     })
+    
+#     return cs

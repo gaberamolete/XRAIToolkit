@@ -61,8 +61,8 @@ def pd_profile(exp, variables = None, var_type = 'numerical', groups = None, ran
                               N = N)
     if labels:
         pd.result['_label_'] = 'PD profiles'
-    pd.plot()
-    return pd.result, pd.plot(show=False)
+    plot = pd.plot()
+    return pd.result, plot
 
 def var_imp(exp, loss_function = 'rmse', groups = None, N = 1000, B = 10, random_state = 42):
     '''
@@ -103,8 +103,8 @@ def var_imp(exp, loss_function = 'rmse', groups = None, N = 1000, B = 10, random
     
     vi = exp.model_parts(variable_groups = groups, loss_function = loss_function,
                          N = N, B = B, random_state = random_state)
-    vi.plot()
-    return vi.result.sort_values(by = 'dropout_loss', ascending = False), vi.plot(show=False)
+    plot = vi.plot()
+    return vi.result.sort_values(by = 'dropout_loss', ascending = False), plot
 
 def ld_profile(exp, variables = None, var_type = 'numerical', groups = None, random_state = 42, N = 300, labels = False):
     '''
@@ -136,8 +136,8 @@ def ld_profile(exp, variables = None, var_type = 'numerical', groups = None, ran
                               N = N)
     if labels:
         ld.result['_label_'] = 'LD profiles'
-    ld.plot()
-    return ld.result, ld.plot(show=False)
+    plot = ld.plot()
+    return ld.result, plot
 
 def al_profile(exp, variables = None, var_type = 'numerical', groups = None, random_state = 42, N = 300, labels = False):
     '''
@@ -169,8 +169,8 @@ def al_profile(exp, variables = None, var_type = 'numerical', groups = None, ran
                               N = N)
     if labels:
         al.result['_label_'] = 'AL profiles'
-    al.plot()
-    return al.result, al.plot(show=False)
+    plot = al.plot()
+    return al.result, plot
 
 def compare_profiles(exp, variables = None, var_type = 'numerical', groups = None, random_state = 42, N = 300):
     '''
@@ -209,7 +209,9 @@ def compare_profiles(exp, variables = None, var_type = 'numerical', groups = Non
                               N = N)
     al.result['_label_'] = al.result['_label_'] + '_AL profiles'
     
-    return pd.plot([ld, al], show=False)
+    plot = pd.plot([ld, al])
+    
+    return plot
 
 def get_feature_names(column_transformer, cat_cols):
     """Get feature names from all transformers.
@@ -283,7 +285,7 @@ def get_feature_names(column_transformer, cat_cols):
     
     return feature_names
 
-def initiate_shap_glob(X, model_global, preprocessor = None, samples = 100):
+def initiate_shap_glob(X, model_global, preprocessor = None, samples = 100, cat_cols = None):
     """
     Initiate instance for SHAP global object. Defaults to a TreeExplainer, but will redirect to a KernelExplainer if exceptions/errors are encountered.
     
@@ -305,10 +307,22 @@ def initiate_shap_glob(X, model_global, preprocessor = None, samples = 100):
         X_proc = preprocessor.transform(X)
         try:
             feature_names = preprocessor.get_feature_names_out()
+            print('Preprocessing - Normal')
         except:
-            p_ind = preprocessor[-1].get_support(indices = True)
-            fn = preprocessor.get_feature_names_out()
-            feature_names = [fn[x] for x in p_ind]
+            try:
+                p_ind = preprocessor[-1].get_support(indices = True)
+                fn = preprocessor[0].get_feature_names_out()
+                feature_names = [fn[x] for x in p_ind]
+                print('Preprocessing - Steps')
+            except:
+                try:
+                    feature_names = get_feature_names(preprocessor, cat_cols)
+                    print('Preprocessing (old) - Normal')
+                except:
+                    p_ind = preprocessor[-1].get_support(indices = True)
+                    fn = get_feature_names(preprocessor[0], cat_cols)
+                    feature_names = [fn[x] for x in p_ind]
+                    print('Preprocessing (old) - Steps')
     else:
         X_proc = X.copy()
 

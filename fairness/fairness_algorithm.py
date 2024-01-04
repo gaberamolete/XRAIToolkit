@@ -1,4 +1,5 @@
 import pandas as pd
+# import tkinter
 import numpy as np
 from collections import OrderedDict
 from copy import deepcopy
@@ -12,7 +13,7 @@ from aif360.algorithms.inprocessing import MetaFairClassifier
 from aif360.algorithms.preprocessing import DisparateImpactRemover
 from aif360.algorithms.postprocessing.calibrated_eq_odds_postprocessing import CalibratedEqOddsPostprocessing
 from aif360.algorithms.postprocessing.reject_option_classification import RejectOptionClassification
-from aif360.sklearn.metrics.metrics import class_imbalance
+# from aif360.sklearn.metrics.metrics import class_imbalance ## COMMENTED OUT AS NOT YET IN 0.4.0
 
 def compute_metrics(dataset_true, dataset_pred, unprivileged_groups, privileged_groups, disp = True):
     """ Compute the key metrics """
@@ -29,7 +30,7 @@ def compute_metrics(dataset_true, dataset_pred, unprivileged_groups, privileged_
     metrics["Equal opportunity difference"] = classified_metric_pred.equal_opportunity_difference()
     metrics["Theil index"] = classified_metric_pred.theil_index()
     #metrics["Smoothed EDF"] = classified_metric_pred.smoothed_empirical_differential_fairness()
-    metrics["Class Imbalance"] = class_imbalance(pd.DataFrame(dataset_true.labels, index=dataset_true.protected_attributes.ravel()), pd.DataFrame(dataset_pred.labels, index=dataset_pred.protected_attributes.ravel()))
+    # metrics["Class Imbalance"] = class_imbalance(pd.DataFrame(dataset_true.labels, index=dataset_true.protected_attributes.ravel()), pd.DataFrame(dataset_pred.labels, index=dataset_pred.protected_attributes.ravel())) ## COMMENTED OUT AS NOT YET IN 0.4.0
     
     if disp:
         with pd.option_context('display.max_rows', None,

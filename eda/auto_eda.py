@@ -1,14 +1,14 @@
 import pandas as pd
 import seaborn as sns
-import dtale
+# import dtale # COMMENTED OUT
 import autoviz
 from ydata_profiling import ProfileReport ## COMMENTED OUT
 from autoviz.AutoViz_Class import AutoViz_Class
 
-#output in notebook
-def dtale_eda(dataframe):
-    d = dtale.show(dataframe)
-    return d
+# #output in notebook
+# def dtale_eda(dataframe):
+#     d = dtale.show(dataframe)
+#     return d
 
 # #output in browser
 # def dtale_eda2(dataframe):

@@ -54,7 +54,7 @@ A custom dashboard was developed to showcase the capabilities of the functions o
 ## Cloning the Project 
 Using Git Bash, type the following in your preferred location of the cloned directory:
 ```
-git clone https://github.com/jbramos9/XRAIDashboard.git
+git clone https://github.com/gaberamolete/XRAIDashboard.git
 ```
 You can also download the zip file of this repository, and extract it in your preferred location.
 

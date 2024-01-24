@@ -806,6 +806,12 @@ def plot_reliability_diagram(y, x, calib, n_bins = 50, reg = False, title = None
     
     if not reg:
         fig.update_layout(yaxis_range = [-0.1, 1.1], xaxis_range = [-0.1, 1.1])
+
+    # Axis Labels
+    if reg:
+        fig.update_layout(xaxis_title = 'Actual', yaxis_title = 'Predicted')
+    elif not reg:
+        fig.update_layout(xaxis_title = 'Actual (Probability)', yaxis_title = 'Predicted (Probability)')
     
     fig.show()
     

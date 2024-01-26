@@ -22,7 +22,7 @@ from autoviz.AutoViz_Class import AutoViz_Class
 
 # output as html
 def ydata_profiling_eda2(dataframe): ## COMMENTED OUT
-    profile = ProfileReport(dataframe, title='Pandas Profiling Report')
+    profile = ProfileReport(dataframe, title='Pandas Profiling Report', minimal=True)
     return profile.to_file("assets/your_report.html")
 
 # #output in notebook

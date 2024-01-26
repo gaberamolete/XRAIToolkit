@@ -72,26 +72,28 @@ def get_feature_names(column_transformer, cat_cols):
     feature_names = []
     
     # Allow transformers to be pipelines. Pipeline steps are named differently, so preprocessing is needed
-    if type(column_transformer) == sklearn.pipeline.Pipeline:
-        l_transformers = [(name, trans, None, None) for step, name, trans in column_transformer._iter()]
-        # print(l_transformers)
-    else:
-        # For column transformers, follow the original method
-        l_transformers = list(column_transformer._iter(fitted=True))
-        #print(l_transformers)
-    
-    
-    for name, trans, column, _ in l_transformers: 
-        if type(trans) == sklearn.pipeline.Pipeline:
-            # Recursive call on pipeline
-            _names = get_feature_names(trans, cat_cols)
-            #print(_names)
-            # if pipeline has no transformer that returns names
-            if len(_names)==0:
-                _names = [name + "__" + f for f in column]
-            feature_names.extend(_names)
+    try:
+        if type(column_transformer) == sklearn.pipeline.Pipeline:
+            l_transformers = [(name, trans, None, None) for step, name, trans in column_transformer._iter()]
+            # print(l_transformers)
         else:
-            feature_names.extend(get_names(trans, cat_cols))
+            # For column transformers, follow the original method
+            l_transformers = list(column_transformer._iter(fitted=True))
+            # print(l_transformers)
+
+        for name, trans, column, _ in l_transformers: 
+            if type(trans) == sklearn.pipeline.Pipeline:
+                # Recursive call on pipeline
+                _names = get_feature_names(trans, cat_cols)
+                # print(_names)
+                # if pipeline has no transformer that returns names
+                if len(_names) == 0:
+                    _names = [name + "__" + f for f in column]
+                feature_names.extend(_names)
+            else:
+                feature_names.extend(get_names(trans, cat_cols))
+    except:
+        feature_names = list(column_transformer.feature_names_in_)
     
     return feature_names
 

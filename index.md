@@ -97,18 +97,6 @@ git clone https://github.com/gaberamolete/XRAIDashboard.git
 ```
 You can also download the zip file of this repository, and extract it in your preferred location.
 
-## Setting up the Environment 
-To easily create the environment for XRAI in your local machine, you can run the following in a command prompt or terminal.
-```
-conda env create -f environment.yml
-```
-The `environment.yml` is the latest environment with no dependency issues, while the `latest_env.yml` has some due to the addition of the Responsible AI library. Some components in the dashboard may not be available from `environment.yml`.
-
-After creating an environment, you can create a kernel to enable the notebooks to use the conda environment using the following lines.
-```
-python -m ipykernel install --user --name=XRAI
-```
-
 ## Requirements
 A new folder called "xrai" should be created. download the requirements via `pip3 install -r requirements.txt`. You might need to include `--timeout=1000`.
 After installation, download the XRAIDashboard package and input the following in your terminal. 

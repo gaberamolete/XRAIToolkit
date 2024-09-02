@@ -1,13 +1,13 @@
 ---
 layout: default
-title: XRAIDashboard.stability.stability.data_drift_dataset_test
+title: xrai_toolkit.stability.stability.data_drift_dataset_test
 parent: Stability
 grand_parent: Toolkit
 nav_order: 1
 ---
 
-# XRAIDashboard.stability.stability.data_drift_dataset_test
-**[XRAIDashboard.stability.stability.data_drift_dataset_test(current_data, reference_data, test_format = 'json', column_mapping = None, = 0.5, stattest = None, stattest_threshold = None, cat_stattest = None, cat_stattest_threshold = None, num_stattest = None, num_stattest_threshold = None, per_column_stattest = None, per_column_stattest_threshold = None):](https://github.com/gaberamolete/XRAIDashboard/blob/main/stability/stability.py)**
+# xrai_toolkit.stability.stability.data_drift_dataset_test
+**[xrai_toolkit.stability.stability.data_drift_dataset_test(current_data, reference_data, test_format = 'json', column_mapping = None, = 0.5, stattest = None, stattest_threshold = None, cat_stattest = None, cat_stattest_threshold = None, num_stattest = None, num_stattest_threshold = None, per_column_stattest = None, per_column_stattest_threshold = None):](https://github.com/gaberamolete/xrai_toolkit/blob/main/stability/stability.py)**
 
 
 This compares the distribution of each column in the current dataset to the reference and tests the number and share of drifting features against a defined condition.

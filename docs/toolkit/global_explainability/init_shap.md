@@ -1,13 +1,13 @@
 ---
 layout: default
-title: XRAIDashboard.global_exp.global_exp.initiate_shap_glob
+title: xrai_toolkit.global_exp.global_exp.initiate_shap_glob
 parent: Global Explainability
 grand_parent: Toolkit
 nav_order: 1
 ---
 
-# XRAIDashboard.global_exp.global_exp.initiate_shap_glob
-**[XRAIDashboard.global_exp.global_exp.initiate_shap_glob(X, model, preprocessor = None, samples = 100, seed = 42, cat_cols = None)](https://github.com/gaberamolete/XRAIDashboard/blob/main/global_exp/global_exp.py)**
+# xrai_toolkit.global_exp.global_exp.initiate_shap_glob
+**[xrai_toolkit.global_exp.global_exp.initiate_shap_glob(X, model, preprocessor = None, samples = 100, seed = 42, cat_cols = None)](https://github.com/gaberamolete/xrai_toolkit/blob/main/global_exp/global_exp.py)**
 
 
 Initiate instance for SHAP global object. Defaults to a TreeExplainer, but will redirect to a KernelExplainer if exceptions/errors are encountered.

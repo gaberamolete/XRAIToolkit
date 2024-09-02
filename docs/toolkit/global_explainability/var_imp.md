@@ -1,13 +1,13 @@
 ---
 layout: default
-title: XRAIDashboard.global_exp.global_exp.var_imp
+title: xrai_toolkit.global_exp.global_exp.var_imp
 parent: Global Explainability
 grand_parent: Toolkit
 nav_order: 1
 ---
 
-# XRAIDashboard.global_exp.global_exp.var_imp
-**[XRAIDashboard.global_exp.global_exp.var_imp(exp, loss_function = 'rmse', groups = None, N = 1000, B = 10, random_state = 42)](https://github.com/gaberamolete/XRAIDashboard/blob/main/global_exp/global_exp.py)**
+# xrai_toolkit.global_exp.global_exp.var_imp
+**[xrai_toolkit.global_exp.global_exp.var_imp(exp, loss_function = 'rmse', groups = None, N = 1000, B = 10, random_state = 42)](https://github.com/gaberamolete/xrai_toolkit/blob/main/global_exp/global_exp.py)**
 
 
 A permutation-based approach in explaining variable importance to the model.

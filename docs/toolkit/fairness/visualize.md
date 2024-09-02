@@ -1,13 +1,13 @@
 ---
 layout: default
-title: XRAIDashboard.fairness.outlier.visualize
+title: xrai_toolkit.fairness.outlier.visualize
 parent: Fairness & Performance
 grand_parent: Toolkit
 nav_order: 3
 ---
 
-# XRAIDashboard.fairness.outlier.visualize
-**[XRAIDashboard.fairness.outlier.visualize(data,l,show=['preg','skin'])](https://github.com/gaberamolete/XRAIDashboard/blob/main/fairness/outlier.py)**
+# xrai_toolkit.fairness.outlier.visualize
+**[xrai_toolkit.fairness.outlier.visualize(data,l,show=['preg','skin'])](https://github.com/gaberamolete/XRAIToolkit/blob/main/fairness/outlier.py)**
 
 
 This function is used to visualize the outlier fro inlaier in each

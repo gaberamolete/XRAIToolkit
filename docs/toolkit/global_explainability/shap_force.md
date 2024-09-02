@@ -1,13 +1,13 @@
 ---
 layout: default
-title: XRAIDashboard.global_exp.global_exp.shap_force_glob
+title: xrai_toolkit.global_exp.global_exp.shap_force_glob
 parent: Global Explainability
 grand_parent: Toolkit
 nav_order: 1
 ---
 
-# XRAIDashboard.global_exp.global_exp.shap_force_glob
-**[XRAIDashboard.global_exp.global_exp.shap_force_glob(explainer, shap_values, X_proc, feature_names = None, class_ind = None, class_names = None, samples = 100, reg = False)](https://github.com/gaberamolete/XRAIDashboard/blob/main/global_exp/global_exp.py)**
+# xrai_toolkit.global_exp.global_exp.shap_force_glob
+**[xrai_toolkit.global_exp.global_exp.shap_force_glob(explainer, shap_values, X_proc, feature_names = None, class_ind = None, class_names = None, samples = 100, reg = False)](https://github.com/gaberamolete/xrai_toolkit/blob/main/global_exp/global_exp.py)**
 
 
 Returns an interactive global force plot.

@@ -38,7 +38,7 @@ set_config(display = 'diagram')
 
 
 # Global explanation
-from XRAIDashboard.global_exp.global_exp import dalex_exp, pd_profile, var_imp, ld_profile, al_profile, compare_profiles, initiate_shap_glob, shap_bar_glob, shap_summary, shap_dependence, shap_force_glob
+from xrai_toolkit.global_exp.global_exp import dalex_exp, pd_profile, var_imp, ld_profile, al_profile, compare_profiles, initiate_shap_glob, shap_bar_glob, shap_summary, shap_dependence, shap_force_glob
 ```
 
 Set up the data.

@@ -1,13 +1,13 @@
 ---
 layout: default
-title: XRAIDashboard.stability.stability.target_drift_report
+title: xrai_toolkit.stability.stability.target_drift_report
 parent: Stability
 grand_parent: Toolkit
 nav_order: 1
 ---
 
-# XRAIDashboard.stability.stability.target_drift_report
-**[XRAIDashboard.stability.stability.target_drift_report(current_data, reference_data, report_format = 'json', column_mapping = None, = 0.5, stattest = None, stattest_threshold = None, cat_stattest = None, cat_stattest_threshold = None, num_stattest = None, num_stattest_threshold = None, per_column_stattest = None, per_column_stattest_threshold = None):](https://github.com/gaberamolete/XRAIDashboard/blob/main/stability/stability.py)**
+# xrai_toolkit.stability.stability.target_drift_report
+**[xrai_toolkit.stability.stability.target_drift_report(current_data, reference_data, report_format = 'json', column_mapping = None, = 0.5, stattest = None, stattest_threshold = None, cat_stattest = None, cat_stattest_threshold = None, num_stattest = None, num_stattest_threshold = None, per_column_stattest = None, per_column_stattest_threshold = None):](https://github.com/gaberamolete/xrai_toolkit/blob/main/stability/stability.py)**
 
     
 Drift detection methods that can be used for `stattest` and other equivalent parameters are as follows:

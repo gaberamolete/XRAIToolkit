@@ -1,13 +1,13 @@
 ---
 layout: default
-title: XRAIDashboard.stability.stability.categs
+title: xrai_toolkit.stability.stability.categs
 parent: Stability
 grand_parent: Toolkit
 nav_order: 1
 ---
 
-# XRAIDashboard.stability.stability.categs
-**[XRAIDashboard.stability.stability.categs(X, infer = False)](https://github.com/gaberamolete/XRAIDashboard/blob/main/stability/stability.py)**
+# xrai_toolkit.stability.stability.categs
+**[xrai_toolkit.stability.stability.categs(X, infer = False)](https://github.com/gaberamolete/xrai_toolkit/blob/main/stability/stability.py)**
 
     
 Generate a category map, and the categories on each categorical feature. For Alibe-Detect Functions.

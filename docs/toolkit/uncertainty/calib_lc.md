@@ -1,14 +1,14 @@
 ---
 layout: default
-title: XRAIDashboard.uncertainty.calibration.calib_lc
+title: xrai_toolkit.uncertainty.calibration.calib_lc
 parent: Uncertainty
 grand_parent: Toolkit
 has_children: false
 nav_order: 1
 ---
 
-# XRAIDashboard.uncertainty.calibration.calib_lc
-**[XRAIDashboard.uncertainty.calibration.calib_lc(y_pred,y_true,reg)](https://github.com/gaberamolete/XRAIDashboard/blob/main/uncertainty/calibration.py)**
+# xrai_toolkit.uncertainty.calibration.calib_lc
+**[xrai_toolkit.uncertainty.calibration.calib_lc(y_pred,y_true,reg)](https://github.com/gaberamolete/xrai_toolkit/blob/main/uncertainty/calibration.py)**
 
 
 Logistic Calibration, also known as Platt scaling, trains an SVM and then trains the parameters of an additional sigmoid function to map the SVM outputs into probabilities.

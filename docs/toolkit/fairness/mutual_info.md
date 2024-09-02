@@ -1,13 +1,13 @@
 ---
 layout: default
-title: XRAIDashboard.fairness.cluster_metrics.mutual_info
+title: xrai_toolkit.fairness.cluster_metrics.mutual_info
 parent: Fairness & Performance
 grand_parent: Toolkit
 nav_order: 2
 ---
 
-# XRAIDashboard.fairness.cluster_metrics.mutual_info
-**[XRAIDashboard.fairness.cluster_metrics.mutual_info(num_clusters, X_train, Y_train, show = False)](https://github.com/gaberamolete/XRAIDashboard/blob/main/fairness/cluster_metrics.py)**
+# xrai_toolkit.fairness.cluster_metrics.mutual_info
+**[xrai_toolkit.fairness.cluster_metrics.mutual_info(num_clusters, X_train, Y_train, show = False)](https://github.com/gaberamolete/XRAIToolkit/blob/main/fairness/cluster_metrics.py)**
 
 
 A measure of the similarity between 2 labels of the same data. The AMI returns a value of 1 when the two partitions are identical (ie perfectly matched). Random partitions (independent labellings) have an expected AMI around 0 on average hence can be negative.

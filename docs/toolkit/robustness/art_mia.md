@@ -1,13 +1,13 @@
 ---
 layout: default
-title: XRAIDashboard.robustness.art_mia.art_mia
+title: xrai_toolkit.robustness.art_mia.art_mia
 parent: Robustness
 grand_parent: Toolkit
 nav_order: 1
 ---
 
-# XRAIDashboard.robustness.art_mia.art_mia
-**[XRAIDashboard.robustness.art_mia.art_mia(x_train, y_train, x_test, y_test, art_extra_dict, key, attack_train_ratio=0.3)](https://github.com/gaberamolete/XRAIDashboard/blob/main/robustness/art_mia.py)**
+# xrai_toolkit.robustness.art_mia.art_mia
+**[xrai_toolkit.robustness.art_mia.art_mia(x_train, y_train, x_test, y_test, art_extra_dict, key, attack_train_ratio=0.3)](https://github.com/gaberamolete/xrai_toolkit/blob/main/robustness/art_mia.py)**
 
     
 Returns the inferred train and inferred test 

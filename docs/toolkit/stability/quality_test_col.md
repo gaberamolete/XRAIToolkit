@@ -1,13 +1,13 @@
 ---
 layout: default
-title: XRAIDashboard.stability.stability.data_quality_column_test
+title: xrai_toolkit.stability.stability.data_quality_column_test
 parent: Stability
 grand_parent: Toolkit
 nav_order: 1
 ---
 
-# XRAIDashboard.stability.stability.data_quality_column_test
-**[XRAIDashboard.stability.stability.data_quality_column_test(current_data, reference_data, column, test_format = 'json', n_sigmas = 2, quantile = 0.75):](https://github.com/gaberamolete/XRAIDashboard/blob/main/stability/stability.py)**
+# xrai_toolkit.stability.stability.data_quality_column_test
+**[xrai_toolkit.stability.stability.data_quality_column_test(current_data, reference_data, column, test_format = 'json', n_sigmas = 2, quantile = 0.75):](https://github.com/gaberamolete/xrai_toolkit/blob/main/stability/stability.py)**
 
 
 For a given column in the dataset:

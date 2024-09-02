@@ -1,13 +1,13 @@
 ---
 layout: default
-title: XRAIDashboard.fairness.fairness_algorithm.compute_metrics
+title: xrai_toolkit.fairness.fairness_algorithm.compute_metrics
 parent: Fairness & Performance
 grand_parent: Toolkit
 nav_order: 4
 ---
 
-# XRAIDashboard.fairness.fairness_algorithm.compute_metrics
-**[XRAIDashboard.fairness.fairness_algorithm.compute_metrics(dataset_true, dataset_pred, unprivileged_groups, privileged_groups, disp = True)](https://github.com/gaberamolete/XRAIDashboard/blob/main/fairness/fairness_algorithm.py)**
+# xrai_toolkit.fairness.fairness_algorithm.compute_metrics
+**[xrai_toolkit.fairness.fairness_algorithm.compute_metrics(dataset_true, dataset_pred, unprivileged_groups, privileged_groups, disp = True)](https://github.com/gaberamolete/XRAIToolkit/blob/main/fairness/fairness_algorithm.py)**
 
 
 Compute the fairness metrics for classification

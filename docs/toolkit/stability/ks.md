@@ -1,6 +1,6 @@
 ---
 layout: default
-title: XRAIDashboard.stability.stability.ks
+title: xrai_toolkit.stability.stability.ks
 parent: Stability
 grand_parent: Toolkit
 nav_order: 1

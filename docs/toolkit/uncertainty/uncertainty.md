@@ -37,8 +37,8 @@ from sklearn import set_config
 set_config(display = 'diagram')
 
 # Uncertainty
-from XRAIDashboard.uncertainty.calibration import calib_lc, calib_bc, calib_temp, calib_hb, calib_ir, calib_bbq, calib_enir, calib_ece, calib_mce, calib_ace, calib_nll, calib_pl, calib_picp, calib_qce, calib_ence, calib_uce, calib_metrics, plot_reliability_diagram, my_logit, my_logistic
-from XRAIDashboard.uncertainty.uct import uct_manipulate_data, uct_get_all_metrics, uct_plot_adversarial_group_calibration, uct_plot_average_calibration, uct_plot_ordered_intervals, uct_plot_XY
+from xrai_toolkit.uncertainty.calibration import calib_lc, calib_bc, calib_temp, calib_hb, calib_ir, calib_bbq, calib_enir, calib_ece, calib_mce, calib_ace, calib_nll, calib_pl, calib_picp, calib_qce, calib_ence, calib_uce, calib_metrics, plot_reliability_diagram, my_logit, my_logistic
+from xrai_toolkit.uncertainty.uct import uct_manipulate_data, uct_get_all_metrics, uct_plot_adversarial_group_calibration, uct_plot_average_calibration, uct_plot_ordered_intervals, uct_plot_XY
 ```
 
 Set up the data. Our uncertainty functions need a `uct_data_dict`, which is made from the `uct_manipulate_data` function.

@@ -1,13 +1,13 @@
 ---
 layout: default
-title: XRAIDashboard.uncertainty.calibration.calib_bbq
+title: xrai_toolkit.uncertainty.calibration.calib_bbq
 parent: Uncertainty
 grand_parent: Toolkit
 nav_order: 6
 ---
 
-# XRAIDashboard.uncertainty.calibration.calib_bbq
-**[XRAIDashboard.uncertainty.calibration.calib_bbq(y_pred,y_true,reg)](https://github.com/gaberamolete/XRAIDashboard/blob/main/uncertainty/calibration.py)**
+# xrai_toolkit.uncertainty.calibration.calib_bbq
+**[xrai_toolkit.uncertainty.calibration.calib_bbq(y_pred,y_true,reg)](https://github.com/gaberamolete/xrai_toolkit/blob/main/uncertainty/calibration.py)**
 
 
 Bayesian Binning into Quantiles (BBQ). Utilizes multiple Histogram Binning instances with different amounts of bins, and computes a weighted sum of all methods to obtain a well-calibrated confidence estimate. Not recommended for regression outputs.

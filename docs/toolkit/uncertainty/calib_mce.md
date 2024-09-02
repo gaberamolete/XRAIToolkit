@@ -1,14 +1,14 @@
 ---
 layout: default
-title: XRAIDashboard.uncertainty.calibration.calib_mce
+title: xrai_toolkit.uncertainty.calibration.calib_mce
 parent: Uncertainty
 grand_parent: Toolkit
 has_children: false
 nav_order: 9
 ---
 
-# XRAIDashboard.uncertainty.calibration.calib_mce
-**[XRAIDashboard.uncertainty.calibration.calib_mce(y_pred, y_true, n_bins = 10, equal_intervals: bool = True, sample_threshold: int = 1, reg = False)](https://github.com/gaberamolete/XRAIDashboard/blob/main/uncertainty/calibration.py)**
+# xrai_toolkit.uncertainty.calibration.calib_mce
+**[xrai_toolkit.uncertainty.calibration.calib_mce(y_pred, y_true, n_bins = 10, equal_intervals: bool = True, sample_threshold: int = 1, reg = False)](https://github.com/gaberamolete/xrai_toolkit/blob/main/uncertainty/calibration.py)**
 
 
 Maximum Calibration Error (MCE), denotes the highest gap over all bins.

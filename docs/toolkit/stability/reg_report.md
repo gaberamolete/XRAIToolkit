@@ -1,13 +1,13 @@
 ---
 layout: default
-title: XRAIDashboard.stability.stability.regression_performance_report
+title: xrai_toolkit.stability.stability.regression_performance_report
 parent: Stability
 grand_parent: Toolkit
 nav_order: 1
 ---
 
-# XRAIDashboard.stability.stability.regression_performance_report
-**[XRAIDashboard.stability.stability.regression_performance_report(current_data, reference_data, report_format = 'json', column_mapping = None,top_error = 0.05, columns = None)](https://github.com/gaberamolete/XRAIDashboard/blob/main/stability/stability.py)**
+# xrai_toolkit.stability.stability.regression_performance_report
+**[xrai_toolkit.stability.stability.regression_performance_report(current_data, reference_data, report_format = 'json', column_mapping = None,top_error = 0.05, columns = None)](https://github.com/gaberamolete/xrai_toolkit/blob/main/stability/stability.py)**
 
     
 For a regression model, the report shows the following:

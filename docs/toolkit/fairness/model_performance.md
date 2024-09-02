@@ -1,13 +1,13 @@
 ---
 layout: default
-title: XRAIDashboard.fairness.fairness.model_performance
+title: xrai_toolkit.fairness.fairness.model_performance
 parent: Fairness & Performance
 grand_parent: Toolkit
 nav_order: 1
 ---
 
-# XRAIDashboard.fairness.fairness.model_performance
-**[XRAIDashboard.fairness.fairness.model_performance(model,test_x,test_y,train_x,train_y,all_test,all_train, target_feature ,protected_groups, reg=False)](https://github.com/gaberamolete/XRAIDashboard/blob/main/fairness/fairness.py)**
+# xrai_toolkit.fairness.fairness.model_performance
+**[xrai_toolkit.fairness.fairness.model_performance(model,test_x,test_y,train_x,train_y,all_test,all_train, target_feature ,protected_groups, reg=False)](https://github.com/gaberamolete/XRAIToolkit/blob/main/fairness/fairness.py)**
 
 
 Evaluate the performance of the model on the widely used performance metrics for regression and classification.

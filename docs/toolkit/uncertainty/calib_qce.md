@@ -1,14 +1,14 @@
 ---
 layout: default
-title: XRAIDashboard.uncertainty.calibration.calib_qce
+title: xrai_toolkit.uncertainty.calibration.calib_qce
 parent: Uncertainty
 grand_parent: Toolkit
 has_children: false
 nav_order: 14
 ---
 
-# XRAIDashboard.uncertainty.calibration.calib_qce
-**[XRAIDashboard.uncertainty.calibration.calib_qce(y_pred_means, y_pred_stds, y_true, bins = 10, quantiles = np.linspace(0.1, 0.9, 10 - 1),reduction = 'mean')](https://github.com/gaberamolete/XRAIDashboard/blob/main/uncertainty/calibration.py)**
+# xrai_toolkit.uncertainty.calibration.calib_qce
+**[xrai_toolkit.uncertainty.calibration.calib_qce(y_pred_means, y_pred_stds, y_true, bins = 10, quantiles = np.linspace(0.1, 0.9, 10 - 1),reduction = 'mean')](https://github.com/gaberamolete/xrai_toolkit/blob/main/uncertainty/calibration.py)**
 
 
 Quantile Calibration Error (QCE), a quantile-based calibration. Returns the Marginal Quantile Calibration Error (M-QCE), which measures the gap between predicted quantiles and observed quantile coverage for multivariate distributions. This is based on the Normalized Estimation Error Squared (NEES), known from object tracking.

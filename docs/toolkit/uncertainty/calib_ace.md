@@ -1,14 +1,14 @@
 ---
 layout: default
-title: XRAIDashboard.uncertainty.calibration.calib_ace
+title: xrai_toolkit.uncertainty.calibration.calib_ace
 parent: Uncertainty
 grand_parent: Toolkit
 has_children: false
 nav_order: 10
 ---
 
-# XRAIDashboard.uncertainty.calibration.calib_ace
-**[XRAIDashboard.uncertainty.calibration.calib_ace(y_pred, y_true, n_bins = 10, equal_intervals: bool = True, sample_threshold: int = 1, reg = False)](https://github.com/gaberamolete/XRAIDashboard/blob/main/uncertainty/calibration.py)**
+# xrai_toolkit.uncertainty.calibration.calib_ace
+**[xrai_toolkit.uncertainty.calibration.calib_ace(y_pred, y_true, n_bins = 10, equal_intervals: bool = True, sample_threshold: int = 1, reg = False)](https://github.com/gaberamolete/xrai_toolkit/blob/main/uncertainty/calibration.py)**
 
 
 Average Calibration Error (ACE), denotes the average miscalibration where each bin gets weighted equally.

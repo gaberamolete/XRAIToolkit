@@ -1,14 +1,14 @@
 ---
 layout: default
-title: XRAIDashboard.uncertainty.calibration.calib_ence
+title: xrai_toolkit.uncertainty.calibration.calib_ence
 parent: Uncertainty
 grand_parent: Toolkit
 has_children: false
 nav_order: 15
 ---
 
-# XRAIDashboard.uncertainty.calibration.calib_ence
-**[XRAIDashboard.uncertainty.calibration.calib_ence(y_pred_means, y_pred_stds, y_true, bins = 10)](https://github.com/gaberamolete/XRAIDashboard/blob/main/uncertainty/calibration.py)**
+# xrai_toolkit.uncertainty.calibration.calib_ence
+**[xrai_toolkit.uncertainty.calibration.calib_ence(y_pred_means, y_pred_stds, y_true, bins = 10)](https://github.com/gaberamolete/xrai_toolkit/blob/main/uncertainty/calibration.py)**
 
 
 Expected Normalized Calibration Error (ENCE), a variance-based calibration. Used for normal distributions, where we measure the quality of the predicted variance/stddev estimates. We require that the predicted variance matches the observed error variance, which is equivalent to the Mean Squared Error. ENCE applies a binning scheme with  𝐵 bins over the predicted standard deviation  𝜎𝑦(𝑋) and measures the absolute (normalized) difference between RMSE and RMV.

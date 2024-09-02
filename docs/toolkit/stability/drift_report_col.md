@@ -1,13 +1,13 @@
 ---
 layout: default
-title: XRAIDashboard.stability.stability.data_drift_column_report
+title: xrai_toolkit.stability.stability.data_drift_column_report
 parent: Stability
 grand_parent: Toolkit
 nav_order: 1
 ---
 
-# XRAIDashboard.stability.stability.data_drift_column_report
-**[XRAIDashboard.stability.stability.data_drift_column_report(current_data, reference_data, column, report_format = 'json', stattest = None, stattest_threshold = None)](https://github.com/gaberamolete/XRAIDashboard/blob/main/stability/stability.py)**
+# xrai_toolkit.stability.stability.data_drift_column_report
+**[xrai_toolkit.stability.stability.data_drift_column_report(current_data, reference_data, column, report_format = 'json', stattest = None, stattest_threshold = None)](https://github.com/gaberamolete/xrai_toolkit/blob/main/stability/stability.py)**
 
 
 This evaluates the data drift in one column of the current dataset.

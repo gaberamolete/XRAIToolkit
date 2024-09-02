@@ -1,13 +1,13 @@
 ---
 layout: default
-title: XRAIDashboard.global_exp.global_exp.compare_profiles
+title: xrai_toolkit.global_exp.global_exp.compare_profiles
 parent: Global Explainability
 grand_parent: Toolkit
 nav_order: 1
 ---
 
-# XRAIDashboard.global_exp.global_exp.compare_profiles
-**[XRAIDashboard.global_exp.global_exp.compare_profiles(exp, variables = None, var_type = 'numerical', groups = None, random_state = 42, N = 300)](https://github.com/gaberamolete/XRAIDashboard/blob/main/global_exp/global_exp.py)**
+# xrai_toolkit.global_exp.global_exp.compare_profiles
+**[xrai_toolkit.global_exp.global_exp.compare_profiles(exp, variables = None, var_type = 'numerical', groups = None, random_state = 42, N = 300)](https://github.com/gaberamolete/xrai_toolkit/blob/main/global_exp/global_exp.py)**
 
 
 Compares partial-dependence, local-dependence, and accumulated-local profiles. User may specify the variables to showcase. Note that this can only help explain variables that are of the same data type at the same time, i.e. you may not analyze a numerical and categorical variable in the same run.

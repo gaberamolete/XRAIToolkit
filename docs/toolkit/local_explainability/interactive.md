@@ -1,13 +1,13 @@
 ---
 layout: default
-title: XRAIDashboard.local_exp.local_exp.interactive
+title: xrai_toolkit.local_exp.local_exp.interactive
 parent: Local Explainability
 grand_parent: Toolkit
 nav_order: 1
 ---
 
-# XRAIDashboard.local_exp.local_exp.interactive
-**[XRAIDashboard.local_exp.local_exp.interactive(exp, obs, count = 10, random_state = 42, N = None, labels = None)](https://github.com/gaberamolete/XRAIDashboard/blob/main/local_exp/local_exp.py)**
+# xrai_toolkit.local_exp.local_exp.interactive
+**[xrai_toolkit.local_exp.local_exp.interactive(exp, obs, count = 10, random_state = 42, N = None, labels = None)](https://github.com/gaberamolete/xrai_toolkit/blob/main/local_exp/local_exp.py)**
 
 
 Adds interactions to the usual break-down plot.

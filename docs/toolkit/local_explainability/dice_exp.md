@@ -1,13 +1,13 @@
 ---
 layout: default
-title: XRAIDashboard.local_exp.local_exp.dice_exp
+title: xrai_toolkit.local_exp.local_exp.dice_exp
 parent: Local Explainability
 grand_parent: Toolkit
 nav_order: 1
 ---
 
-# XRAIDashboard.local_exp.local_exp.dice_exp
-**[XRAIDashboard.local_exp.local_exp.dice_exp(X_train, y_train, model, target, backend = 'sklearn', model_type = 'classifier')](https://github.com/gaberamolete/XRAIDashboard/blob/main/local_exp/local_exp.py)**
+# xrai_toolkit.local_exp.local_exp.dice_exp
+**[xrai_toolkit.local_exp.local_exp.dice_exp(X_train, y_train, model, target, backend = 'sklearn', model_type = 'classifier')](https://github.com/gaberamolete/xrai_toolkit/blob/main/local_exp/local_exp.py)**
 
 
 Initialize dice experiment CF.

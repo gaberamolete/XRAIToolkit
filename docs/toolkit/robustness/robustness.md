@@ -18,7 +18,7 @@ permalink: /docs/toolkit/robustness
 
 ## Data Preparations
 
-Import the functions from `XRAIDashboard.robustness` and the other necessary functions.
+Import the functions from `xrai_toolkit.robustness` and the other necessary functions.
 
 
 ```python
@@ -26,9 +26,9 @@ Import the functions from `XRAIDashboard.robustness` and the other necessary fun
 import numpy as np
 
 # Robustness functions
-from XRAIDashboard.robustness.art_mia import art_mia, art_generate_predicted, art_generate_actual, calc_precision_recall, mia_viz
-from XRAIDashboard.robustness.art_metrics import pdtp_generate_samples, pdtp_metric, SHAPr_metric, visualisation
-from XRAIDashboard.robustness.art_extra_models import art_extra_classifiers
+from xrai_toolkit.robustness.art_mia import art_mia, art_generate_predicted, art_generate_actual, calc_precision_recall, mia_viz
+from xrai_toolkit.robustness.art_metrics import pdtp_generate_samples, pdtp_metric, SHAPr_metric, visualisation
+from xrai_toolkit.robustness.art_extra_models import art_extra_classifiers
 ```
 
 

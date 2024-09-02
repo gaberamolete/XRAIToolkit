@@ -44,13 +44,13 @@ import shap
 shap.initjs()
 
 #ExplainerDashboard
-from XRAIDashboard.eda.dashboard import BlankComponent, AutoVizComponent, EDATab
-from XRAIDashboard.fairness.dashboard import BlankComponent, FairnessIntroComponent, FairnessCheckRegComponent, FairnessCheckClfComponent, ModelPerformanceRegComponent, ModelPerformanceClfComponent, OutlierComponent, ErrorAnalysisComponent, FairnessTab
-from XRAIDashboard.local_exp.dashboard import BlankComponent, EntryIndexComponent, BreakDownComponent, AdditiveComponent, CeterisParibusComponent, InteractiveComponent, DiceExpComponent, QIIExpComponent, ShapWaterfallComponent, ShapForceComponent, ShapBarComponent, LocalExpTab
-from XRAIDashboard.global_exp.dashboard import BlankComponent, PartialDependenceProfileComponent, VariableImportanceComponent, LocalDependenceComponent, AccumulatedLocalComponent, CompareProfileComponent, ShapBarGlobalComponent, ShapSummaryComponent, ShapDependenceComponent, ShapForceGlobalComponent, GlobalExpTab
-from XRAIDashboard.stability.dashboard import BlankComponent, PSIComponent, KSTestComponent, DataDriftComponent, DataDriftTestComponent, DataQualityComponent, DataQualityTestComponent, TargetDriftComponent, RegressionPerformanceComponent, RegressionPerformanceTestComponent, ClassificationPerformanceComponent, ClassificationPerformanceTestComponent, AlibiCVMComponent, AlibiFETComponent, DecileComponent, StabilityTab
-from XRAIDashboard.robustness.dashboard import BlankComponent, ARTPrivacyComponent, ARTInferenceAttackComponent, RobustnessTab
-from XRAIDashboard.uncertainty.dashboard import BlankComponent, CalibrationComponent, AdversarialCalibrationComponent, AverageCalibrationComponent, OrderedIntervalsComponent, XYComponent, UncertaintyTab
+from xrai_toolkit.eda.dashboard import BlankComponent, AutoVizComponent, EDATab
+from xrai_toolkit.fairness.dashboard import BlankComponent, FairnessIntroComponent, FairnessCheckRegComponent, FairnessCheckClfComponent, ModelPerformanceRegComponent, ModelPerformanceClfComponent, OutlierComponent, ErrorAnalysisComponent, FairnessTab
+from xrai_toolkit.local_exp.dashboard import BlankComponent, EntryIndexComponent, BreakDownComponent, AdditiveComponent, CeterisParibusComponent, InteractiveComponent, DiceExpComponent, QIIExpComponent, ShapWaterfallComponent, ShapForceComponent, ShapBarComponent, LocalExpTab
+from xrai_toolkit.global_exp.dashboard import BlankComponent, PartialDependenceProfileComponent, VariableImportanceComponent, LocalDependenceComponent, AccumulatedLocalComponent, CompareProfileComponent, ShapBarGlobalComponent, ShapSummaryComponent, ShapDependenceComponent, ShapForceGlobalComponent, GlobalExpTab
+from xrai_toolkit.stability.dashboard import BlankComponent, PSIComponent, KSTestComponent, DataDriftComponent, DataDriftTestComponent, DataQualityComponent, DataQualityTestComponent, TargetDriftComponent, RegressionPerformanceComponent, RegressionPerformanceTestComponent, ClassificationPerformanceComponent, ClassificationPerformanceTestComponent, AlibiCVMComponent, AlibiFETComponent, DecileComponent, StabilityTab
+from xrai_toolkit.robustness.dashboard import BlankComponent, ARTPrivacyComponent, ARTInferenceAttackComponent, RobustnessTab
+from xrai_toolkit.uncertainty.dashboard import BlankComponent, CalibrationComponent, AdversarialCalibrationComponent, AverageCalibrationComponent, OrderedIntervalsComponent, XYComponent, UncertaintyTab
 ```
 
 

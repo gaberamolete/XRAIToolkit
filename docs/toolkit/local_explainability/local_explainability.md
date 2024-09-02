@@ -38,7 +38,7 @@ set_config(display = 'diagram')
 
 
 # Global explanation
-from XRAIDashboard.local_exp.local_exp import dice_exp, exp_cf, Predictor, get_feature_names, exp_qii, dalex_exp, break_down, interactive, cp_profile, initiate_shap_loc, shap_waterfall, shap_force_loc, shap_bar_loc
+from xrai_toolkit.local_exp.local_exp import dice_exp, exp_cf, Predictor, get_feature_names, exp_qii, dalex_exp, break_down, interactive, cp_profile, initiate_shap_loc, shap_waterfall, shap_force_loc, shap_bar_loc
 ```
 
 Set up the data. Since we're looking at local explanations, we need to identify a single index.

@@ -1,13 +1,13 @@
 ---
 layout: default
-title: XRAIDashboard.fairness.outlier.outlier
+title: xrai_toolkit.fairness.outlier.outlier
 parent: Fairness & Performance
 grand_parent: Toolkit
 nav_order: 3
 ---
 
-# XRAIDashboard.fairness.outlier.outlier
-**[XRAIDashboard.fairness.outlier.outlier(train,test,methods=[KNN,IForest],contamination=0.05)](https://github.com/gaberamolete/XRAIDashboard/blob/main/fairness/outlier.py)**
+# xrai_toolkit.fairness.outlier.outlier
+**[xrai_toolkit.fairness.outlier.outlier(train,test,methods=[KNN,IForest],contamination=0.05)](https://github.com/gaberamolete/XRAIToolkit/blob/main/fairness/outlier.py)**
 
 
 Detects outliers and remove them if user wants. We recomend first to do missing value treatment then feed your datasets into this model.

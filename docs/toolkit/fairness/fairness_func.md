@@ -1,13 +1,13 @@
 ---
 layout: default
-title: XRAIDashboard.fairness.fairness.fairness
+title: xrai_toolkit.fairness.fairness.fairness
 parent: Fairness & Performance
 grand_parent: Toolkit
 nav_order: 1
 ---
 
-# XRAIDashboard.fairness.fairness.fairness
-**[XRAIDashboard.fairness.fairness.fairness(models,x,y,protected_groups={},metric="DI", threshold=0.8, xextra=False,reg=False,dashboard=True)](https://github.com/gaberamolete/XRAIDashboard/blob/main/fairness/fairness.py)**
+# xrai_toolkit.fairness.fairness.fairness
+**[xrai_toolkit.fairness.fairness.fairness(models,x,y,protected_groups={},metric="DI", threshold=0.8, xextra=False,reg=False,dashboard=True)](https://github.com/gaberamolete/XRAIToolkit/blob/main/fairness/fairness.py)**
 
 
 Evaluate the fairness of the model on the widely used fairness metrics for regression and classification.

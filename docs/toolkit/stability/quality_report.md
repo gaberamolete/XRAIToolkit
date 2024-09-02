@@ -1,13 +1,13 @@
 ---
 layout: default
-title: XRAIDashboard.stability.stability.data_quality_dataset_report
+title: xrai_toolkit.stability.stability.data_quality_dataset_report
 parent: Stability
 grand_parent: Toolkit
 nav_order: 1
 ---
 
-# XRAIDashboard.stability.stability.data_quality_dataset_report
-**[XRAIDashboard.stability.stability.data_quality_dataset_report(current_data, reference_data, report_format = 'json', column_mapping = None,adt = 0.95, act = 0.95):](https://github.com/gaberamolete/XRAIDashboard/blob/main/stability/stability.py)**
+# xrai_toolkit.stability.stability.data_quality_dataset_report
+**[xrai_toolkit.stability.stability.data_quality_dataset_report(current_data, reference_data, report_format = 'json', column_mapping = None,adt = 0.95, act = 0.95):](https://github.com/gaberamolete/xrai_toolkit/blob/main/stability/stability.py)**
 
 
 Calculate various descriptive statistics, the number and share of missing values per column, and correlations between columns in the dataset.

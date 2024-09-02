@@ -1,13 +1,13 @@
 ---
 layout: default
-title: XRAIDashboard.global_exp.global_exp.shap_summary
+title: xrai_toolkit.global_exp.global_exp.shap_summary
 parent: Global Explainability
 grand_parent: Toolkit
 nav_order: 1
 ---
 
-# XRAIDashboard.global_exp.global_exp.shap_summary
-**[XRAIDashboard.global_exp.global_exp.shap_summary(shap_value_glob, idx, feature_names = None, class_ind = None, class_names = None, reg = False, show=True)](https://github.com/gaberamolete/XRAIDashboard/blob/main/global_exp/global_exp.py)**
+# xrai_toolkit.global_exp.global_exp.shap_summary
+**[xrai_toolkit.global_exp.global_exp.shap_summary(shap_value_glob, idx, feature_names = None, class_ind = None, class_names = None, reg = False, show=True)](https://github.com/gaberamolete/xrai_toolkit/blob/main/global_exp/global_exp.py)**
 
 
 Returns a Shap density summary plot.

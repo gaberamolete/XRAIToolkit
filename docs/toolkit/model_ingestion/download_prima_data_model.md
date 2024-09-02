@@ -1,13 +1,13 @@
 ---
 layout: default
-title: XRAIDashboard.model_ingestion.download_prima_data_model
+title: xrai_toolkit.model_ingestion.download_prima_data_model
 parent: Model Ingestion
 grand_parent: Toolkit
 nav_order: 2
 ---
 
-# XRAIDashboard.model_ingestion.download_prima_data_model.build_data_model
-**[XRAIDashboard.model_ingestion.download_prima_data_model.build_data_model()](https://github.com/gaberamolete/XRAIDashboard/blob/main/model_ingestion/download_prima_data_model.py)**
+# xrai_toolkit.model_ingestion.download_prima_data_model.build_data_model
+**[xrai_toolkit.model_ingestion.download_prima_data_model.build_data_model()](https://github.com/gaberamolete/xrai_toolkit/blob/main/model_ingestion/download_prima_data_model.py)**
 
 
 Load data from a dataset and create a sample model for testing

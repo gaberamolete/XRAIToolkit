@@ -1,13 +1,13 @@
 ---
 layout: default
-title: XRAIDashboard.fairness.fairness_algorithm.calibrated_eqodds
+title: xrai_toolkit.fairness.fairness_algorithm.calibrated_eqodds
 parent: Fairness & Performance
 grand_parent: Toolkit
 nav_order: 4
 ---
 
-# XRAIDashboard.fairness.fairness_algorithm.calibrated_eqodds
-**[XRAIDashboard.fairness.fairness_algorithm.calibrated_eqodds(model, train_data, test_data, target_feature, protected, privileged_classes, favorable_classes=[1.0])](https://github.com/gaberamolete/XRAIDashboard/blob/main/fairness/fairness_algorithm.py)**
+# xrai_toolkit.fairness.fairness_algorithm.calibrated_eqodds
+**[xrai_toolkit.fairness.fairness_algorithm.calibrated_eqodds(model, train_data, test_data, target_feature, protected, privileged_classes, favorable_classes=[1.0])](https://github.com/gaberamolete/XRAIToolkit/blob/main/fairness/fairness_algorithm.py)**
 
 
 Executes use of AI Fairness 360's Meta Classifier algorithm. The meta algorithm here takes the fairness metric as part of the input and returns a classifier optimized w.r.t. that fairness metric.

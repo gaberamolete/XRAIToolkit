@@ -1,14 +1,14 @@
 ---
 layout: default
-title: XRAIDashboard.uncertainty.calibration.calib_temp
+title: xrai_toolkit.uncertainty.calibration.calib_temp
 parent: Uncertainty
 grand_parent: Toolkit
 has_children: false
 nav_order: 3
 ---
 
-# XRAIDashboard.uncertainty.calibration.calib_temp
-**[XRAIDashboard.uncertainty.calibration.calib_temp(y_pred,y_true,reg)](https://github.com/gaberamolete/XRAIDashboard/blob/main/uncertainty/calibration.py)**
+# xrai_toolkit.uncertainty.calibration.calib_temp
+**[xrai_toolkit.uncertainty.calibration.calib_temp(y_pred,y_true,reg)](https://github.com/gaberamolete/xrai_toolkit/blob/main/uncertainty/calibration.py)**
 
 
 Temperature Scaling, a single-parameter variant of Platt Scaling.

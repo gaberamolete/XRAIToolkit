@@ -1,13 +1,13 @@
 ---
 layout: default
-title: XRAIDashboard.stability.stability.cramer_von_mises
+title: xrai_toolkit.stability.stability.cramer_von_mises
 parent: Stability
 grand_parent: Toolkit
 nav_order: 1
 ---
 
-# XRAIDashboard.stability.stability.cramer_von_mises
-**[XRAIDashboard.stability.stability.cramer_von_mises(loss_ref, losses, p_val = 0.05, labels = ['No!', 'Yes!'])](https://github.com/gaberamolete/XRAIDashboard/blob/main/stability/stability.py)**
+# xrai_toolkit.stability.stability.cramer_von_mises
+**[xrai_toolkit.stability.stability.cramer_von_mises(loss_ref, losses, p_val = 0.05, labels = ['No!', 'Yes!'])](https://github.com/gaberamolete/xrai_toolkit/blob/main/stability/stability.py)**
 
     
 Cramer-von Mises (CVM) data drift detector, which tests for any change in the distribution of continuous univariate data. Works for both regression and classification use cases. For multivariate data, a separate CVM test is applied to each feature, and the obtained p-values are aggregated via the Bonferroni or False Discovery Rate (FDR) corrections.

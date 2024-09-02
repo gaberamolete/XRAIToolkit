@@ -1,13 +1,13 @@
 ---
 layout: default
-title: XRAIDashboard.robustness.art_metrics.SHAPr_metric
+title: xrai_toolkit.robustness.art_metrics.SHAPr_metric
 parent: Robustness
 grand_parent: Toolkit
 nav_order: 1
 ---
 
-# XRAIDashboard.robustness.art_metrics.SHAPr_metric
-**[XRAIDashboard.robustness.art_metrics.SHAPr_metric(x_train, y_train, x_test, y_test, art_extra_classifiers_dict, key, threshold_value)](https://github.com/gaberamolete/XRAIDashboard/blob/main/robustness/art_metrics.py)**
+# xrai_toolkit.robustness.art_metrics.SHAPr_metric
+**[xrai_toolkit.robustness.art_metrics.SHAPr_metric(x_train, y_train, x_test, y_test, art_extra_classifiers_dict, key, threshold_value)](https://github.com/gaberamolete/xrai_toolkit/blob/main/robustness/art_metrics.py)**
 
     
 Calculates the SHAPr metric for a given classifier and dataset

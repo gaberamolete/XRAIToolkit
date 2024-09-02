@@ -1,13 +1,13 @@
 ---
 layout: default
-title: XRAIDashboard.global_exp.global_exp.ld_profile
+title: xrai_toolkit.global_exp.global_exp.ld_profile
 parent: Global Explainability
 grand_parent: Toolkit
 nav_order: 1
 ---
 
-# XRAIDashboard.global_exp.global_exp.ld_profile
-**[XRAIDashboard.global_exp.global_exp.ld_profile(exp, variables = None, var_type = 'numerical', groups = None, random_state = 42, N = 300, labels = False)](https://github.com/gaberamolete/XRAIDashboard/blob/main/global_exp/global_exp.py)**
+# xrai_toolkit.global_exp.global_exp.ld_profile
+**[xrai_toolkit.global_exp.global_exp.ld_profile(exp, variables = None, var_type = 'numerical', groups = None, random_state = 42, N = 300, labels = False)](https://github.com/gaberamolete/xrai_toolkit/blob/main/global_exp/global_exp.py)**
 
 
 Creates a local-dependence plot and outputs the equivalent table. User may specify the variables to showcase. Note that this can only help explain variables that are of the same data type at the same time, i.e. you may not analyze a numerical and categorical variable in the same run.

@@ -1,14 +1,14 @@
 ---
 layout: default
-title: XRAIDashboard.uncertainty.calibration.plot_reliability_diagram
+title: xrai_toolkit.uncertainty.calibration.plot_reliability_diagram
 parent: Uncertainty
 grand_parent: Toolkit
 has_children: false
 nav_order: 18
 ---
 
-# XRAIDashboard.uncertainty.calibration.plot_reliability_diagram
-**[XRAIDashboard.uncertainty.calibration.plot_reliability_diagram(y, x, calib, n_bins = 50, reg = False, title = None, error_bars = False, error_bar_alpha = 0.05, scaling_eps = .0001, scaling_base = 10, **kwargs)](https://github.com/gaberamolete/XRAIDashboard/blob/main/uncertainty/calibration.py)**
+# xrai_toolkit.uncertainty.calibration.plot_reliability_diagram
+**[xrai_toolkit.uncertainty.calibration.plot_reliability_diagram(y, x, calib, n_bins = 50, reg = False, title = None, error_bars = False, error_bar_alpha = 0.05, scaling_eps = .0001, scaling_base = 10, **kwargs)](https://github.com/gaberamolete/xrai_toolkit/blob/main/uncertainty/calibration.py)**
 
 
 Plots a reliability diagram of predicted vs actual probabilities.

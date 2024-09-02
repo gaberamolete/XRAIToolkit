@@ -1,13 +1,13 @@
 ---
 layout: default
-title: XRAIDashboard.fairness.fairness_algorithm.disparate_impact_remover
+title: xrai_toolkit.fairness.fairness_algorithm.disparate_impact_remover
 parent: Fairness & Performance
 grand_parent: Toolkit
 nav_order: 4
 ---
 
-# XRAIDashboard.fairness.fairness_algorithm.disparate_impact_remover
-**[XRAIDashboard.fairness.fairness_algorithm.disparate_impact_remover(model, train_data, test_data, target_feature, protected, privileged_classes, favorable_classes=[1.0], repair_level=1.0)](https://github.com/gaberamolete/XRAIDashboard/blob/main/fairness/fairness_algorithm.py)**
+# xrai_toolkit.fairness.fairness_algorithm.disparate_impact_remover
+**[xrai_toolkit.fairness.fairness_algorithm.disparate_impact_remover(model, train_data, test_data, target_feature, protected, privileged_classes, favorable_classes=[1.0], repair_level=1.0)](https://github.com/gaberamolete/XRAIToolkit/blob/main/fairness/fairness_algorithm.py)**
 
 
 Executes the AI Fairness 360's Disparate Impact Remover algorithm. Disparate impact remover is a preprocessing technique that edits feature values to increase group fairness while preserving rank-ordering within groups. The algorithm corrects for imbalanced selection rates between unprivileged andprivileged groups at various levels of repair.

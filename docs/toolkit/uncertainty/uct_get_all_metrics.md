@@ -1,14 +1,14 @@
 ---
 layout: default
-title: XRAIDashboard.uncertainty.uct.uct_get_all_metrics
+title: xrai_toolkit.uncertainty.uct.uct_get_all_metrics
 parent: Uncertainty
 grand_parent: Toolkit
 has_children: false
 nav_order: 20
 ---
 
-# XRAIDashboard.uncertainty.uct.uct_get_all_metrics
-**[XRAIDashboard.uncertainty.uct.uct_get_all_metrics(uct_data_dict)](https://github.com/gaberamolete/XRAIDashboard/blob/main/uncertainty/calibration.py)**
+# xrai_toolkit.uncertainty.uct.uct_get_all_metrics
+**[xrai_toolkit.uncertainty.uct.uct_get_all_metrics(uct_data_dict)](https://github.com/gaberamolete/xrai_toolkit/blob/main/uncertainty/calibration.py)**
 
 
 Calculate all metrics for uncertainty evaluations

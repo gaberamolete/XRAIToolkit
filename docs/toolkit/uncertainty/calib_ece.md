@@ -1,14 +1,14 @@
 ---
 layout: default
-title: XRAIDashboard.uncertainty.calibration.calib_ece
+title: xrai_toolkit.uncertainty.calibration.calib_ece
 parent: Uncertainty
 grand_parent: Toolkit
 has_children: false
 nav_order: 8
 ---
 
-# XRAIDashboard.uncertainty.calibration.calib_ece
-**[XRAIDashboard.uncertainty.calibration.calib_ece(y_pred, y_true, n_bins = 10, equal_intervals: bool = True, sample_threshold: int = 1, reg = False)](https://github.com/gaberamolete/XRAIDashboard/blob/main/uncertainty/calibration.py)**
+# xrai_toolkit.uncertainty.calibration.calib_ece
+**[xrai_toolkit.uncertainty.calibration.calib_ece(y_pred, y_true, n_bins = 10, equal_intervals: bool = True, sample_threshold: int = 1, reg = False)](https://github.com/gaberamolete/xrai_toolkit/blob/main/uncertainty/calibration.py)**
 
 
 Expected Calibration Error (ECE), which divides the confidence space into several bins and measures the observed accuracy in each bin. The bin gaps between observed accuracy and bin confidence are summed up and weighted by the amount of samples in each bin.

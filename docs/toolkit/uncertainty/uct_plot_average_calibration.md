@@ -1,14 +1,14 @@
 ---
 layout: default
-title: XRAIDashboard.uncertainty.uct.uct_plot_average_calibration
+title: xrai_toolkit.uncertainty.uct.uct_plot_average_calibration
 parent: Uncertainty
 grand_parent: Toolkit
 has_children: false
 nav_order: 22
 ---
 
-# XRAIDashboard.uncertainty.uct.uct_plot_average_calibration
-**[XRAIDashboard.uncertainty.uct.uct_plot_average_calibration(uct_data_dict, uct_metrics, show = False)](https://github.com/gaberamolete/XRAIDashboard/blob/main/uncertainty/calibration.py)**
+# xrai_toolkit.uncertainty.uct.uct_plot_average_calibration
+**[xrai_toolkit.uncertainty.uct.uct_plot_average_calibration(uct_data_dict, uct_metrics, show = False)](https://github.com/gaberamolete/xrai_toolkit/blob/main/uncertainty/calibration.py)**
 
 
 Plot the observed proportion vs prediction proportion of outputs falling into a range of intervals, and display miscalibration area.

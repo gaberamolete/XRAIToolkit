@@ -1,14 +1,14 @@
 ---
 layout: default
-title: XRAIDashboard.uncertainty.uct.uct_manipulate_data
+title: xrai_toolkit.uncertainty.uct.uct_manipulate_data
 parent: Uncertainty
 grand_parent: Toolkit
 has_children: false
 nav_order: 19
 ---
 
-# XRAIDashboard.uncertainty.uct.uct_manipulate_data
-**[XRAIDashboard.uncertainty.uct.uct_manipulate_data(X_train, X_test, Y_train, Y_test, model, reg)](https://github.com/gaberamolete/XRAIDashboard/blob/main/uncertainty/calibration.py)**
+# xrai_toolkit.uncertainty.uct.uct_manipulate_data
+**[xrai_toolkit.uncertainty.uct.uct_manipulate_data(X_train, X_test, Y_train, Y_test, model, reg)](https://github.com/gaberamolete/xrai_toolkit/blob/main/uncertainty/calibration.py)**
 
 
 Generates the appropriate arrays for the Uncertainty Toolbox.

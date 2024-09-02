@@ -1,13 +1,13 @@
 ---
 layout: default
-title: XRAIDashboard.stability.stability.mapping_columns
+title: xrai_toolkit.stability.stability.mapping_columns
 parent: Stability
 grand_parent: Toolkit
 nav_order: 1
 ---
 
-# XRAIDashboard.stability.stability.mapping_columns
-**[XRAIDashboard.stability.stability.mapping_columns(current_data, reference_data, model, target, prediction = None, id_cols = None, datetime_cols = None, num_cols = None, cat_cols = None)](https://github.com/gaberamolete/XRAIDashboard/blob/main/stability/stability.py)**
+# xrai_toolkit.stability.stability.mapping_columns
+**[xrai_toolkit.stability.stability.mapping_columns(current_data, reference_data, model, target, prediction = None, id_cols = None, datetime_cols = None, num_cols = None, cat_cols = None)](https://github.com/gaberamolete/xrai_toolkit/blob/main/stability/stability.py)**
 
 
 Mapping column types for other Evidently-based functions.

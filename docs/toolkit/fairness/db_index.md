@@ -1,13 +1,13 @@
 ---
 layout: default
-title: XRAIDashboard.fairness.cluster_metrics.db_index
+title: xrai_toolkit.fairness.cluster_metrics.db_index
 parent: Fairness & Performance
 grand_parent: Toolkit
 nav_order: 2
 ---
 
-# XRAIDashboard.fairness.cluster_metrics.db_index
-**[XRAIDashboard.fairness.cluster_metrics.db_index(num_clusters, X_train, Y_train, show = False)](https://github.com/gaberamolete/XRAIDashboard/blob/main/fairness/cluster_metrics.py)**
+# xrai_toolkit.fairness.cluster_metrics.db_index
+**[xrai_toolkit.fairness.cluster_metrics.db_index(num_clusters, X_train, Y_train, show = False)](https://github.com/gaberamolete/XRAIToolkit/blob/main/fairness/cluster_metrics.py)**
 
 
 The Davies-Bouldin Index is defined as the average similarity measure of each cluster with its most similar cluster. Similarity is the ratio of within-cluster distances to between-cluster distances. In this way, clusters which are farther apart and less dispersed will lead to a better score.

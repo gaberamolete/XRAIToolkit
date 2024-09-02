@@ -40,13 +40,13 @@ In the approach described in Steinberg, D., et al. (2020), the authors propose a
 
 ## Fairness Metric
 
-Import the fairness functions from `XRAIDashboard.fairness.fairness` and the other necessary functions.
+Import the fairness functions from `xrai_toolkit.fairness.fairness` and the other necessary functions.
 
 
 ```python
 import pandas as pd
 
-from XRAIDashboard.fairness.fairness import gini_coefficient, model_performance, fairness
+from xrai_toolkit.fairness.fairness import gini_coefficient, model_performance, fairness
 ```
 
 
@@ -85,7 +85,7 @@ import pandas as pd
 from copy import deepcopy
 from aif360.datasets import StandardDataset
 
-from XRAIDashboard.fairness.fairness_algorithm import compute_metrics, metrics_plot, disparate_impact_remover, reweighing, exponentiated_gradient_reduction, meta_classifier, calibrated_eqodds, reject_option, compare_algorithms, algo_exp
+from xrai_toolkit.fairness.fairness_algorithm import compute_metrics, metrics_plot, disparate_impact_remover, reweighing, exponentiated_gradient_reduction, meta_classifier, calibrated_eqodds, reject_option, compare_algorithms, algo_exp
 ```
 
 

@@ -1,14 +1,14 @@
 ---
 layout: default
-title: XRAIDashboard.uncertainty.calibration.calib_hb
+title: xrai_toolkit.uncertainty.calibration.calib_hb
 parent: Uncertainty
 grand_parent: Toolkit
 has_children: false
 nav_order: 4
 ---
 
-# XRAIDashboard.uncertainty.calibration.calib_hb
-**[XRAIDashboard.uncertainty.calibration.calib_hb(y_pred,y_true,reg)](https://github.com/gaberamolete/XRAIDashboard/blob/main/uncertainty/calibration.py)**
+# xrai_toolkit.uncertainty.calibration.calib_hb
+**[xrai_toolkit.uncertainty.calibration.calib_hb(y_pred,y_true,reg)](https://github.com/gaberamolete/xrai_toolkit/blob/main/uncertainty/calibration.py)**
 
 
 Histogram binning, where each prediction is sorted into a bin and assigned a calibrated confidence estimate.

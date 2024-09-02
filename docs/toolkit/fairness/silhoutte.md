@@ -1,13 +1,13 @@
 ---
 layout: default
-title: XRAIDashboard.fairness.cluster_metrics.silhoutte_score_visualizer
+title: xrai_toolkit.fairness.cluster_metrics.silhoutte_score_visualizer
 parent: Fairness & Performance
 grand_parent: Toolkit
 nav_order: 2
 ---
 
-# XRAIDashboard.fairness.cluster_metrics.silhoutte_score_visualizer
-**[XRAIDashboard.fairness.cluster_metrics.silhoutte_score_visualizer(num_clusters, X_train, Y_train)](https://github.com/gaberamolete/XRAIDashboard/blob/main/fairness/cluster_metrics.py)**
+# xrai_toolkit.fairness.cluster_metrics.silhoutte_score_visualizer
+**[xrai_toolkit.fairness.cluster_metrics.silhoutte_score_visualizer(num_clusters, X_train, Y_train)](https://github.com/gaberamolete/XRAIToolkit/blob/main/fairness/cluster_metrics.py)**
 
 
 The Silhouette Coefficient is used when the ground-truth about the dataset is unknown and computes the density of clusters computed by the model. The score is computed by averaging the silhouette coefficient for each sample, computed as the difference between the average intra-cluster distance and the mean nearest-cluster distance for each sample, normalized by the maximum value. This produces a score between 1 and -1, where 1 is highly dense clusters and -1 is completely incorrect clustering.

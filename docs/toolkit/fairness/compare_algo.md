@@ -1,13 +1,13 @@
 ---
 layout: default
-title: XRAIDashboard.fairness.fairness_algorithm.compare_algorithms
+title: xrai_toolkit.fairness.fairness_algorithm.compare_algorithms
 parent: Fairness & Performance
 grand_parent: Toolkit
 nav_order: 4
 ---
 
-# XRAIDashboard.fairness.fairness_algorithm.compare_algorithms
-**[XRAIDashboard.fairness.fairness_algorithm.compare_algorithms(b, di, rw, egr, mc, ceo, ro, threshold, metric_name="Disparate impact")](https://github.com/gaberamolete/XRAIDashboard/blob/main/fairness/fairness_algorithm.py)**
+# xrai_toolkit.fairness.fairness_algorithm.compare_algorithms
+**[xrai_toolkit.fairness.fairness_algorithm.compare_algorithms(b, di, rw, egr, mc, ceo, ro, threshold, metric_name="Disparate impact")](https://github.com/gaberamolete/XRAIToolkit/blob/main/fairness/fairness_algorithm.py)**
 
 
 Produce a scatter plot to compare the effectiveness of each algorithm to a specific metric, and also observe the fairness vs. performance trade-off

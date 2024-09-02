@@ -1,13 +1,13 @@
 ---
 layout: default
-title: XRAIDashboard.local_exp.local_exp.exp_qii
+title: xrai_toolkit.local_exp.local_exp.exp_qii
 parent: Local Explainability
 grand_parent: Toolkit
 nav_order: 1
 ---
 
-# XRAIDashboard.local_exp.local_exp.exp_qii
-**[XRAIDashboard.local_exp.local_exp.exp_qii(model, X, idx, preprocessor = None, method = 'banzhaf', plot = True, pool_size = 100, n_samplings = 50, cat_cols = None)](https://github.com/gaberamolete/XRAIDashboard/blob/main/local_exp/local_exp.py)**
+# xrai_toolkit.local_exp.local_exp.exp_qii
+**[xrai_toolkit.local_exp.local_exp.exp_qii(model, X, idx, preprocessor = None, method = 'banzhaf', plot = True, pool_size = 100, n_samplings = 50, cat_cols = None)](https://github.com/gaberamolete/xrai_toolkit/blob/main/local_exp/local_exp.py)**
 
 
 An alternate variable-importance measure using Quantity of Interest Method.

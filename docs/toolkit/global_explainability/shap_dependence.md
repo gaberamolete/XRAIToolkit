@@ -1,13 +1,13 @@
 ---
 layout: default
-title: XRAIDashboard.global_exp.global_exp.shap_dependence
+title: xrai_toolkit.global_exp.global_exp.shap_dependence
 parent: Global Explainability
 grand_parent: Toolkit
 nav_order: 1
 ---
 
-# XRAIDashboard.global_exp.global_exp.shap_dependence
-**[XRAIDashboard.global_exp.global_exp.shap_dependence(shap_values, X_proc, shap_ind, feature_names = None, class_ind = None, class_names = None, int_ind = None, reg = False)](https://github.com/gaberamolete/XRAIDashboard/blob/main/global_exp/global_exp.py)**
+# xrai_toolkit.global_exp.global_exp.shap_dependence
+**[xrai_toolkit.global_exp.global_exp.shap_dependence(shap_values, X_proc, shap_ind, feature_names = None, class_ind = None, class_names = None, int_ind = None, reg = False)](https://github.com/gaberamolete/xrai_toolkit/blob/main/global_exp/global_exp.py)**
 
 
 Returns a dependence plot comparing a value and its equivalent shap values. The user may also compare these with another variable as an interaction index.

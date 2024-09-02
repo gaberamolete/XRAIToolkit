@@ -1,13 +1,13 @@
 ---
 layout: default
-title: XRAIDashboard.stability.stability.fishers_exact_test
+title: xrai_toolkit.stability.stability.fishers_exact_test
 parent: Stability
 grand_parent: Toolkit
 nav_order: 1
 ---
 
-# XRAIDashboard.stability.stability.fishers_exact_test
-**[XRAIDashboard.stability.stability.fishers_exact_test(loss_ref, losses, p_val = 0.05, labels = ['No!', 'Yes!'])](https://github.com/gaberamolete/XRAIDashboard/blob/main/stability/stability.py)**
+# xrai_toolkit.stability.stability.fishers_exact_test
+**[xrai_toolkit.stability.stability.fishers_exact_test(loss_ref, losses, p_val = 0.05, labels = ['No!', 'Yes!'])](https://github.com/gaberamolete/xrai_toolkit/blob/main/stability/stability.py)**
 
     
 Fisher exact test (FET) data drift detector, which tests for a change in the mean of binary univariate data. Works for classification use cases only. For multivariate data, a separate FET test is applied to each feature, and the obtained p-values are aggregated via the Bonferroni or False Discovery Rate (FDR) corrections.

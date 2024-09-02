@@ -1,14 +1,14 @@
 ---
 layout: default
-title: XRAIDashboard.uncertainty.calibration.calib_pl
+title: xrai_toolkit.uncertainty.calibration.calib_pl
 parent: Uncertainty
 grand_parent: Toolkit
 has_children: false
 nav_order: 12
 ---
 
-# XRAIDashboard.uncertainty.calibration.calib_pl
-**[XRAIDashboard.uncertainty.calibration.calib_pl(y_pred_means, y_pred_stds, y_true, reduction = 'mean')](https://github.com/gaberamolete/XRAIDashboard/blob/main/uncertainty/calibration.py)**
+# xrai_toolkit.uncertainty.calibration.calib_pl
+**[xrai_toolkit.uncertainty.calibration.calib_pl(y_pred_means, y_pred_stds, y_true, reduction = 'mean')](https://github.com/gaberamolete/xrai_toolkit/blob/main/uncertainty/calibration.py)**
 
 
 Pinball loss is a quantile-based calibration, and is a synonym for Quantile Loss. Tests for quantile calibration of a probabilistic regression model. This is an asymmetric loss that measures the quality of the predicted quantiles.

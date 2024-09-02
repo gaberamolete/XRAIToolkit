@@ -1,13 +1,13 @@
 ---
 layout: default
-title: XRAIDashboard.stability.stability.data_drift_dataset_report
+title: xrai_toolkit.stability.stability.data_drift_dataset_report
 parent: Stability
 grand_parent: Toolkit
 nav_order: 1
 ---
 
-# XRAIDashboard.stability.stability.data_drift_dataset_report
-**[XRAIDashboard.stability.stability.data_drift_dataset_report(current_data, reference_data, report_format = 'json', column_mapping = None, = 0.5, stattest = None, stattest_threshold = None, cat_stattest = None, cat_stattest_threshold = None, num_stattest = None, num_stattest_threshold = None, per_column_stattest = None, per_column_stattest_threshold = None):](https://github.com/gaberamolete/XRAIDashboard/blob/main/stability/stability.py)**
+# xrai_toolkit.stability.stability.data_drift_dataset_report
+**[xrai_toolkit.stability.stability.data_drift_dataset_report(current_data, reference_data, report_format = 'json', column_mapping = None, = 0.5, stattest = None, stattest_threshold = None, cat_stattest = None, cat_stattest_threshold = None, num_stattest = None, num_stattest_threshold = None, per_column_stattest = None, per_column_stattest_threshold = None):](https://github.com/gaberamolete/xrai_toolkit/blob/main/stability/stability.py)**
 
 
 This evaluates the data drift in each individual column of the current dataset, and determines if the dataset has definite data drift.

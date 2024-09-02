@@ -1,13 +1,13 @@
 ---
 layout: default
-title: XRAIDashboard.stability.stability.classification_performance_test
+title: xrai_toolkit.stability.stability.classification_performance_test
 parent: Stability
 grand_parent: Toolkit
 nav_order: 1
 ---
 
-# XRAIDashboard.stability.stability.classification_performance_test
-**[XRAIDashboard.stability.stability.classification_performance_test(current_data, reference_data, test_format = 'json', column_mapping = None,probas_threshold = None, pred_col = 'prediction', approx_val = None, rel_val = 0.2, test_proba=None)](https://github.com/gaberamolete/XRAIDashboard/blob/main/stability/stability.py)**
+# xrai_toolkit.stability.stability.classification_performance_test
+**[xrai_toolkit.stability.stability.classification_performance_test(current_data, reference_data, test_format = 'json', column_mapping = None,probas_threshold = None, pred_col = 'prediction', approx_val = None, rel_val = 0.2, test_proba=None)](https://github.com/gaberamolete/xrai_toolkit/blob/main/stability/stability.py)**
 
     
 Computes the following tests on classification data, failing if +/- a percentage (%) of scores over reference data is achieved:

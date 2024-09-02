@@ -18,7 +18,7 @@ permalink: /docs/toolkit/eda
 
 ## Data Preparations
 
-Import the EDA functions from `XRAIDashboard.eda` and the other necessary functions.
+Import the EDA functions from `xrai_toolkit.eda` and the other necessary functions.
 
 
 ```python
@@ -26,7 +26,7 @@ Import the EDA functions from `XRAIDashboard.eda` and the other necessary functi
 import pandas as pd
 
 # EDA functions
-from XRAIDashboard.eda.auto_eda import autoviz_eda2
+from xrai_toolkit.eda.auto_eda import autoviz_eda2
 ```
 
 
@@ -75,7 +75,7 @@ Similar to AutoViz, you just also need to feed the concatenated dataframe to the
 
 
 ```python
-from XRAIDashboard.eda.auto_eda import ydata_profiling_eda2
+from xrai_toolkit.eda.auto_eda import ydata_profiling_eda2
 
 ydata_profiling_eda2(dataset)
 ```

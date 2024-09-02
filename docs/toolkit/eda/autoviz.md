@@ -1,13 +1,13 @@
 ---
 layout: default
-title: XRAIDashboard.eda.auto_eda.autoviz_eda2
+title: xrai_toolkit.eda.auto_eda.autoviz_eda2
 parent: EDA
 grand_parent: Toolkit
 nav_order: 1
 ---
 
-# XRAIDashboard.eda.auto_eda.autoviz_eda2
-**[XRAIDashboard.eda.auto_eda.autoviz_eda2(data)](https://github.com/gaberamolete/XRAIDashboard/blob/main/eda/auto_eda.py)**
+# xrai_toolkit.eda.auto_eda.autoviz_eda2
+**[xrai_toolkit.eda.auto_eda.autoviz_eda2(data)](https://github.com/gaberamolete/XRAIToolkit/blob/main/eda/auto_eda.py)**
 
 
 Utilizing [AutoViz Package](https://github.com/AutoViML/AutoViz) to generate five HTML reports containing different visualizations for the data.

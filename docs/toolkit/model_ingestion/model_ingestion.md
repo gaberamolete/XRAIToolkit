@@ -22,7 +22,7 @@ Import the function from the XRAI package.
 
 
 ```python
-from XRAIDashboard.model_ingestion.data_model import load_data_model
+from xrai_toolkit.model_ingestion.data_model import load_data_model
 ```
 
 

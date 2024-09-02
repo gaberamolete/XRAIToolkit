@@ -1,14 +1,14 @@
 ---
 layout: default
-title: XRAIDashboard.uncertainty.calibration.calib_nll
+title: xrai_toolkit.uncertainty.calibration.calib_nll
 parent: Uncertainty
 grand_parent: Toolkit
 has_children: false
 nav_order: 11
 ---
 
-# XRAIDashboard.uncertainty.calibration.calib_nll
-**[XRAIDashboard.uncertainty.calibration.calib_nll(y_pred_means, y_pred_stds, y_true, reduction = 'mean')](https://github.com/gaberamolete/XRAIDashboard/blob/main/uncertainty/calibration.py)**
+# xrai_toolkit.uncertainty.calibration.calib_nll
+**[xrai_toolkit.uncertainty.calibration.calib_nll(y_pred_means, y_pred_stds, y_true, reduction = 'mean')](https://github.com/gaberamolete/xrai_toolkit/blob/main/uncertainty/calibration.py)**
 
 
 Negative Log Likelihood, measures the quality of a predicted probability distribution with respect to the ground truth.

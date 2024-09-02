@@ -1,13 +1,13 @@
 ---
 layout: default
-title: XRAIDashboard.fairness.cluster_metrics.adjusted_rand_index
+title: xrai_toolkit.fairness.cluster_metrics.adjusted_rand_index
 parent: Fairness & Performance
 grand_parent: Toolkit
 nav_order: 2
 ---
 
-# XRAIDashboard.fairness.cluster_metrics.adjusted_rand_index
-**[XRAIDashboard.fairness.cluster_metrics.adjusted_rand_index(num_clusters, X_train, Y_train, show = False)](https://github.com/gaberamolete/XRAIDashboard/blob/main/fairness/cluster_metrics.py)**
+# xrai_toolkit.fairness.cluster_metrics.adjusted_rand_index
+**[xrai_toolkit.fairness.cluster_metrics.adjusted_rand_index(num_clusters, X_train, Y_train, show = False)](https://github.com/gaberamolete/XRAIToolkit/blob/main/fairness/cluster_metrics.py)**
 
 
 The Rand Index but adjusted for chance. A score above 0.7 is considered a good match.

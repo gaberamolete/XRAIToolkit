@@ -1,13 +1,13 @@
 ---
 layout: default
-title: XRAIDashboard.local_exp.local_exp.exp_cf
+title: xrai_toolkit.local_exp.local_exp.exp_cf
 parent: Local Explainability
 grand_parent: Toolkit
 nav_order: 1
 ---
 
-# XRAIDashboard.local_exp.local_exp.exp_cf
-**[XRAIDashboard.local_exp.local_exp.exp_cf(X, exp, total_CFs = 2, desired_range = None, desired_class = 'opposite', features_to_vary = 'all',permitted_range = None, reg = False)](https://github.com/gaberamolete/XRAIDashboard/blob/main/local_exp/local_exp.py)**
+# xrai_toolkit.local_exp.local_exp.exp_cf
+**[xrai_toolkit.local_exp.local_exp.exp_cf(X, exp, total_CFs = 2, desired_range = None, desired_class = 'opposite', features_to_vary = 'all',permitted_range = None, reg = False)](https://github.com/gaberamolete/xrai_toolkit/blob/main/local_exp/local_exp.py)**
 
 
 Generates counterfactuals.

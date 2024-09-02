@@ -1,14 +1,14 @@
 ---
 layout: default
-title: XRAIDashboard.uncertainty.calibration.calib_enir
+title: xrai_toolkit.uncertainty.calibration.calib_enir
 parent: Uncertainty
 grand_parent: Toolkit
 has_children: false
 nav_order: 7
 ---
 
-# XRAIDashboard.uncertainty.calibration.calib_enir
-**[XRAIDashboard.uncertainty.calibration.calib_enir(y_pred,y_true,reg)](https://github.com/gaberamolete/XRAIDashboard/blob/main/uncertainty/calibration.py)**
+# xrai_toolkit.uncertainty.calibration.calib_enir
+**[xrai_toolkit.uncertainty.calibration.calib_enir(y_pred,y_true,reg)](https://github.com/gaberamolete/xrai_toolkit/blob/main/uncertainty/calibration.py)**
 
 
 Ensemble of Near Isotonic Regression models (ENIR). Allows a violation of monotony restrictions. Using the modified Pool-Adjacent-Violaters Algorithm (mPAVA), this method builds multiple Near Isotonic Regression Models and weights them by a certain score function. Not recommended for regression outputs.

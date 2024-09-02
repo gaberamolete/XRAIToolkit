@@ -38,8 +38,8 @@ set_config(display = 'diagram')
 
 
 # Stability
-from XRAIDashboard.stability.stability import get_feature_names, calculate_psi, psi_list, generate_psi_df, ks, mapping_columns, data_drift_dataset_report, data_drift_column_report, data_drift_dataset_test, data_drift_column_test, data_quality_dataset_report, data_quality_column_report, data_quality_dataset_test, data_quality_column_test, target_drift_report, regression_performance_report, regression_performance_test, classification_performance_report, classification_performance_test, cramer_von_mises, maximum_mean_discrepancy, fishers_exact_test, categs
-from XRAIDashboard.stability.decile import print_labels, decile_table, model_selection_by_gain_chart, model_selection_by_lift_chart, model_selection_by_lift_decile_chart, model_selection_by_ks_statistic, decile_report
+from xrai_toolkit.stability.stability import get_feature_names, calculate_psi, psi_list, generate_psi_df, ks, mapping_columns, data_drift_dataset_report, data_drift_column_report, data_drift_dataset_test, data_drift_column_test, data_quality_dataset_report, data_quality_column_report, data_quality_dataset_test, data_quality_column_test, target_drift_report, regression_performance_report, regression_performance_test, classification_performance_report, classification_performance_test, cramer_von_mises, maximum_mean_discrepancy, fishers_exact_test, categs
+from xrai_toolkit.stability.decile import print_labels, decile_table, model_selection_by_gain_chart, model_selection_by_lift_chart, model_selection_by_lift_decile_chart, model_selection_by_ks_statistic, decile_report
 from evidently import ColumnMapping
 ```
 

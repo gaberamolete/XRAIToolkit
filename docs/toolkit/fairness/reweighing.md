@@ -1,13 +1,13 @@
 ---
 layout: default
-title: XRAIDashboard.fairness.fairness_algorithm.reweighing
+title: xrai_toolkit.fairness.fairness_algorithm.reweighing
 parent: Fairness & Performance
 grand_parent: Toolkit
 nav_order: 4
 ---
 
-# XRAIDashboard.fairness.fairness_algorithm.reweighing
-**[XRAIDashboard.fairness.fairness_algorithm.reweighing(model, train_data, test_data, target_feature, protected, privileged_classes, favorable_classes=[1.0])](https://github.com/gaberamolete/XRAIDashboard/blob/main/fairness/fairness_algorithm.py)**
+# xrai_toolkit.fairness.fairness_algorithm.reweighing
+**[xrai_toolkit.fairness.fairness_algorithm.reweighing(model, train_data, test_data, target_feature, protected, privileged_classes, favorable_classes=[1.0])](https://github.com/gaberamolete/XRAIToolkit/blob/main/fairness/fairness_algorithm.py)**
 
 
 Executes use of AI Fairness 360's Reweighing algorithm. Reweighing is a preprocessing technique that Weights the examples in each (group, label) combination differently to ensure fairness before classification.

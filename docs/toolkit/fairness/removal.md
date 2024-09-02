@@ -1,13 +1,13 @@
 ---
 layout: default
-title: XRAIDashboard.fairness.outlier.removal
+title: xrai_toolkit.fairness.outlier.removal
 parent: Fairness & Performance
 grand_parent: Toolkit
 nav_order: 3
 ---
 
-# XRAIDashboard.fairness.outlier.removal
-**[XRAIDashboard.fairness.outlier.removal(data,l,major_voting=51)](https://github.com/gaberamolete/XRAIDashboard/blob/main/fairness/outlier.py)**
+# xrai_toolkit.fairness.outlier.removal
+**[xrai_toolkit.fairness.outlier.removal(data,l,major_voting=51)](https://github.com/gaberamolete/XRAIToolkit/blob/main/fairness/outlier.py)**
 
 
 Remove outliers based on the differnet methods results

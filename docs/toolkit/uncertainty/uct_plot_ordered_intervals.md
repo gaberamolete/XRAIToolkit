@@ -1,6 +1,6 @@
 ---
 layout: default
-title: XRAIDashboard.uncertainty.uct.uct_plot_ordered_intervals
+title: xrai_toolkit.uncertainty.uct.uct_plot_ordered_intervals
 parent: Uncertainty
 grand_parent: XRAI API Documentation
 has_children: false
@@ -8,8 +8,8 @@ nav_order: 23
 permalink: /docs/toolkit/api_documentation/uncertainty
 ---
 
-# XRAIDashboard.uncertainty.uct.uct_plot_ordered_intervals
-**[XRAIDashboard.uncertainty.uct.uct_plot_ordered_intervals(X_train, X_test, Y_train, Y_test, uct_data_dict, uct_metrics, non_neg, show=False)](https://github.com/gaberamolete/XRAIDashboard/blob/main/uncertainty/calibration.py)**
+# xrai_toolkit.uncertainty.uct.uct_plot_ordered_intervals
+**[xrai_toolkit.uncertainty.uct.uct_plot_ordered_intervals(X_train, X_test, Y_train, Y_test, uct_data_dict, uct_metrics, non_neg, show=False)](https://github.com/gaberamolete/xrai_toolkit/blob/main/uncertainty/calibration.py)**
 
 
 Plot predictions and predictive intervals versus true values, with points ordered by true value along x-axis.

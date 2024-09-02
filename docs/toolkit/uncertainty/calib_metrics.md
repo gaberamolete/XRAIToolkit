@@ -1,14 +1,14 @@
 ---
 layout: default
-title: XRAIDashboard.uncertainty.calibration.calib_metrics
+title: xrai_toolkit.uncertainty.calibration.calib_metrics
 parent: Uncertainty
 grand_parent: Toolkit
 has_children: false
 nav_order: 17
 ---
 
-# XRAIDashboard.uncertainty.calibration.calib_metrics
-**[XRAIDashboard.uncertainty.calibration.calib_metrics(y_true, calibs: Dict, n_bins = 100, reg = False)](https://github.com/gaberamolete/XRAIDashboard/blob/main/uncertainty/calibration.py)**
+# xrai_toolkit.uncertainty.calibration.calib_metrics
+**[xrai_toolkit.uncertainty.calibration.calib_metrics(y_true, calibs: Dict, n_bins = 100, reg = False)](https://github.com/gaberamolete/xrai_toolkit/blob/main/uncertainty/calibration.py)**
 
 
 Outputs all calibration metrics for an array of predicted values. 

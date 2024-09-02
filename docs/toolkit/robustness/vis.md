@@ -1,13 +1,13 @@
 ---
 layout: default
-title: XRAIDashboard.robustness.art_metrics.visualisation
+title: xrai_toolkit.robustness.art_metrics.visualisation
 parent: Robustness
 grand_parent: Toolkit
 nav_order: 1
 ---
 
-# XRAIDashboard.robustness.art_metrics.visualisation
-**[XRAIDashboard.robustness.art_metrics.visualisation(pdtp_art, shapr_art, pdtp_threshold_value, shapr_threshold_value)](https://github.com/gaberamolete/XRAIDashboard/blob/main/robustness/art_metrics.py)**
+# xrai_toolkit.robustness.art_metrics.visualisation
+**[xrai_toolkit.robustness.art_metrics.visualisation(pdtp_art, shapr_art, pdtp_threshold_value, shapr_threshold_value)](https://github.com/gaberamolete/xrai_toolkit/blob/main/robustness/art_metrics.py)**
 
     
 Calculates the SHAPr metric for a given classifier and dataset

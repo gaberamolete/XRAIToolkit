@@ -1,13 +1,13 @@
 ---
 layout: default
-title: XRAIDashboard.global_exp.global_exp.get_feature_names
+title: xrai_toolkit.global_exp.global_exp.get_feature_names
 parent: Global Explainability
 grand_parent: Toolkit
 nav_order: 1
 ---
 
-# XRAIDashboard.global_exp.global_exp.get_feature_names
-**[XRAIDashboard.global_exp.global_exp.get_feature_names(column_transformer, cat_cols)](https://github.com/gaberamolete/XRAIDashboard/blob/main/global_exp/global_exp.py)**
+# xrai_toolkit.global_exp.global_exp.get_feature_names
+**[xrai_toolkit.global_exp.global_exp.get_feature_names(column_transformer, cat_cols)](https://github.com/gaberamolete/xrai_toolkit/blob/main/global_exp/global_exp.py)**
 
 
 Get feature names from all transformers.

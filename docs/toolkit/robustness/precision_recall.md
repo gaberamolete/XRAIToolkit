@@ -1,13 +1,13 @@
 ---
 layout: default
-title: XRAIDashboard.robustness.art_mia.calc_precision_recall
+title: xrai_toolkit.robustness.art_mia.calc_precision_recall
 parent: Robustness
 grand_parent: Toolkit
 nav_order: 1
 ---
 
-# XRAIDashboard.robustness.art_mia.calc_precision_recall
-**[XRAIDashboard.robustness.art_mia.calc_precision_recall(predicted, actual)](https://github.com/gaberamolete/XRAIDashboard/blob/main/robustness/art_mia.py)**
+# xrai_toolkit.robustness.art_mia.calc_precision_recall
+**[xrai_toolkit.robustness.art_mia.calc_precision_recall(predicted, actual)](https://github.com/gaberamolete/xrai_toolkit/blob/main/robustness/art_mia.py)**
 
     
 Returns the precision and recall from the inference

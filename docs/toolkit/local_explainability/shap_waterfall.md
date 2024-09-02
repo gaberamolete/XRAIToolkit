@@ -1,13 +1,13 @@
 ---
 layout: default
-title: XRAIDashboard.local_exp.local_exp.shap_waterfall
+title: xrai_toolkit.local_exp.local_exp.shap_waterfall
 parent: Local Explainability
 grand_parent: Toolkit
 nav_order: 1
 ---
 
-# XRAIDashboard.local_exp.local_exp.shap_waterfall
-**[XRAIDashboard.local_exp.local_exp.shap_waterfall(shap_value_loc, idx, feature_names = None, class_ind = None, class_names = None, reg = False, show=True)](https://github.com/gaberamolete/XRAIDashboard/blob/main/local_exp/local_exp.py)**
+# xrai_toolkit.local_exp.local_exp.shap_waterfall
+**[xrai_toolkit.local_exp.local_exp.shap_waterfall(shap_value_loc, idx, feature_names = None, class_ind = None, class_names = None, reg = False, show=True)](https://github.com/gaberamolete/xrai_toolkit/blob/main/local_exp/local_exp.py)**
 
 
 Returns a shap waterfall plot for a specified observation.

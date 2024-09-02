@@ -1,13 +1,13 @@
 ---
 layout: default
-title: XRAIDashboard.model_ingestion.data_model
+title: xrai_toolkit.model_ingestion.data_model
 parent: Model Ingestion
 grand_parent: Toolkit
 nav_order: 1
 ---
 
-# XRAIDashboard.model_ingestion.data_model.load_data_model
-**[XRAIDashboard.model_ingestion.data_model.load_data_model(train_data, test_data, model_path, target_feature)](https://github.com/gaberamolete/XRAIDashboard/blob/main/model_ingestion/data_model.py)**
+# xrai_toolkit.model_ingestion.data_model.load_data_model
+**[xrai_toolkit.model_ingestion.data_model.load_data_model(train_data, test_data, model_path, target_feature)](https://github.com/gaberamolete/xrai_toolkit/blob/main/model_ingestion/data_model.py)**
 
 
 Automate the ingestion process of data and model given a file location for the train data, test data, and model.

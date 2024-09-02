@@ -1,13 +1,13 @@
 ---
 layout: default
-title: XRAIDashboard.fairness.fairness_algorithm.metrics_plot
+title: xrai_toolkit.fairness.fairness_algorithm.metrics_plot
 parent: Fairness & Performance
 grand_parent: Toolkit
 nav_order: 4
 ---
 
-# XRAIDashboard.fairness.fairness_algorithm.metrics_plot
-**[XRAIDashboard.fairness.fairness_algorithm.metrics_plot(metrics1, threshold, metric_name, protected, metrics2=None)](https://github.com/gaberamolete/XRAIDashboard/blob/main/fairness/fairness_algorithm.py)**
+# xrai_toolkit.fairness.fairness_algorithm.metrics_plot
+**[xrai_toolkit.fairness.fairness_algorithm.metrics_plot(metrics1, threshold, metric_name, protected, metrics2=None)](https://github.com/gaberamolete/XRAIToolkit/blob/main/fairness/fairness_algorithm.py)**
 
 
 Plot the score of a specific fairness metric in a horizontal bar plot. Green region signifies the acceptable values where the model is fair, while the red region signifies that model is not fair. The area of these region is set on based on the threshold value. If a second set of metrics is inputted, the plot will be a grouped horizontal bar plot.
